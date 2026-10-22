@@ -87,50 +87,46 @@
     var r = gEl.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
     if (!r.width) return; gW = r.width; gc.width = Math.round(gW * dpr); gc.height = Math.round(gW * dpr);
   }
+  function glow(x, y, r, rgb, a) {
+    var g = gx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, 'rgba(' + rgb + ',' + a + ')'); g.addColorStop(0.4, 'rgba(' + rgb + ',' + a * 0.35 + ')'); g.addColorStop(1, 'rgba(' + rgb + ',0)');
+    gx.fillStyle = g; gx.beginPath(); gx.arc(x, y, r, 0, 6.2832); gx.fill();
+  }
   function drawGlobe(now) {
-    var W = gc.width, R = W * 0.5 * 0.985, cx = W / 2, cy = W / 2, l0 = cam.lon * D, ph0 = cam.lat * D, s0 = Math.sin(ph0), c0 = Math.cos(ph0), p, a, b, started, i, q, rad;
+    var W = gc.width, R = W * 0.5 * 0.985, cx = W / 2, cy = W / 2, l0 = cam.lon * D, ph0 = cam.lat * D, s0 = Math.sin(ph0), c0 = Math.cos(ph0), p, i, q, rad;
     gx.clearRect(0, 0, W, W);
-    gx.beginPath(); gx.arc(cx, cy, R, 0, 6.2832); gx.fillStyle = 'rgba(255,255,255,0.38)'; gx.fill();
-    gx.lineWidth = 1.3 * dpr; gx.strokeStyle = 'rgba(4,20,49,0.4)'; gx.stroke();
-    gx.lineWidth = 1 * dpr; gx.strokeStyle = 'rgba(4,20,49,0.09)';
-    for (a = -75; a <= 75; a += 15) {
-      gx.beginPath(); started = false;
-      for (b = -180; b <= 180; b += 3) { p = project(b * D, Math.sin(a * D), Math.cos(a * D), l0, s0, c0, R, cx, cy); if (p.v > 0) { if (!started) { gx.moveTo(p.x, p.y); started = true; } else gx.lineTo(p.x, p.y); } else started = false; }
-      gx.stroke();
-    }
-    for (b = -180; b < 180; b += 15) {
-      gx.beginPath(); started = false;
-      for (a = -90; a <= 90; a += 3) { p = project(b * D, Math.sin(a * D), Math.cos(a * D), l0, s0, c0, R, cx, cy); if (p.v > 0) { if (!started) { gx.moveTo(p.x, p.y); started = true; } else gx.lineTo(p.x, p.y); } else started = false; }
-      gx.stroke();
-    }
-    var base = R / 330;
+    // soft shaded sphere: light from the upper left, no outline or grid
+    var sg = gx.createRadialGradient(cx - R * 0.32, cy - R * 0.38, R * 0.05, cx - R * 0.1, cy - R * 0.1, R * 1.28);
+    sg.addColorStop(0, '#fdfcfa'); sg.addColorStop(0.5, '#efeeea'); sg.addColorStop(0.85, '#d7d5cf'); sg.addColorStop(1, '#c4c1ba');
+    gx.beginPath(); gx.arc(cx, cy, R, 0, 6.2832); gx.fillStyle = sg; gx.fill();
+    var base = R / 290;
     for (i = 0; i < pts.length; i++) {
       q = pts[i]; p = project(q.lr, q.sl, q.cl, l0, s0, c0, R, cx, cy);
-      if (p.v <= 0.06) continue;
-      gx.globalAlpha = Math.min(1, p.v * 2.4);
-      rad = base * Math.sqrt(0.35 + 0.65 * p.v);
-      if (q.k === 2) { gx.fillStyle = '#00a58e'; rad *= 1.6; }
-      else if (q.k === 3) { gx.fillStyle = 'rgba(4,20,49,0.55)'; rad *= 1.15; }
-      else { gx.fillStyle = 'rgba(4,20,49,0.2)'; }
+      if (p.v <= 0.05) continue;
+      gx.globalAlpha = Math.min(1, p.v * 2.2);
+      rad = base * Math.sqrt(0.3 + 0.7 * p.v);
+      if (q.k === 2) { gx.fillStyle = '#00a58e'; rad *= 1.35; }
+      else gx.fillStyle = '#041431';
       gx.beginPath(); gx.arc(p.x, p.y, rad, 0, 6.2832); gx.fill();
     }
     gx.globalAlpha = 1;
-    gx.font = '500 ' + Math.round(11 * dpr * (R / 640)) + 'px "JetBrains Mono", monospace'; gx.textBaseline = 'middle';
+    gx.font = '500 ' + Math.max(10, Math.round(11 * dpr * (R / 640))) + 'px "JetBrains Mono", monospace'; gx.textBaseline = 'middle';
     targets.forEach(function (o) {
       if (!o.office) return;
       p = project(o.lon * D, Math.sin(o.lat * D), Math.cos(o.lat * D), l0, s0, c0, R, cx, cy);
       if (p.v < 0.12) return;
-      var rr = 6.5 * dpr * (R / 640);
-      gx.fillStyle = '#fff'; gx.fillRect(p.x - rr, p.y - rr, rr * 2, rr * 2);
-      gx.lineWidth = 2.2 * dpr; gx.strokeStyle = '#041431'; gx.strokeRect(p.x - rr, p.y - rr, rr * 2, rr * 2);
-      gx.fillStyle = '#041431'; gx.fillText(o.n.toUpperCase(), p.x + rr + 8 * dpr, p.y);
+      var rr = 4.5 * dpr * Math.max(0.8, R / 640);
+      glow(p.x, p.y, rr * 4.2, '19,98,245', 0.55 * Math.min(1, p.v * 2));
+      gx.fillStyle = '#1362f5'; gx.beginPath(); gx.arc(p.x, p.y, rr, 0, 6.2832); gx.fill();
+      gx.lineJoin = 'round'; gx.lineWidth = 4 * dpr; gx.strokeStyle = 'rgba(244,243,240,0.92)'; gx.strokeText(o.n.toUpperCase(), p.x + rr + 10 * dpr, p.y);
+      gx.fillStyle = '#041431'; gx.fillText(o.n.toUpperCase(), p.x + rr + 10 * dpr, p.y);
     });
     var t = targets[idx];
     p = project(t.lon * D, Math.sin(t.lat * D), Math.cos(t.lat * D), l0, s0, c0, R, cx, cy);
     if (p.v > 0.1 && !t.office) {
-      var ph = reduce ? 0.5 : ((now / 1600) % 1);
-      gx.beginPath(); gx.arc(p.x, p.y, (10 + ph * 28) * dpr * (R / 640), 0, 6.2832);
-      gx.lineWidth = 1.6 * dpr; gx.strokeStyle = 'rgba(0,165,142,' + (0.8 * (1 - ph)) + ')'; gx.stroke();
+      var ph = reduce ? 0.5 : ((now / 1600) % 1), rr2 = 5 * dpr * Math.max(0.8, R / 640);
+      glow(p.x, p.y, rr2 * (4 + ph * 3), '0,165,142', 0.7 * (1 - ph * 0.5));
+      gx.fillStyle = '#00a58e'; gx.beginPath(); gx.arc(p.x, p.y, rr2, 0, 6.2832); gx.fill();
     }
   }
   function frame(now) {
