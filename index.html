@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-GB" class="no-js">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,11 +8,10 @@
 <meta property="og:title" content="The treasury and trade operating system for Africa">
 <meta property="og:description" content="See your money clearly. Put it to work confidently.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#f5f4ef">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231362f5' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M4 21V11a8 8 0 0 1 16 0v10'/%3E%3Cpath d='M10 21v-8a2 2 0 0 1 4 0v8'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#1c1a17">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233979ed' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M4 21V11a8 8 0 0 1 16 0v10'/%3E%3Cpath d='M10 21v-8a2 2 0 0 1 4 0v8'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/styles.css">
-<script>document.documentElement.classList.remove('no-js')</script>
 </head>
 <body>
 
@@ -54,53 +53,74 @@
 <section class="hero" id="hero">
   <div class="note" data-note><b>Job of this section</b><br>Seen in ten seconds. The positioning line, the problem in plain words, one offer, proof of licence.</div>
   <div class="wrap hero__copy">
+    <div class="hero__orb rv" aria-hidden="true"><i></i><i></i><i></i></div>
     <h1 class="rv">The treasury and trade operating system for Africa.</h1>
     <p class="lead rv" style="--d:100ms">Your money sits across banks, currencies and borders that don't talk to each other. Multigate brings it into one system, so you can see your money clearly and put it to work confidently.</p>
     <div class="hero__cta rv" style="--d:200ms">
-      <a href="#book" class="btn js-book">Book a treasury visibility review <svg class="arr" width="16" height="16"><use href="#arr"/></svg></a>
-      <a href="#visibility" class="btn btn--ghost">See how it works</a>
+      <a href="#book" class="btn btn--light js-book">Book a treasury visibility review <svg class="arr" width="16" height="16"><use href="#arr"/></svg></a>
+      <a href="#visibility" class="btn btn--ghost-dark">See how it works</a>
     </div>
   </div>
 
-  <div class="stage-g">
-  <div class="globe" id="globe" aria-hidden="true"><canvas id="globeCanvas"></canvas></div>
+  <div class="hero__cards" aria-hidden="true">
+    <div class="fc fc--a"><span class="ill">Illustrative</span><small>Group cash position</small><strong>$18.4M</strong><span class="delta">+2.1% vs yesterday</span></div>
+    <div class="fc fc--b"><div class="cur"><b>₦</b><span>27,600,000<u>NGN</u></span></div><div class="swap">⇅</div><div class="cur"><b>$</b><span>18,400<u>USD</u></span></div></div>
+    <div class="fc fc--c"><span class="ill">Illustrative</span>
+      <div class="hd"><span>Your banks <span class="dim" style="font-weight:400;font-size:12px">· 5 connected</span></span></div>
+      <ul>
+        <li><i>A</i><div><b>Bank A</b><span>Operating · NGN</span></div><em>$6.8M</em></li>
+        <li><i>B</i><div><b>Bank B</b><span>Collections · GHS</span></div><em>$4.9M</em></li>
+        <li><i>C</i><div><b>Bank C</b><span>Treasury · USD</span></div><em>$3.1M</em></li>
+        <li><i>D</i><div><b>Bank D</b><span>Operating · XOF</span></div><em>$2.2M</em></li>
+      </ul>
+    </div>
+    <div class="fc fc--d"><span class="ill">Illustrative</span><small>Supplier payment</small>
+      <div class="row"><b>$12,400</b><span class="delta">In transit</span></div>
+      <div class="track"><span class="on ok">Sent</span><span class="on">In transit</span><span>Settled</span></div>
+    </div>
+  </div>
 
-  <div class="hero__foot">
+  <div class="proofbar">
     <div class="wrap">
-      <div class="legend"><span><i class="lv"></i>Live</span><span><i class="of"></i>Multigate office</span></div>
-      <div class="globe-cap" aria-live="polite">
-        <div class="chip" id="globeChip"><i></i><b>Nigeria</b> · Live</div>
-        <div class="pager" id="pager" role="group" aria-label="Map locations"></div>
-      </div>
-      <div class="hint">Drag to turn</div>
+      <p class="trust-strip">
+        <span>Licensed in Nigeria, Canada, Mauritius and Uganda</span>
+        <span>Swift L2BA certified</span>
+        <span class="ph">[other certifications as held]</span>
+      </p>
+      <span class="flag" data-confirm="Jurisdiction count and certification list with Legal. Which XOF markets are live."></span>
     </div>
-  </div>
   </div>
 </section>
 
-<div class="proofbar">
-  <div class="wrap">
-    <p class="trust-strip">
-      <span>Licensed in Nigeria, Canada, Mauritius and Uganda</span>
-      <span>Swift L2BA certified</span>
-      <span class="ph">[other certifications as held]</span>
-    </p>
-    <span class="flag" data-confirm="Jurisdiction count and certification list with Legal. Which XOF markets are live."></span>
+<!-- Ticker -->
+<div class="band" aria-hidden="true">
+  <div class="band__track" id="bandTrack">
+    <span>Collect</span><span>Convert</span><span>Pay</span><span>Finance</span><span>See your money clearly</span><span>Put it to work confidently</span>
+    <span>Collect</span><span>Convert</span><span>Pay</span><span>Finance</span><span>See your money clearly</span><span>Put it to work confidently</span>
+    <span>Collect</span><span>Convert</span><span>Pay</span><span>Finance</span><span>See your money clearly</span><span>Put it to work confidently</span>
+    <span>Collect</span><span>Convert</span><span>Pay</span><span>Finance</span><span>See your money clearly</span><span>Put it to work confidently</span>
   </div>
 </div>
 
 <!-- Problem -->
-<section class="sec sec--night problem" id="problem">
+<section class="sec sec--night problem on-dark" id="problem">
   <div class="note" data-note><b>Job of this section</b><br>Name the enemy before the solution. The reader recognises their own week in three lines.</div>
   <div class="wrap">
     <div class="grid">
-      <div class="rv">
-        <span class="label">The problem</span>
-        <h2 style="margin-top:26px">Your money is everywhere. <span class="fade">Your view of it isn't.</span></h2>
+      <div>
+        <div class="rv"><span class="label">The problem</span></div>
+        <h2 class="rv" style="margin-top:26px">Your money is everywhere. <span class="fade">Your view of it isn't.</span></h2>
+        <p class="body rv" style="--d:120ms">Five banks means five portals, five statement formats and five versions of the truth. Balances are right at nine and wrong by noon. Payments leave on time and arrive whenever. Most finance teams in Africa still run treasury on spreadsheets, phone calls and patience. That is fragmentation, and it costs more than anyone can see.</p>
       </div>
-      <p class="body rv" style="--d:120ms">Five banks means five portals, five statement formats and five versions of the truth. Balances are right at nine and wrong by noon. Payments leave on time and arrive whenever. Most finance teams in Africa still run treasury on spreadsheets, phone calls and patience. That is fragmentation, and it costs more than anyone can see.</p>
+      <div class="fan rv" id="fan" aria-hidden="true">
+        <div class="doc"><div class="fmt"><span>PDF</span><span>Bank A</span></div><b>Statement</b><div class="bal"><i>09:00 right</i><i class="bad">12:00 out of date</i></div></div>
+        <div class="doc"><div class="fmt"><span>CSV</span><span>Bank B</span></div><b>Portal export</b><div class="bal"><i>Different columns</i></div></div>
+        <div class="doc"><div class="fmt"><span>MT940</span><span>Bank C</span></div><b>Statement file</b><div class="bal"><i>Another format</i></div></div>
+        <div class="doc"><div class="fmt"><span>Email</span><span>Bank D</span></div><b>Sent on request</b><div class="bal"><i>Arrives whenever</i></div></div>
+        <div class="doc"><div class="fmt"><span>Phone</span><span>Bank E</span></div><b>Call the branch</b><div class="bal"><i class="bad">Answer by Thursday</i></div></div>
+      </div>
     </div>
-    <ol class="lines" id="lines">
+    <ol class="lines">
       <li class="rv"><span class="n">01</span><p>"How much cash do we have?" should not take until Thursday.</p></li>
       <li class="rv"><span class="n">02</span><p>A payment should not need three calls to find.</p></li>
       <li class="rv"><span class="n">03</span><p>Funding trade should not mean a new bank relationship every time.</p></li>
@@ -112,10 +132,10 @@
 <section class="sec" id="platform">
   <div class="note" data-note><b>Job of this section</b><br>First half of the promise. Show what one clear view looks like, then four reasons it works.</div>
   <div class="wrap" id="visibility">
-    <div class="vis__head">
+    <div class="sec__split">
       <div class="rv">
         <span class="label">Visibility</span>
-        <h2 style="margin-top:26px">See your money clearly.</h2>
+        <h2 style="margin-top:26px">See your money <em>clearly.</em></h2>
       </div>
       <p class="lead rv" style="--d:120ms">Every account, at every bank, in every currency you hold, in one view. Multigate connects to your banks and your ERP, so your cash position is current when you open it, not when someone finishes the reconciliation.</p>
     </div>
@@ -143,15 +163,26 @@
               <h5>Nearly half of group cash is held in naira</h5>
               <p class="sub">Share of group cash by currency · USD equivalent · 09:00 WAT</p>
               <div class="comp">
-                <span style="flex:48;background:var(--blue-600)"></span>
-                <span style="flex:27;background:var(--blue-400);--d:90ms"></span>
-                <span style="flex:14;background:var(--blue-200);--d:180ms"></span>
-                <span style="flex:7;background:var(--grey-400);--d:270ms"></span>
-                <span style="flex:4;background:var(--grey-300);--d:360ms"></span>
+                <span style="flex:48;background:var(--blue)"></span>
+                <span style="flex:27;background:#6d9bf2;--d:90ms"></span>
+                <span style="flex:14;background:var(--blue-tint);--d:180ms"></span>
+                <span style="flex:7;background:#cbc7bf;--d:270ms"></span>
+                <span style="flex:4;background:#ddd9d1;--d:360ms"></span>
               </div>
               <div class="legend-inline">
-                <span><i style="background:var(--blue-600)"></i>NGN 48%</span><span><i style="background:var(--blue-400)"></i>USD 27%</span><span><i style="background:var(--blue-200)"></i>GHS 14%</span><span><i style="background:var(--grey-400)"></i>EUR 7%</span><span><i style="background:var(--grey-300)"></i>XOF 4%</span>
+                <span><i style="background:var(--blue)"></i>NGN 48%</span><span><i style="background:#6d9bf2"></i>USD 27%</span><span><i style="background:var(--blue-tint)"></i>GHS 14%</span><span><i style="background:#cbc7bf"></i>EUR 7%</span><span><i style="background:#ddd9d1"></i>XOF 4%</span>
               </div>
+              <p class="sub" style="margin-top:26px;margin-bottom:0">Expected in and out · next 7 days · USD</p>
+              <div class="flow" role="img" aria-label="Expected inflows and outflows for the next seven days">
+                <div><i style="--h:.62"></i><i class="o" style="--h:.4;--d:40ms"></i></div>
+                <div><i style="--h:.3;--d:80ms"></i><i class="o" style="--h:.52;--d:120ms"></i></div>
+                <div><i style="--h:.85;--d:160ms"></i><i class="o" style="--h:.35;--d:200ms"></i></div>
+                <div><i style="--h:.45;--d:240ms"></i><i class="o" style="--h:.7;--d:280ms"></i></div>
+                <div><i style="--h:1;--d:320ms"></i><i class="o" style="--h:.5;--d:360ms"></i></div>
+                <div><i style="--h:.38;--d:400ms"></i><i class="o" style="--h:.25;--d:440ms"></i></div>
+                <div><i style="--h:.58;--d:480ms"></i><i class="o" style="--h:.6;--d:520ms"></i></div>
+              </div>
+              <div class="flowlab"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
             </div>
             <div class="chart" id="chartBank">
               <h5>Two banks hold 64% of group cash</h5>
@@ -173,24 +204,34 @@
 
     <div class="cards">
       <article class="card rv">
-        <div class="idx"><span>01</span></div>
+        <div class="mini mini--b"><div class="pane" aria-hidden="true"><div class="pt"><span>Your banks</span><span>One connection</span></div>
+          <div class="r"><i>A</i><div><b>Bank A</b><span>Swift MT</span></div><em>Live</em></div>
+          <div class="r"><i>B</i><div><b>Bank B</b><span>ISO 20022</span></div><em>Live</em></div>
+          <div class="r"><i>C</i><div><b>Bank C</b><span>Host-to-host</span></div><em>Live</em></div>
+          <div class="r"><i>D</i><div><b>Bank D</b><span>API</span></div><em>Live</em></div></div></div>
         <h3>Connect all your banks</h3>
         <p>One connection to Multigate replaces a separate login for each bank. Your statements arrive in one format, ready to use.</p>
         <p class="tech">Swift MT and ISO 20022, FileAct, host-to-host and API</p>
         <span class="flag" data-confirm="FileAct"></span>
       </article>
       <article class="card rv" style="--d:80ms">
-        <div class="idx"><span>02</span></div>
+        <div class="mini mini--m"><div class="pane" aria-hidden="true"><div class="pt"><span>ERP</span><span class="tg"></span></div>
+          <div class="r"><i>₦</i><div><b>Balances</b><span>Updated 09:00</span></div><em>Synced</em></div>
+          <div class="r"><i>↔</i><div><b>Transactions</b><span>1,284 posted</span></div><em>Synced</em></div>
+          <div class="r"><i>✓</i><div><b>Re-keying</b><span>None needed</span></div><em>0</em></div></div></div>
         <h3>Keep your ERP as the source of truth</h3>
         <p>Balances and transactions flow into the system your team already works in. No exports, no re-keying.</p>
       </article>
       <article class="card rv" style="--d:160ms">
-        <div class="idx"><span>03</span></div>
+        <div class="mini mini--y"><div class="pane" aria-hidden="true"><div class="pt"><span>Position today</span><span>USD eq.</span></div>
+          <div class="tbl"><span>Currency</span><span>Share</span><span>Balance</span>
+            <span>NGN</span><span>48%</span><b>$8.8M</b><span>USD</span><span>27%</span><b>$5.0M</b><span>GHS</span><span>14%</span><b>$2.6M</b><span>EUR</span><span>7%</span><b>$1.3M</b><span>XOF</span><span>4%</span><b>$0.7M</b></div></div></div>
         <h3>Know your position, today</h3>
         <p>Group-wide balances by entity, bank and currency, updated through the day. The number the board asks for, ready when they ask.</p>
       </article>
       <article class="card rv" style="--d:240ms">
-        <div class="idx"><span>04</span></div>
+        <div class="mini mini--c"><div class="pane" aria-hidden="true"><div class="pt"><span>Next 7 days</span><span>In $3.2M · Out $2.7M</span></div>
+          <div class="mbars"><i style="height:62%"></i><i class="o" style="height:40%"></i><i style="height:30%"></i><i class="o" style="height:52%"></i><i style="height:85%"></i><i class="o" style="height:35%"></i><i style="height:45%"></i><i class="o" style="height:70%"></i><i style="height:100%"></i><i class="o" style="height:50%"></i></div></div></div>
         <h3>See what's coming</h3>
         <p>Expected inflows, outflows and currency exposure in one place, so you plan ahead instead of reacting.</p>
         <span class="flag" data-confirm="Forecasting is live. If not, remove the card or label it Coming soon."></span>
@@ -200,21 +241,34 @@
 </section>
 
 <!-- Movement -->
-<section class="sec sec--night move" id="movement">
+<section class="sec sec--night move on-dark" id="movement">
   <div class="note" data-note><b>Job of this section</b><br>Second half of the promise. Four verbs, in the order money moves. Regulated status in one clause, not a tag.</div>
   <div class="wrap">
-    <div class="move__head">
+    <div class="sec__split">
       <div class="rv">
         <span class="label">Movement</span>
-        <h2 style="margin-top:26px">Put it to work confidently.</h2>
+        <h2 style="margin-top:26px">Put it to work <em>confidently.</em></h2>
       </div>
       <p class="lead rv" style="--d:120ms">Once you can see your money, you can move it with purpose. Collected, converted, paid and financed, through licensed entities and regulated partners in every market we serve.</p>
     </div>
-    <div class="steps" id="steps">
-      <div class="step rv"><span class="k">01</span><h3>Collect</h3><p>Get paid like a local business. Named collection accounts in each market mean customers pay you in their own currency, and every payment arrives with its payer attached.</p><span class="flag" data-confirm="Invoice matching. If confirmed, add 'and invoice' after 'payer'."></span></div>
-      <div class="step rv" style="--d:100ms"><span class="k">02</span><h3>Convert</h3><p>Move between African currencies and the major currencies, and settle into the account you choose.</p></div>
-      <div class="step rv" style="--d:200ms"><span class="k">03</span><h3>Pay</h3><p>Pay suppliers, staff and partners, locally and across borders, from one place. Track every payment from sent to settled.</p></div>
-      <div class="step rv" style="--d:300ms"><span class="k">04</span><h3>Finance</h3><p>Fund your trade without a new bank relationship each time. Multigate arranges the programme. Banks and lenders provide the funding.</p></div>
+
+    <div class="stack" id="stack">
+      <article class="mc mc--blue rv" style="--i:0">
+        <div><span class="k">01</span><h3>Collect</h3><p>Get paid like a local business. Named collection accounts in each market mean customers pay you in their own currency, and every payment arrives with its payer attached.</p><span class="flag" data-confirm="Invoice matching. If confirmed, add 'and invoice' after 'payer'."></span></div>
+        <div class="wg" aria-hidden="true"><div class="t"><span>Collection account · NGN</span><span>Illustrative</span></div><div class="big">₦4,250,000</div><span class="ok">Received</span><hr><div class="kv"><span>Payer</span><b>Customer A Ltd</b></div><div class="kv"><span>Payer attached</span><b>Yes</b></div><div class="kv"><span>Account</span><b>Named collection account</b></div></div>
+      </article>
+      <article class="mc mc--mint rv" style="--i:1">
+        <div><span class="k">02</span><h3>Convert</h3><p>Move between African currencies and the major currencies, and settle into the account you choose.</p></div>
+        <div class="wg" aria-hidden="true"><div class="t"><span>Convert</span><span>Illustrative rate</span></div><div class="inp"><span>1,500,000</span><u>NGN</u></div><div class="sw">⇅ 1 USD = 1,500 NGN</div><div class="inp"><span>1,000</span><u>USD</u></div><hr><div class="kv"><span>Settle into</span><b>The account you choose</b></div></div>
+      </article>
+      <article class="mc mc--yellow rv" style="--i:2">
+        <div><span class="k">03</span><h3>Pay</h3><p>Pay suppliers, staff and partners, locally and across borders, from one place. Track every payment from sent to settled.</p></div>
+        <div class="wg" aria-hidden="true"><div class="t"><span>Supplier payment</span><span>Illustrative</span></div><div class="big">$12,400</div><div class="steps3"><div class="st done"><i>✓</i><b>Sent</b><span>09:02</span></div><div class="st now"><i>→</i><b>In transit</b><span>Now</span></div><div class="st"><i></i><b>Settled</b><span>Pending</span></div></div></div>
+      </article>
+      <article class="mc mc--char rv" style="--i:3">
+        <div><span class="k">04</span><h3>Finance</h3><p>Fund your trade without a new bank relationship each time. Multigate arranges the programme. Banks and lenders provide the funding.</p></div>
+        <div class="wg" aria-hidden="true"><div class="t"><span>Trade finance programme</span><span>Illustrative</span></div><div class="kv"><span>Arranged by</span><b>Multigate</b></div><hr><div class="kv"><span>Funding provided by</span><b>Banks and lenders</b></div><hr><div class="kv"><span>New bank relationship</span><b>Not needed</b></div></div>
+      </article>
     </div>
     <p class="foot">Services are provided by Multigate's licensed entities and regulated partners. See the Trust Centre for who does what in each market. <span class="flag" data-confirm="NGN collection entity for the Trust Centre table"></span></p>
   </div>
@@ -224,85 +278,112 @@
 <section class="sec" id="serve">
   <div class="note" data-note><b>Job of this section</b><br>Four roles, no overlap. Banks connect clients. Financiers fund trade. A bank can be both.</div>
   <div class="wrap">
-    <div class="serve__head">
-      <div class="rv">
-        <span class="label">Who we serve</span>
-        <h2 style="margin-top:26px;max-width:11em">Built for the people who run the money.</h2>
-      </div>
+    <div class="rv">
+      <span class="label">Who we serve</span>
+      <h2 style="margin-top:26px;max-width:11em">Built for the people who run the money.</h2>
     </div>
     <div class="roles">
-      <article class="role role--feature rv">
-        <div class="tag"><span>For CFOs and treasurers</span><em>01</em></div>
-        <h3>Corporates</h3>
-        <p>Run treasury across every country you operate in, from one place. Know your position, pay on time and fund trade with confidence.</p>
-        <a href="#book" class="link js-book">Book a treasury visibility review <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
-      </article>
-      <article class="role rv" style="--d:80ms">
-        <div class="tag"><span>For transaction banking and technology teams</span><em>02</em></div>
-        <h3>Banks</h3>
-        <p>Give your corporate clients a modern treasury experience without building it yourself. Connect them over Swift and ISO 20022, serve them on one platform, and keep the relationship.</p>
-        <a href="#" class="link">Talk to our banking team <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
+      <article class="role rv">
+        <div>
+          <div class="pills-row"><span class="tag"><span>For CFOs and treasurers</span></span></div>
+          <h3>Corporates</h3>
+          <p>Run treasury across every country you operate in, from one place. Know your position, pay on time and fund trade with confidence.</p>
+          <div class="hr"></div>
+          <a href="#book" class="link js-book">Book a treasury visibility review <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
+        </div>
+        <div class="role__art a1"><canvas data-art="corp" data-dot="#82fac1" aria-hidden="true"></canvas></div>
       </article>
       <article class="role rv">
-        <div class="tag"><span>For payment platforms and financial institutions</span><em>03</em></div>
-        <h3>Financial institutions</h3>
-        <p>Add collections, FX and payouts across African markets through one integration, on licensed coverage you don't have to build country by country.</p>
-        <a href="#" class="link">Read the API docs <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
+        <div>
+          <div class="pills-row"><span class="tag"><span>For transaction banking and technology teams</span></span></div>
+          <h3>Banks</h3>
+          <p>Give your corporate clients a modern treasury experience without building it yourself. Connect them over Swift and ISO 20022, serve them on one platform, and keep the relationship.</p>
+          <div class="hr"></div>
+          <a href="#" class="link">Talk to our banking team <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
+        </div>
+        <div class="role__art a2"><canvas data-art="bank" data-dot="#f9f2c3" aria-hidden="true"></canvas></div>
       </article>
-      <article class="role rv" style="--d:80ms">
-        <div class="tag"><span>For banks and lenders that fund trade</span><em>04</em></div>
-        <h3>Financiers</h3>
-        <p>Access trade finance programmes originated and operated by Multigate. You set the criteria and you decide what to fund.</p>
-        <a href="#" class="link">Become a Financier <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
+      <article class="role rv">
+        <div>
+          <div class="pills-row"><span class="tag"><span>For payment platforms and financial institutions</span></span></div>
+          <h3>Financial institutions</h3>
+          <p>Add collections, FX and payouts across African markets through one integration, on licensed coverage you don't have to build country by country.</p>
+          <div class="hr"></div>
+          <a href="#" class="link">Read the API docs <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
+        </div>
+        <div class="role__art a3"><canvas data-art="hub" data-dot="#1c1a17" aria-hidden="true"></canvas></div>
+      </article>
+      <article class="role rv">
+        <div>
+          <div class="pills-row"><span class="tag"><span>For banks and lenders that fund trade</span></span></div>
+          <h3>Financiers</h3>
+          <p>Access trade finance programmes originated and operated by Multigate. You set the criteria and you decide what to fund.</p>
+          <div class="hr"></div>
+          <a href="#" class="link">Become a Financier <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
+        </div>
+        <div class="role__art a4"><canvas data-art="coins" data-dot="#f6e07b" aria-hidden="true"></canvas></div>
       </article>
     </div>
   </div>
 </section>
 
 <!-- Coverage -->
-<section class="sec sec--night cov" id="coverage">
-  <div class="note" data-note><b>Job of this section</b><br>Proof you can check. Stats a due-diligence team can verify. Drop any stat that is not confirmed by launch.</div>
+<section class="cov" id="coverage">
+  <div class="note" data-note><b>Job of this section</b><br>Proof you can check. Stats a due-diligence team can verify. Drop any stat that is not confirmed by launch. The landscape is a stand-in for a photograph.</div>
+  <div class="land" aria-hidden="true">
+    <svg viewBox="0 0 1440 600" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8bfa9"/><stop offset="1" stop-color="#a39a89"/></linearGradient>
+        <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b9180"/><stop offset="1" stop-color="#6f675c"/></linearGradient>
+        <linearGradient id="h3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b6358"/><stop offset="1" stop-color="#3b362f"/></linearGradient>
+        <linearGradient id="h4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a352f"/><stop offset="1" stop-color="#1c1a17"/></linearGradient>
+      </defs>
+      <path fill="url(#h1)" d="M0 250 C200 170 380 260 600 205 S1000 120 1200 195 S1380 175 1440 155 V600 H0Z"/>
+      <path fill="url(#h2)" d="M0 340 C220 265 420 350 640 295 S1040 235 1240 305 S1400 285 1440 275 V600 H0Z"/>
+      <path fill="url(#h3)" d="M0 440 C260 365 480 450 720 395 S1120 345 1440 415 V600 H0Z"/>
+      <path fill="url(#h4)" d="M0 525 C300 478 600 548 900 505 S1300 488 1440 515 V600 H0Z"/>
+    </svg>
+  </div>
   <div class="wrap">
-    <div class="cov__head">
-      <div class="rv">
-        <span class="label">Coverage</span>
-        <h2 style="margin-top:26px">Coverage you can check, not just a claim.</h2>
-      </div>
-      <p class="lead rv" style="--d:120ms">These are the numbers behind the platform, updated every quarter. <span class="flag" data-confirm="Update cadence"></span></p>
+    <div class="cov__title">
+      <div class="rv"><span class="label">Coverage</span></div>
+      <h2 class="rv">Coverage you can check, not just a claim.</h2>
+      <p class="rv" style="--d:100ms">These are the numbers behind the platform, updated every quarter. <span class="flag" data-confirm="Update cadence"></span></p>
     </div>
-    <div class="cov__body">
-      <div class="africa rv" id="africa"><canvas id="africaCanvas" aria-label="Map of Africa showing live markets" role="img"></canvas></div>
-      <div class="stats rv">
-        <div class="stat"><strong>$950M</strong><p>processed and on track for 2026</p><span class="flag" data-confirm="Figure and period with Finance"></span></div>
-        <div class="stat"><strong>4</strong><p>licensing jurisdictions: Nigeria, Canada, Mauritius and Uganda</p><span class="flag" data-confirm="With Legal"></span></div>
-        <div class="stat"><strong>3</strong><p>local currencies live: NGN, GHS and XOF</p><span class="flag" data-confirm="XOF scope"></span></div>
-        <div class="stat"><strong class="ph">[N]</strong><p>partner banks connected</p><span class="flag" data-confirm="Count with Partnerships. If not confirmed by launch, drop this stat."></span></div>
+    <div class="glass rv">
+      <div class="gl">Processed</div>
+      <div class="gnum">$950M</div>
+      <p style="color:rgba(255,255,255,.72);margin-top:-18px;margin-bottom:26px;font-size:15px">processed and on track for 2026 <span class="flag" data-confirm="Figure and period with Finance"></span></p>
+      <div class="grow">
+        <div class="gl"><span>Live</span><span style="margin-left:auto;display:inline-flex;gap:10px;align-items:center"><span style="width:9px;height:9px;background:var(--yellow);display:inline-block"></span>Multigate office</span></div>
+        <div class="world" id="world"><canvas id="worldCanvas" role="img" aria-label="Map showing live markets in Africa and Multigate offices in London, Toronto, Abu Dhabi and Port Louis"></canvas></div>
       </div>
+      <div class="gstats">
+        <div><div class="gnum">4</div><p>licensing jurisdictions: Nigeria, Canada, Mauritius and Uganda</p><span class="flag" data-confirm="With Legal"></span></div>
+        <div><div class="gnum">3</div><p>local currencies live: NGN, GHS and XOF</p><span class="flag" data-confirm="XOF scope"></span></div>
+        <div><div class="gnum ph">[N]</div><p>partner banks connected</p><span class="flag" data-confirm="Count with Partnerships. If not confirmed by launch, drop this stat."></span></div>
+      </div>
+      <p class="offices">Offices in London, Toronto, Abu Dhabi and Port Louis</p>
     </div>
-    <p class="offices">Offices in London, Toronto, Abu Dhabi and Port Louis</p>
   </div>
 </section>
 
 <!-- How we operate -->
-<section class="sec" id="company">
+<section class="ops" id="company">
   <div class="note" data-note><b>Job of this section</b><br>The section that wins the banks. Neutrality, stated as three commitments.</div>
   <div class="wrap">
-    <div class="ops">
-      <div class="ops__l rv">
-        <span class="label">How we operate</span>
-        <h2>We never compete with the people we serve.</h2>
-      </div>
-      <div>
-        <div class="principle rv"><span class="rn">I.</span><div><h3>We don't lend. Financiers do.</h3><p>Multigate originates and operates trade finance programmes. The lending decision and the balance sheet stay with the banks and lenders who fund them.</p></div></div>
-        <div class="principle rv"><span class="rn">II.</span><div><h3>Banks keep their clients.</h3><p>We connect corporates to their banks, never around them. The relationship stays where it started, and gets stronger.</p></div></div>
-        <div class="principle rv"><span class="rn">III.</span><div><h3>Your funds stay with licensed banks.</h3><p>Collections and balances are held at licensed partner banks in each market we serve.</p><span class="flag" data-confirm="Legal and Compliance sign-off required. If not approved, remove principle III and keep two."></span></div></div>
-      </div>
+    <div class="rv"><span class="label">How we operate</span></div>
+    <h2 class="rv">We never compete with the people we serve.</h2>
+    <div class="pr">
+      <div class="principle rv"><span class="rn">I.</span><h3>We don't lend. Financiers do.</h3><p>Multigate originates and operates trade finance programmes. The lending decision and the balance sheet stay with the banks and lenders who fund them.</p></div>
+      <div class="principle rv" style="--d:100ms"><span class="rn">II.</span><h3>Banks keep their clients.</h3><p>We connect corporates to their banks, never around them. The relationship stays where it started, and gets stronger.</p></div>
+      <div class="principle rv" style="--d:200ms"><span class="rn">III.</span><h3>Your funds stay with licensed banks.</h3><p>Collections and balances are held at licensed partner banks in each market we serve.</p><span class="flag" data-confirm="Legal and Compliance sign-off required. If not approved, remove principle III and keep two."></span></div>
     </div>
   </div>
 </section>
 
 <!-- Clients, case study, Trust Centre -->
-<section class="sec sec--tint" id="trust">
+<section class="sec" id="trust">
   <div class="note" data-note><b>Job of this section</b><br>Proof by name, one story, then everything a risk committee will ask for.</div>
   <div class="wrap">
     <div class="clients__head">
@@ -316,21 +397,22 @@
 
     <article class="case rv">
       <div class="case__l">
-        <span class="label">Case study</span>
         <div>
-          <p class="mono dim" style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px"><span class="ph">[Industry] · [Markets]</span></p>
+          <span class="label">Case study</span>
+          <p class="mono dim" style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:28px 0 16px"><span class="ph">[Industry] · [Markets]</span></p>
           <h3><span class="ph">[One result, with a number]</span></h3>
         </div>
+        <dl>
+          <div><dt>Before</dt><dd><span class="ph">[What the team was dealing with, in their words]</span></dd></div>
+          <div><dt>After</dt><dd><span class="ph">[What changed]</span></dd></div>
+          <blockquote><span class="ph">[A line from the CFO or treasurer]</span></blockquote>
+        </dl>
         <a href="#" class="link" style="align-self:flex-start">Read the story <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
       </div>
-      <dl class="case__r" style="margin:0">
-        <div><dt>Before</dt><dd><span class="ph">[What the team was dealing with, in their words]</span></dd></div>
-        <div><dt>After</dt><dd><span class="ph">[What changed]</span></dd></div>
-        <blockquote><span class="ph">[A line from the CFO or treasurer]</span></blockquote>
-      </dl>
+      <div class="media" aria-hidden="true"><span class="play"></span><span class="slot">Photo or film slot</span></div>
     </article>
 
-    <div class="trust rv">
+    <div class="trust rv on-dark">
       <div>
         <span class="label">Trust Centre</span>
         <h2>Built for your due-diligence committee.</h2>
@@ -352,16 +434,17 @@
 </section>
 
 <!-- Final CTA -->
-<section class="sec final" id="cta">
+<section class="final" id="cta">
   <div class="note" data-note><b>Job of this section</b><br>One clear next step. What happens, how long it takes, what it costs, what they keep.</div>
   <div class="wrap">
     <h2 class="rv">Start by seeing your money.</h2>
-    <p class="rv" style="--d:100ms">In a treasury visibility review, we map your banks, accounts and currencies, and show you what one clear view would look like. It takes <span class="ph" style="color:#fff;border-color:rgba(255,255,255,.7)">[45]</span> minutes, it costs nothing, and you keep the map. <span class="flag" data-confirm="Session length"></span></p>
+    <p class="rv" style="--d:100ms">In a treasury visibility review, we map your banks, accounts and currencies, and show you what one clear view would look like. It takes <span class="ph">[45]</span> minutes, it costs nothing, and you keep the map. <span class="flag" data-confirm="Session length"></span></p>
     <div class="row rv" style="--d:200ms">
       <a href="#book" class="btn btn--light js-book">Book a treasury visibility review <svg class="arr" width="16" height="16"><use href="#arr"/></svg></a>
       <p class="alt" style="margin:0">Or write to us at <span class="ph">[enquiries email]</span></p>
     </div>
   </div>
+  <div class="globe2" id="globe2" aria-hidden="true"><canvas id="finalGlobe"></canvas></div>
 </section>
 
 </main>
@@ -371,7 +454,7 @@
     <div class="foot-top">
       <div>
         <a href="#top" class="brand" aria-label="Multigate home"><svg><use href="#mark"/></svg>Multigate</a>
-        <p class="tag">The treasury and trade operating system for Africa.</p>
+        <p class="tg2">The treasury and trade operating system for Africa.</p>
       </div>
       <div><h6>Platform</h6><ul><li><a href="#visibility">Visibility</a></li><li><a href="#movement">Collect</a></li><li><a href="#movement">Convert</a></li><li><a href="#movement">Pay</a></li><li><a href="#movement">Finance</a></li></ul></div>
       <div><h6>Who we serve</h6><ul><li><a href="#serve">Corporates</a></li><li><a href="#serve">Banks</a></li><li><a href="#serve">Financial institutions</a></li><li><a href="#serve">Financiers</a></li></ul></div>
@@ -396,7 +479,7 @@
       <div class="formerr" id="formErr" role="alert">Something went wrong on our side. Please try again, or write to us at [enquiries email].</div>
       <div class="grid2">
         <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" required><span class="msg">Please fill this in so we can prepare for your review.</span></div>
-        <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required><span class="msg" data-default="Please fill this in so we can prepare for your review.">Please fill this in so we can prepare for your review.</span></div>
+        <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required><span class="msg">Please fill this in so we can prepare for your review.</span></div>
       </div>
       <div class="grid2">
         <div class="field"><label for="f-co">Company</label><input id="f-co" name="company" autocomplete="organization" required><span class="msg">Please fill this in so we can prepare for your review.</span></div>
