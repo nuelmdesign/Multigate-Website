@@ -8,8 +8,8 @@
 <meta property="og:title" content="The treasury and trade operating system for Africa">
 <meta property="og:description" content="See your money clearly. Put it to work confidently.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#1c1a17">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233979ed' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M4 21V11a8 8 0 0 1 16 0v10'/%3E%3Cpath d='M10 21v-8a2 2 0 0 1 4 0v8'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#041431">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23137bf5' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M4 21V11a8 8 0 0 1 16 0v10'/%3E%3Cpath d='M10 21v-8a2 2 0 0 1 4 0v8'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
@@ -53,44 +53,38 @@
 <section class="hero" id="hero">
   <div class="note" data-note><b>Job of this section</b><br>Seen in ten seconds. The positioning line, the problem in plain words, one offer, proof of licence.</div>
   <div class="wrap hero__copy">
-    <div class="hero__orb rv" aria-hidden="true"><i></i><i></i><i></i></div>
     <h1 class="rv">The treasury and trade operating system for Africa.</h1>
     <p class="lead rv" style="--d:100ms">Your money sits across banks, currencies and borders that don't talk to each other. Multigate brings it into one system, so you can see your money clearly and put it to work confidently.</p>
     <div class="hero__cta rv" style="--d:200ms">
-      <a href="#book" class="btn btn--light js-book">Book a treasury visibility review <svg class="arr" width="16" height="16"><use href="#arr"/></svg></a>
-      <a href="#visibility" class="btn btn--ghost-dark">See how it works</a>
+      <a href="#book" class="btn js-book">Book a treasury visibility review <svg class="arr" width="16" height="16"><use href="#arr"/></svg></a>
+      <a href="#visibility" class="btn btn--ghost">See how it works</a>
     </div>
   </div>
 
-  <div class="hero__cards" aria-hidden="true">
-    <div class="fc fc--a"><span class="ill">Illustrative</span><small>Group cash position</small><strong>$18.4M</strong><span class="delta">+2.1% vs yesterday</span></div>
-    <div class="fc fc--b"><div class="cur"><b>₦</b><span>27,600,000<u>NGN</u></span></div><div class="swap">⇅</div><div class="cur"><b>$</b><span>18,400<u>USD</u></span></div></div>
-    <div class="fc fc--c"><span class="ill">Illustrative</span>
-      <div class="hd"><span>Your banks <span class="dim" style="font-weight:400;font-size:12px">· 5 connected</span></span></div>
-      <ul>
-        <li><i>A</i><div><b>Bank A</b><span>Operating · NGN</span></div><em>$6.8M</em></li>
-        <li><i>B</i><div><b>Bank B</b><span>Collections · GHS</span></div><em>$4.9M</em></li>
-        <li><i>C</i><div><b>Bank C</b><span>Treasury · USD</span></div><em>$3.1M</em></li>
-        <li><i>D</i><div><b>Bank D</b><span>Operating · XOF</span></div><em>$2.2M</em></li>
-      </ul>
-    </div>
-    <div class="fc fc--d"><span class="ill">Illustrative</span><small>Supplier payment</small>
-      <div class="row"><b>$12,400</b><span class="delta">In transit</span></div>
-      <div class="track"><span class="on ok">Sent</span><span class="on">In transit</span><span>Settled</span></div>
-    </div>
-  </div>
+  <div class="globe" id="globe" aria-hidden="true"><canvas id="globeCanvas"></canvas></div>
 
-  <div class="proofbar">
+  <div class="hero__foot">
     <div class="wrap">
-      <p class="trust-strip">
-        <span>Licensed in Nigeria, Canada, Mauritius and Uganda</span>
-        <span>Swift L2BA certified</span>
-        <span class="ph">[other certifications as held]</span>
-      </p>
-      <span class="flag" data-confirm="Jurisdiction count and certification list with Legal. Which XOF markets are live."></span>
+      <div class="legend"><span><i class="lv"></i>Live</span><span><i class="of"></i>Multigate office</span></div>
+      <div class="globe-cap" aria-live="polite">
+        <div class="chip" id="globeChip"><b>Nigeria</b> · Live</div>
+        <div class="pager" id="pager" role="group" aria-label="Map locations"></div>
+      </div>
+      <div class="hint">Drag to turn</div>
     </div>
   </div>
 </section>
+
+<div class="proofbar">
+  <div class="wrap">
+    <p class="trust-strip">
+      <span>Licensed in Nigeria, Canada, Mauritius and Uganda</span>
+      <span>Swift L2BA certified</span>
+      <span class="ph">[other certifications as held]</span>
+    </p>
+    <span class="flag" data-confirm="Jurisdiction count and certification list with Legal. Which XOF markets are live."></span>
+  </div>
+</div>
 
 <!-- Ticker -->
 <div class="band" aria-hidden="true">
@@ -257,11 +251,11 @@
         <div><span class="k">01</span><h3>Collect</h3><p>Get paid like a local business. Named collection accounts in each market mean customers pay you in their own currency, and every payment arrives with its payer attached.</p><span class="flag" data-confirm="Invoice matching. If confirmed, add 'and invoice' after 'payer'."></span></div>
         <div class="wg" aria-hidden="true"><div class="t"><span>Collection account · NGN</span><span>Illustrative</span></div><div class="big">₦4,250,000</div><span class="ok">Received</span><hr><div class="kv"><span>Payer</span><b>Customer A Ltd</b></div><div class="kv"><span>Payer attached</span><b>Yes</b></div><div class="kv"><span>Account</span><b>Named collection account</b></div></div>
       </article>
-      <article class="mc mc--mint rv" style="--i:1">
+      <article class="mc mc--deep rv" style="--i:1">
         <div><span class="k">02</span><h3>Convert</h3><p>Move between African currencies and the major currencies, and settle into the account you choose.</p></div>
         <div class="wg" aria-hidden="true"><div class="t"><span>Convert</span><span>Illustrative rate</span></div><div class="inp"><span>1,500,000</span><u>NGN</u></div><div class="sw">⇅ 1 USD = 1,500 NGN</div><div class="inp"><span>1,000</span><u>USD</u></div><hr><div class="kv"><span>Settle into</span><b>The account you choose</b></div></div>
       </article>
-      <article class="mc mc--yellow rv" style="--i:2">
+      <article class="mc mc--light rv" style="--i:2">
         <div><span class="k">03</span><h3>Pay</h3><p>Pay suppliers, staff and partners, locally and across borders, from one place. Track every payment from sent to settled.</p></div>
         <div class="wg" aria-hidden="true"><div class="t"><span>Supplier payment</span><span>Illustrative</span></div><div class="big">$12,400</div><div class="steps3"><div class="st done"><i>✓</i><b>Sent</b><span>09:02</span></div><div class="st now"><i>→</i><b>In transit</b><span>Now</span></div><div class="st"><i></i><b>Settled</b><span>Pending</span></div></div></div>
       </article>
@@ -291,7 +285,7 @@
           <div class="hr"></div>
           <a href="#book" class="link js-book">Book a treasury visibility review <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
         </div>
-        <div class="role__art a1"><canvas data-art="corp" data-dot="#82fac1" aria-hidden="true"></canvas></div>
+        <div class="role__art a1"><canvas data-art="corp" data-dot="#137bf5" aria-hidden="true"></canvas></div>
       </article>
       <article class="role rv">
         <div>
@@ -301,7 +295,7 @@
           <div class="hr"></div>
           <a href="#" class="link">Talk to our banking team <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
         </div>
-        <div class="role__art a2"><canvas data-art="bank" data-dot="#f9f2c3" aria-hidden="true"></canvas></div>
+        <div class="role__art a2"><canvas data-art="bank" data-dot="#eef1f7" aria-hidden="true"></canvas></div>
       </article>
       <article class="role rv">
         <div>
@@ -311,7 +305,7 @@
           <div class="hr"></div>
           <a href="#" class="link">Read the API docs <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
         </div>
-        <div class="role__art a3"><canvas data-art="hub" data-dot="#1c1a17" aria-hidden="true"></canvas></div>
+        <div class="role__art a3"><canvas data-art="hub" data-dot="#041431" aria-hidden="true"></canvas></div>
       </article>
       <article class="role rv">
         <div>
@@ -321,7 +315,7 @@
           <div class="hr"></div>
           <a href="#" class="link">Become a Financier <svg class="arr" width="14" height="14"><use href="#arr"/></svg></a>
         </div>
-        <div class="role__art a4"><canvas data-art="coins" data-dot="#f6e07b" aria-hidden="true"></canvas></div>
+        <div class="role__art a4"><canvas data-art="coins" data-dot="#4cf6b9" aria-hidden="true"></canvas></div>
       </article>
     </div>
   </div>
@@ -330,20 +324,6 @@
 <!-- Coverage -->
 <section class="cov" id="coverage">
   <div class="note" data-note><b>Job of this section</b><br>Proof you can check. Stats a due-diligence team can verify. Drop any stat that is not confirmed by launch. The landscape is a stand-in for a photograph.</div>
-  <div class="land" aria-hidden="true">
-    <svg viewBox="0 0 1440 600" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8bfa9"/><stop offset="1" stop-color="#a39a89"/></linearGradient>
-        <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b9180"/><stop offset="1" stop-color="#6f675c"/></linearGradient>
-        <linearGradient id="h3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b6358"/><stop offset="1" stop-color="#3b362f"/></linearGradient>
-        <linearGradient id="h4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a352f"/><stop offset="1" stop-color="#1c1a17"/></linearGradient>
-      </defs>
-      <path fill="url(#h1)" d="M0 250 C200 170 380 260 600 205 S1000 120 1200 195 S1380 175 1440 155 V600 H0Z"/>
-      <path fill="url(#h2)" d="M0 340 C220 265 420 350 640 295 S1040 235 1240 305 S1400 285 1440 275 V600 H0Z"/>
-      <path fill="url(#h3)" d="M0 440 C260 365 480 450 720 395 S1120 345 1440 415 V600 H0Z"/>
-      <path fill="url(#h4)" d="M0 525 C300 478 600 548 900 505 S1300 488 1440 515 V600 H0Z"/>
-    </svg>
-  </div>
   <div class="wrap">
     <div class="cov__title">
       <div class="rv"><span class="label">Coverage</span></div>
@@ -355,7 +335,7 @@
       <div class="gnum">$950M</div>
       <p style="color:rgba(255,255,255,.72);margin-top:-18px;margin-bottom:26px;font-size:15px">processed and on track for 2026 <span class="flag" data-confirm="Figure and period with Finance"></span></p>
       <div class="grow">
-        <div class="gl"><span>Live</span><span style="margin-left:auto;display:inline-flex;gap:10px;align-items:center"><span style="width:9px;height:9px;background:var(--yellow);display:inline-block"></span>Multigate office</span></div>
+        <div class="gl"><span>Live</span><span style="margin-left:auto;display:inline-flex;gap:10px;align-items:center"><span style="width:9px;height:9px;background:#fff;box-shadow:inset 0 0 0 2px var(--navy);display:inline-block"></span>Multigate office</span></div>
         <div class="world" id="world"><canvas id="worldCanvas" role="img" aria-label="Map showing live markets in Africa and Multigate offices in London, Toronto, Abu Dhabi and Port Louis"></canvas></div>
       </div>
       <div class="gstats">
@@ -444,7 +424,6 @@
       <p class="alt" style="margin:0">Or write to us at <span class="ph">[enquiries email]</span></p>
     </div>
   </div>
-  <div class="globe2" id="globe2" aria-hidden="true"><canvas id="finalGlobe"></canvas></div>
 </section>
 
 </main>
