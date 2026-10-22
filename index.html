@@ -276,9 +276,24 @@
         <div class="world" id="world"><canvas id="worldCanvas" role="img" aria-label="Map showing live markets in Africa and Multigate offices in London, Toronto, Abu Dhabi and Port Louis"></canvas></div>
       </div>
       <div class="gstats">
-        <div><div class="gnum">4</div><p>licensing jurisdictions: Nigeria, Canada, Mauritius and Uganda</p><span class="flag" data-confirm="With Legal"></span></div>
-        <div><div class="gnum">3</div><p>local currencies live: NGN, GHS and XOF</p><span class="flag" data-confirm="XOF scope"></span></div>
-        <div><div class="gnum ph">[N]</div><p>partner banks connected</p><span class="flag" data-confirm="Count with Partnerships. If not confirmed by launch, drop this stat."></span></div>
+        <div class="gc rv">
+          <div class="gnum">4</div>
+          <div class="ticks" role="img" aria-label="Four licensing jurisdictions: Nigeria, Canada, Mauritius and Uganda"><i></i><i></i><i></i><i></i></div>
+          <p>licensing jurisdictions: Nigeria, Canada, Mauritius and Uganda</p>
+          <span class="flag" data-confirm="With Legal"></span>
+        </div>
+        <div class="gc rv" style="--d:100ms">
+          <div class="gnum">3</div>
+          <div class="ticks" role="img" aria-label="Three local currencies: NGN, GHS and XOF"><i></i><i></i><i></i></div>
+          <p>local currencies live: NGN, GHS and XOF</p>
+          <span class="flag" data-confirm="XOF scope"></span>
+        </div>
+        <div class="gc rv" style="--d:200ms">
+          <div class="gnum ph">[N]</div>
+          <div class="ticks ticks--empty" aria-hidden="true"><i></i></div>
+          <p>partner banks connected</p>
+          <span class="flag" data-confirm="Count with Partnerships. If not confirmed by launch, drop this stat."></span>
+        </div>
       </div>
       <p class="offices">Offices in London, Toronto, Abu Dhabi and Port Louis</p>
     </div>
