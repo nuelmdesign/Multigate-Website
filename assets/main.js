@@ -62,7 +62,7 @@
     { n: 'Toronto', lon: -79.4, lat: 43.65, t: 'Multigate office', office: true }
   ];
   var gEl = $('#globe'), gc = $('#globeCanvas'), gx = gc.getContext('2d'), chip = $('#globeChip'), pager = $('#pager');
-  var camFor = function (t) { return { lon: t.lon, lat: Math.max(-50, Math.min(62, t.lat + 2)) }; };
+  var camFor = function (t) { return { lon: t.lon, lat: Math.max(-60, Math.min(62, t.lat - 28)) }; };
   var cam = camFor(targets[0]), from = null, to = null, tweenStart = 0, idx = 0, auto = !reduce, lastSwitch = 0, pauseUntil = 0, visible = true, gW = 0, dpr = 1, drag = null;
   var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
   targets.forEach(function (t, i) {
@@ -119,7 +119,7 @@
     targets.forEach(function (o) {
       if (!o.office) return;
       p = project(o.lon * D, Math.sin(o.lat * D), Math.cos(o.lat * D), l0, s0, c0, R, cx, cy);
-      if (p.v < 0.12 || (o !== targets[idx] && p.y < 0.3 * W)) return;
+      if (p.v < 0.12) return;
       var rr = 6.5 * dpr * (R / 640);
       gx.fillStyle = '#fff'; gx.fillRect(p.x - rr, p.y - rr, rr * 2, rr * 2);
       gx.lineWidth = 2.2 * dpr; gx.strokeStyle = '#041431'; gx.strokeRect(p.x - rr, p.y - rr, rr * 2, rr * 2);
