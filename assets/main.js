@@ -62,7 +62,7 @@
     { n: 'Toronto', lon: -79.4, lat: 43.65, t: 'Multigate office', office: true }
   ];
   var gEl = $('#globe'), gc = $('#globeCanvas'), gx = gc.getContext('2d'), chip = $('#globeChip'), pager = $('#pager');
-  var camFor = function (t) { return { lon: t.lon, lat: Math.max(-40, Math.min(50, t.lat * 0.55)) }; };
+  var camFor = function (t) { return { lon: t.lon, lat: Math.max(-60, Math.min(62, t.lat - 28)) }; };
   var cam = camFor(targets[0]), from = null, to = null, tweenStart = 0, idx = 0, auto = !reduce, lastSwitch = 0, pauseUntil = 0, visible = true, gW = 0, dpr = 1, drag = null;
   var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
   targets.forEach(function (t, i) {
@@ -90,9 +90,9 @@
   function drawGlobe(now) {
     var W = gc.width, R = W * 0.5 * 0.985, cx = W / 2, cy = W / 2, l0 = cam.lon * D, ph0 = cam.lat * D, s0 = Math.sin(ph0), c0 = Math.cos(ph0), p, a, b, started, i, q, rad;
     gx.clearRect(0, 0, W, W);
-    gx.beginPath(); gx.arc(cx, cy, R, 0, 6.2832); gx.fillStyle = 'rgba(255,255,255,0.07)'; gx.fill();
-    gx.lineWidth = 1.3 * dpr; gx.strokeStyle = 'rgba(255,255,255,0.55)'; gx.stroke();
-    gx.lineWidth = 1 * dpr; gx.strokeStyle = 'rgba(255,255,255,0.16)';
+    gx.beginPath(); gx.arc(cx, cy, R, 0, 6.2832); gx.fillStyle = 'rgba(255,255,255,0.38)'; gx.fill();
+    gx.lineWidth = 1.3 * dpr; gx.strokeStyle = 'rgba(4,20,49,0.4)'; gx.stroke();
+    gx.lineWidth = 1 * dpr; gx.strokeStyle = 'rgba(4,20,49,0.09)';
     for (a = -75; a <= 75; a += 15) {
       gx.beginPath(); started = false;
       for (b = -180; b <= 180; b += 3) { p = project(b * D, Math.sin(a * D), Math.cos(a * D), l0, s0, c0, R, cx, cy); if (p.v > 0) { if (!started) { gx.moveTo(p.x, p.y); started = true; } else gx.lineTo(p.x, p.y); } else started = false; }
@@ -103,36 +103,34 @@
       for (a = -90; a <= 90; a += 3) { p = project(b * D, Math.sin(a * D), Math.cos(a * D), l0, s0, c0, R, cx, cy); if (p.v > 0) { if (!started) { gx.moveTo(p.x, p.y); started = true; } else gx.lineTo(p.x, p.y); } else started = false; }
       gx.stroke();
     }
-    var base = Math.max(R / 150, 1.1 * dpr);
+    var base = R / 330;
     for (i = 0; i < pts.length; i++) {
       q = pts[i]; p = project(q.lr, q.sl, q.cl, l0, s0, c0, R, cx, cy);
       if (p.v <= 0.06) continue;
       gx.globalAlpha = Math.min(1, p.v * 2.4);
       rad = base * Math.sqrt(0.35 + 0.65 * p.v);
-      if (q.k === 2) { gx.fillStyle = '#4cf6b9'; rad *= 1.6; }
-      else if (q.k === 3) { gx.fillStyle = 'rgba(238,241,247,0.92)'; rad *= 1.15; }
-      else { gx.fillStyle = 'rgba(255,255,255,0.4)'; }
+      if (q.k === 2) { gx.fillStyle = '#00a58e'; rad *= 1.6; }
+      else if (q.k === 3) { gx.fillStyle = 'rgba(4,20,49,0.55)'; rad *= 1.15; }
+      else { gx.fillStyle = 'rgba(4,20,49,0.2)'; }
       gx.beginPath(); gx.arc(p.x, p.y, rad, 0, 6.2832); gx.fill();
     }
     gx.globalAlpha = 1;
-    gx.font = '500 ' + Math.round(11 * dpr) + 'px "JetBrains Mono", monospace'; gx.textBaseline = 'middle';
+    gx.font = '500 ' + Math.round(11 * dpr * (R / 640)) + 'px "JetBrains Mono", monospace'; gx.textBaseline = 'middle';
     targets.forEach(function (o) {
       if (!o.office) return;
       p = project(o.lon * D, Math.sin(o.lat * D), Math.cos(o.lat * D), l0, s0, c0, R, cx, cy);
       if (p.v < 0.12) return;
-      var rr = 5 * dpr;
+      var rr = 6.5 * dpr * (R / 640);
       gx.fillStyle = '#fff'; gx.fillRect(p.x - rr, p.y - rr, rr * 2, rr * 2);
       gx.lineWidth = 2.2 * dpr; gx.strokeStyle = '#041431'; gx.strokeRect(p.x - rr, p.y - rr, rr * 2, rr * 2);
-      gx.fillStyle = '#fff';
-      if (p.x > cx + R * 0.3) { gx.textAlign = 'right'; gx.fillText(o.n.toUpperCase(), p.x - rr - 8 * dpr, p.y); gx.textAlign = 'left'; }
-      else gx.fillText(o.n.toUpperCase(), p.x + rr + 8 * dpr, p.y);
+      gx.fillStyle = '#041431'; gx.fillText(o.n.toUpperCase(), p.x + rr + 8 * dpr, p.y);
     });
     var t = targets[idx];
     p = project(t.lon * D, Math.sin(t.lat * D), Math.cos(t.lat * D), l0, s0, c0, R, cx, cy);
     if (p.v > 0.1 && !t.office) {
       var ph = reduce ? 0.5 : ((now / 1600) % 1);
-      gx.beginPath(); gx.arc(p.x, p.y, (8 + ph * 22) * dpr, 0, 6.2832);
-      gx.lineWidth = 1.6 * dpr; gx.strokeStyle = 'rgba(76,246,185,' + (0.9 * (1 - ph)) + ')'; gx.stroke();
+      gx.beginPath(); gx.arc(p.x, p.y, (10 + ph * 28) * dpr * (R / 640), 0, 6.2832);
+      gx.lineWidth = 1.6 * dpr; gx.strokeStyle = 'rgba(0,165,142,' + (0.8 * (1 - ph)) + ')'; gx.stroke();
     }
   }
   function frame(now) {
