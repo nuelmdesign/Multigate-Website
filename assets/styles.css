@@ -357,7 +357,8 @@ body.review .logos { display: block; }
 @media (max-width: 960px) { .clients__head, .case__top, .trust { grid-template-columns: 1fr; } .case__cols { grid-template-columns: 1fr; } .media { min-height: 320px; } }
 
 /* ---------- Final CTA ---------- */
-.final { position: relative; color: #fff; overflow: hidden; text-align: center; padding: clamp(110px, 13vw, 190px) 0 clamp(120px, 15vw, 230px); isolation: isolate; background: var(--black); }
+.final { position: relative; color: #fff; overflow: hidden; text-align: center; padding: clamp(110px, 13vw, 190px) 0 clamp(120px, 15vw, 230px); isolation: isolate; background: var(--black) url(gradient.webp) right top / cover no-repeat; }
+.final::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 10, 28, 0.7) 0%, rgba(0, 10, 28, 0.25) 55%, rgba(0, 10, 28, 0) 100%); }
 
 .final h2 { font-size: clamp(46px, 8vw, 118px); line-height: 0.98; max-width: 11em; margin: 0 auto; letter-spacing: -0.04em; }
 .final p { max-width: 640px; margin: 30px auto 0; font-size: clamp(18px, 1.6vw, 21px); color: rgba(255, 255, 255, 0.9); text-wrap: pretty; }
