@@ -102,7 +102,7 @@ em { font-style: italic; }
   background: rgba(242, 240, 235, 0.8); -webkit-backdrop-filter: saturate(1.5) blur(20px); backdrop-filter: saturate(1.5) blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 40px -14px rgba(4, 20, 49, 0.35), inset 0 0 0 1px rgba(4, 20, 49, 0.05); }
 .brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--sans); font-weight: 600; font-size: 19px; letter-spacing: -0.02em; }
-.brand .logo { height: 20px; width: auto; aspect-ratio: 796 / 94; color: var(--ink); fill: currentColor; }
+.brand .logo { height: 14px; width: auto; aspect-ratio: 796 / 94; color: var(--ink); fill: currentColor; }
 .nav__links { display: flex; gap: 2px; margin-left: 6px; }
 .nav__links a { padding: 8px 13px; border-radius: 999px; font-size: 14.5px; color: var(--ink-2); transition: background-color 200ms var(--ease-out), color 200ms var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .nav__links a:hover { background: rgba(4, 20, 49, 0.07); color: var(--ink); } }
@@ -361,7 +361,7 @@ body.review .logos { display: block; }
 /* ---------- Footer ---------- */
 .foot-wrap { background: var(--ink); color: var(--on); padding: clamp(64px, 8vw, 110px) 0 28px; overflow: hidden; }
 .foot-top { display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 32px; }
-.foot-top .brand .logo { height: 24px; color: var(--on); }
+.foot-top .brand .logo { height: 17px; color: var(--on); }
 .foot-top .tg2 { margin-top: 18px; font-family: var(--serif); font-size: 22px; line-height: 1.3; max-width: 300px; color: rgba(238, 241, 247, 0.85); letter-spacing: -0.01em; }
 .foot-top h6 { margin: 0 0 18px; font-family: var(--mono); font-size: 11.5px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(238, 241, 247, 0.5); }
 .foot-top li a { display: inline-block; padding: 5px 0; font-size: 15.5px; color: rgba(238, 241, 247, 0.88); transition: color 200ms var(--ease-out); }
