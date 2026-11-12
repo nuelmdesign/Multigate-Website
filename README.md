@@ -1,9 +1,9 @@
-# Multigate landing page (copy stress test)
+# Multigate landing page
 
 Static page, no build step. Open `index.html`, or serve the folder.
 
-- Copy source: `Multigate_Website_Copy_Proposed.md` (22 October 2026), placed as written.
-- Add `?review` to the URL, or use the Review mode button, to show section intent notes and every **[Confirm]** flag from the copy sign-off list.
-- Tokens live at the top of `assets/styles.css` (three blues, a small green accent, stone neutral, IBM Plex Sans for headings and body, JetBrains Mono for labels).
-- `assets/map-data.js` is a 1.5 degree dot grid built from Natural Earth 110m country outlines. Live markets are Nigeria, Ghana and the XOF countries, pending the confirmation noted in the copy.
+- **Design:** built from the Figma file "Demo Prep" (Landing Page frame). PT Serif for headings, DM Sans for body, JetBrains Mono for a few labels.
+- **Copy:** the signed-off plain-language homepage copy in `docs/homepage-copy-plain-language.md`.
+- **Images:** `assets/d/` holds the 3D coins and icons, the hero and Africa maps and the Trust Centre seal, exported from the Figma design.
+- **Review mode:** add `?review` to the URL, or use the button, to show each section's job and the open sign-off items.
 - The booking form is a prototype. Nothing is sent.
