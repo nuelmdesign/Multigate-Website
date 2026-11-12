@@ -451,3 +451,68 @@ body.review .note { display: block; }
   .mc .wg, .doc { transition: none; }
   dialog.book[open], dialog.book[open]::backdrop { animation: none; }
 }
+
+/* ---------- Rebuild on the plain-language copy ---------- */
+.hero__eyebrow { margin-bottom: 22px; }
+.hero__eyebrow .label { color: var(--ink-2); }
+.hero h1 { max-width: 14em; }
+.hero .lead { max-width: 640px; }
+.hero__alt { margin-top: 22px; font-size: 15px; }
+.sec--lite { background: var(--stone-hi); }
+
+/* Problem: four tiles */
+.pb { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: clamp(56px, 7vw, 100px); }
+.pc { border-radius: 22px; padding: clamp(26px, 3vw, 40px); display: flex; flex-direction: column; gap: 18px; }
+.pc.bt--stone, .pc.bt--blue, .pc.bt--deep, .pc.bt--char { min-height: 0; }
+.pq { font-size: clamp(26px, 2.6vw, 36px); line-height: 1.12; letter-spacing: -0.025em; text-wrap: balance; }
+.pd { font-size: 16.5px; line-height: 1.55; opacity: 0.8; max-width: 520px; text-wrap: pretty; }
+.pw { margin-top: auto; padding-top: 22px; border-top: 1px solid currentColor; border-color: rgba(128, 128, 128, 0.35); display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.pl { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
+.pw p { font-size: 18.5px; line-height: 1.4; font-weight: 500; max-width: 520px; text-wrap: pretty; }
+@media (max-width: 860px) { .pb { grid-template-columns: 1fr; } }
+
+/* Mission and vision */
+.mission__grid { display: grid; grid-template-columns: 1.3fr 0.8fr; gap: clamp(32px, 6vw, 100px); align-items: end; }
+.mission h2 { font-size: clamp(32px, 3.9vw, 54px); line-height: 1.08; margin-top: 26px; }
+.vision { display: flex; align-items: baseline; gap: 28px; flex-wrap: wrap; margin-top: clamp(40px, 5vw, 64px); padding-top: 28px; border-top: 1px solid var(--line); }
+.vision p { font-size: clamp(20px, 2vw, 28px); font-weight: 500; letter-spacing: -0.02em; }
+@media (max-width: 960px) { .mission__grid { grid-template-columns: 1fr; } }
+
+/* Trusted by */
+.names { margin-top: clamp(40px, 5vw, 72px); }
+.ng { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin: 28px 0 12px; }
+.nl { display: grid; gap: 10px; }
+.nl3 { grid-template-columns: repeat(3, 1fr); }
+.nl5 { grid-template-columns: repeat(5, 1fr); }
+.nl li { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px 16px; text-align: center; font-weight: 500; font-size: 16px; letter-spacing: -0.01em; }
+@media (max-width: 860px) { .nl3 { grid-template-columns: 1fr; } .nl5 { grid-template-columns: 1fr 1fr; } }
+
+/* Payables Financing */
+.fin { background: var(--blue-deep); color: #fff; overflow: hidden; }
+.fin .label { color: rgba(255, 255, 255, 0.75); }
+.fin .label::before { background: var(--green); }
+.fin .lead { color: rgba(255, 255, 255, 0.86); }
+.flow4 { list-style: none; padding: 0; margin: clamp(56px, 7vw, 100px) 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; position: relative; }
+.fs { position: relative; border: 1px solid rgba(255, 255, 255, 0.32); border-radius: 22px; padding: 28px 26px 32px; min-height: 270px; display: flex; flex-direction: column; }
+.fs .fn { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.08em; color: var(--green); }
+.fs h3 { font-size: clamp(26px, 2.4vw, 34px); margin: auto 0 12px; padding-top: 56px; }
+.fs p { font-size: 16px; line-height: 1.5; opacity: 0.86; text-wrap: pretty; }
+.fs:not(:last-child)::after { content: ""; position: absolute; top: 40px; right: -15px; width: 16px; height: 1px; background: rgba(255, 255, 255, 0.6); }
+.fs--last { background: #fff; color: var(--ink); border-color: #fff; }
+.fs--last .fn { color: var(--blue-deep); }
+.fin__foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: clamp(40px, 5vw, 64px); padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, 0.28); }
+.fin__foot p { font-size: 17px; }
+@media (max-width: 1000px) { .flow4 { grid-template-columns: 1fr 1fr; } .fs:not(:last-child)::after { display: none; } }
+@media (max-width: 560px) { .flow4 { grid-template-columns: 1fr; } .fs { min-height: 0; } .fs h3 { padding-top: 28px; } }
+
+/* Network today: three stat cards */
+.gstats { grid-template-columns: repeat(3, 1fr); }
+.duo { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.lg { opacity: 0.8; }
+.role h3 { margin-top: 0; }
+.sec__split h2 { font-size: clamp(34px, 4.1vw, 58px); line-height: 1.06; }
+.fs h3 { margin: 64px 0 12px; padding-top: 0; }
+@media (max-width: 560px) { .fs h3 { margin-top: 36px; } }
+.hero__eyebrow .label { line-height: 1.5; justify-content: center; text-align: center; }
+.hero__eyebrow .label::before { flex: none; }
+@media (max-width: 520px) { .hero__eyebrow .label::before { display: none; } }
