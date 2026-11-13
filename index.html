@@ -15,6 +15,7 @@
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="logo" viewBox="321 676 796 94"><path d="M392.284 752.205L450.102 693.901C465.733 678.243 491.258 678.243 506.88 693.901L449.061 752.205C432.918 767.863 407.914 767.863 392.284 752.205ZM323 751.662L380.819 693.358C396.449 677.7 421.974 677.7 437.596 693.358L379.777 751.662C364.155 767.321 338.631 767.321 323 751.662Z"/><path d="M499.333 759.02C492.896 765.557 482.49 765.557 476.054 759.02C469.617 752.483 469.617 742.429 476.054 735.892C482.49 729.355 492.896 729.355 499.333 735.892C505.769 742.429 505.769 752.483 499.333 759.02Z"/><path d="M634.003 762.961H620.939V705.656L596.678 762.961H585.261L561.219 705.876V762.961H548.375V685.127H565.94L591.189 744.518L616.109 685.127H634.003V762.961ZM676.399 764.607C660.151 764.607 647.417 754.617 647.417 735.845V685.127H660.481V735.077C660.481 746.055 666.519 752.092 676.399 752.092C686.389 752.092 692.317 746.055 692.317 735.077V685.127H705.49V735.845C705.49 754.617 692.756 764.607 676.399 764.607ZM767.693 762.961H718.841V685.127H732.015V750.446H767.693V762.961ZM823.502 697.532H798.143V762.961H784.969V697.532H759.72V685.127H823.502V697.532ZM843.308 762.961H829.915V685.127H843.308V762.961ZM926.629 762.961H915.981L914.993 753.08C911.59 758.789 903.576 764.607 891.171 764.607C870.862 764.607 852.858 749.677 852.858 723.989C852.858 698.411 871.85 683.481 892.049 683.481C910.931 683.481 923.007 694.349 927.178 707.193L914.773 711.913C912.139 703.131 904.454 695.666 892.049 695.666C879.425 695.666 866.251 704.668 866.251 723.989C866.251 742.981 878.546 752.532 891.939 752.532C907.638 752.532 913.566 741.773 914.224 735.077H888.536V723.55H926.629V762.961ZM991.444 762.961L984.089 743.42H951.156L943.91 762.961H929.968L960.267 685.127H975.527L1005.83 762.961H991.444ZM967.622 699.399L955.766 731.234H979.479L967.622 699.399ZM1060.55 697.532H1035.19V762.961H1022.02V697.532H996.77V685.127H1060.55V697.532ZM1115.05 762.961H1066.96V685.127H1115.05V697.423H1080.14V718.061H1111.75V730.027H1080.14V750.665H1115.05V762.961Z"/></symbol>
+  <defs><pattern id="mgHatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#eef3fe"/><line x1="0" y1="0" x2="0" y2="5" stroke="#1362f5" stroke-width="1.6"/></pattern></defs>
   <symbol id="arr" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></symbol>
 </svg>
 
@@ -119,11 +120,11 @@
   <div class="note" data-note><b>Job of this section</b><br>What Multigate is, in the company's own mission and vision words.</div>
   <div class="wrap">
     <div class="head head--end">
-      <h2 class="rv h2--m">We connect African businesses and financial institutions on one network, helping businesses manage cash, move money and finance their trade.</h2>
+      <span class="chip chip--dark rv">Our mission</span><h2 class="rv h2--m">We connect African businesses and financial institutions on one network, helping businesses manage cash, move money and finance their trade.</h2>
       <p class="head__p rv" style="--d:100ms">Businesses use the Multigate system to see and control their cash, move money across markets and finance their trade. Banks, payment companies and lenders join the same network to serve them.</p>
     </div>
     <hr class="rule">
-    <div class="vision rv"><span class="chip">Our vision</span><p>To be the trusted network powering African treasury and trade.</p></div>
+    <div class="vision rv"><span class="chip chip--dark">Our vision</span><p>To be the trusted network powering African treasury and trade.</p></div>
   </div>
 </section>
 
@@ -204,6 +205,18 @@
   </div>
 </section>
 
+<!-- Customer quote (filler) -->
+<section class="qb" id="story">
+  <div class="note" data-note><b>Job of this section</b><br>One customer, in their own words. Filler text until an approved quote and name are supplied.</div>
+  <div class="wrap qb__in rv">
+    <span class="chip chip--dark">Customer story</span>
+    <blockquote>&ldquo;<span class="ph">[Customer quote goes here. One or two sentences, in the customer's own words, about what changed for their finance team.]</span>&rdquo;</blockquote>
+    <p class="qb__by"><span class="ph">[Name]</span><br><span class="ph">[Role, Company]</span></p>
+    <a href="#" class="pill pill--white pill--lg">Read the customer story</a>
+    <span class="flag" data-confirm="Filler. Needs an approved quote, name, role and company with written consent."></span>
+  </div>
+</section>
+
 <!-- Move money -->
 <section class="sec" id="movement">
   <div class="note" data-note><b>Job of this section</b><br>The second thing a business does: collect, convert and pay across African markets.</div>
@@ -252,6 +265,14 @@
       <span class="chip">Why a network</span>
       <h2>One network. Businesses on one side, the banks and lenders that serve them on the other.</h2>
       <p class="center__p">Businesses get one place to manage their banks, payments and financing. Banks, payment companies and lenders get access to real, verified business activity they can serve. The more who join, the more useful it is for everyone.</p>
+    </div>
+    <div class="hub rv" aria-hidden="true">
+      <svg viewBox="0 0 1000 340" preserveAspectRatio="xMidYMid meet">
+        <g class="hub__l"><path d="M210 90C340 90 340 170 440 170"/><path d="M210 250C340 250 340 170 440 170"/><path d="M790 90C660 90 660 170 560 170"/><path d="M790 250C660 250 660 170 560 170"/></g>
+        <g class="hub__f"><path pathLength="100" d="M210 90C340 90 340 170 440 170"/><path pathLength="100" d="M210 250C340 250 340 170 440 170"/><path pathLength="100" d="M560 170C660 170 660 90 790 90"/><path pathLength="100" d="M560 170C660 170 660 250 790 250"/></g>
+        <g class="hub__n"><rect x="30" y="66" width="180" height="48" rx="10"/><text x="120" y="96">Businesses</text><rect x="30" y="226" width="180" height="48" rx="10"/><text x="120" y="256">Payment companies</text><rect x="790" y="66" width="180" height="48" rx="10"/><text x="880" y="96">Banks</text><rect x="790" y="226" width="180" height="48" rx="10"/><text x="880" y="256">Financiers</text></g>
+        <g class="hub__c"><rect x="420" y="142" width="160" height="56" rx="28"/><text x="500" y="176">Multigate</text></g>
+      </svg>
     </div>
     <div class="aud fl">
       <div class="ar fo"><h3>Businesses</h3><div class="ar__box"><img src="assets/d/icon-collect-tight.png" alt=""></div><div class="ar__t"><p>One place for all your banks, payments and financing.</p><a href="#book" class="tlink js-book">Book a treasury review →</a></div></div>
@@ -340,6 +361,7 @@
       <p>© 2026 Multigate Holdings Ltd<br><span class="lg">Privacy · Terms · Cookies</span></p>
     </div>
   </div>
+  <svg class="foot__mark" aria-hidden="true"><use href="#logo"/></svg>
 </footer>
 </div>
 
