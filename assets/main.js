@@ -27,11 +27,6 @@
     track.addEventListener('scroll', function () { window.requestAnimationFrame(upd); }, { passive: true });
   }
 
-  /* Network today accordion */
-  $$('#acc button').forEach(function (b) {
-    b.addEventListener('click', function () { $$('#acc li').forEach(function (l) { l.classList.remove('open'); }); b.parentNode.classList.add('open'); });
-  });
-
   /* Booking modal */
   var dlg = $('#book'), form = $('#bookForm');
   function openBook(e) { if (e) e.preventDefault(); dlg.classList.remove('is-done'); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); }
