@@ -4,7 +4,8 @@
 <div><div class="a" id="collect"></div>Collect</div>
 <div><div class="a" id="convert"></div>Convert</div>
 <div><div class="a" id="pay"></div>Pay</div>
+<div style="width:420px"><div class="a" id="globe" style="width:420px;height:420px"></div>Hero globe</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
 <script>
-["collect","convert","pay"].forEach(n => lottie.loadAnimation({ container: document.getElementById(n), renderer: "svg", loop: true, autoplay: true, path: "multigate-" + n + ".json" }));
+["collect","convert","pay","globe"].forEach(n => lottie.loadAnimation({ container: document.getElementById(n), renderer: "svg", loop: true, autoplay: true, path: "multigate-" + n + ".json" }));
 </script>
