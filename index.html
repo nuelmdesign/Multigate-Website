@@ -21,8 +21,8 @@
 
 <a class="skip" href="#top">Skip to content</a>
 <a class="skip" href="#top">Skip to content</a>
+<a class="skip" href="#top">Skip to content</a>
 <!-- Navigation -->
-<div class="prog" id="prog" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav__in">
     <a href="#top" class="brand" aria-label="Multigate home"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></a>
@@ -33,11 +33,11 @@
       <a href="#payco">For payment providers &amp; platforms</a>
       <a href="#trust">Trust Centre</a>
       <a href="#mission">Company</a>
-      <a href="#" class="js-dev">Developers</a>
+      <a href="#">Developers</a>
     </nav>
     <div class="nav__right">
       <a href="#" class="nav__login">Log in</a>
-      <a href="#book" class="bt js-book">Talk to us</a>
+      <a href="#book" class="btn btn--p js-book">Talk to us</a>
       <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navPanel" aria-label="Menu"><span></span></button>
     </div>
   </div>
@@ -50,233 +50,310 @@
 
 <!-- 02 Hero -->
 <section class="hero" id="hero" aria-labelledby="h-hero">
-  <div class="note" data-note><b>Job of this section</b><br>Seen in ten seconds: what Multigate is, what it does, and the two next steps. A third path is kept for payment providers and platforms.</div>
-  <canvas class="wire hero__wire" data-model="globe" data-color="#1362f5" aria-hidden="true"></canvas>
-  <div class="frame hero__in">
-    <p class="tag hero__eyebrow"><i></i>The trusted network powering African treasury &amp; trade</p>
-    <h1 class="mega" id="h-hero"><span class="ln rv">One interface</span><span class="ln ind rv" style="--d:90ms">for treasury.</span><span class="ln rv" style="--d:180ms">One network</span><span class="ln ind rv" style="--d:270ms">for trade.</span></h1>
-    <div class="hero__side rv" style="--d:380ms">
-      <div class="hero__copy">
-        <p>Multigate brings your banking relationships, business accounts and financial operations together in one place.</p>
-        <p>Manage cash across banks, collect and send payments across African markets, and connect your suppliers to financing through one platform.</p>
-      </div>
-      <div class="hero__act">
-        <div class="hero__cta"><a href="#book" class="bt js-book">Book a treasury review <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a><a href="#financing" class="bt bt--line">Explore Payables Financing <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a></div>
-        <a href="#payco" class="hero__aud"><b>A payment provider or global platform?</b><span>Collect and pay out across African markets through one API.</span><em class="ul">Explore our solutions <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></em></a>
-        <span class="flag" data-confirm="Licences: three jurisdictions as in the copy. Uganda still to be confirmed with Legal. 'Fintech' replaced with 'payment provider' to follow the brand voice."></span>
+  <div class="note" data-note><b>Job of this section</b><br>Seen in ten seconds: what Multigate is, what it does, and the next steps. A separate path is kept for payment providers and platforms.</div>
+  <div class="wrap hero__in">
+    <p class="eyebrow rv">The trusted network powering African treasury &amp; trade</p>
+    <div class="hero__h">
+      <h1 id="h-hero" class="h1 rv"><span class="h1__a">One interface for treasury.</span> <span class="h1__b">One network for trade.</span></h1>
+      <img class="fl fl--1" src="assets/d/t-collect.png" width="208" height="213" alt="" aria-hidden="true">
+      <img class="fl fl--2" src="assets/d/t-convert.png" width="343" height="211" alt="" aria-hidden="true">
+    </div>
+    <div class="hero__copy rv">
+      <p>Multigate brings your banking relationships, business accounts and financial operations together in one place.</p>
+      <p>Manage cash across banks, collect and send payments across African markets, and connect your suppliers to financing through one platform.</p>
+    </div>
+    <div class="hero__cta rv">
+      <a href="#book" class="btn btn--p js-book">Book a treasury review</a>
+      <a href="#financing" class="btn btn--o">Explore Payables Financing <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a>
+    </div>
+    <a href="#payco" class="hero__aud rv"><span><b>A payment provider or global platform?</b> Collect and pay out across African markets through one API.</span><em class="ul">Explore our solutions <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></em></a>
+    <span class="flag" data-confirm="'Fintech' replaced with 'payment provider' to follow the brand voice. Licences: three jurisdictions as in the copy, Uganda to be confirmed with Legal."></span>
+
+    <div class="hv rv" role="img" aria-label="A globe of Africa with an illustrative treasury card showing a consolidated group cash position of 18.0 million US dollars.">
+      <canvas class="wire hv__wire" data-model="globe" data-color="#1362f5" aria-hidden="true"></canvas>
+      <div class="hv__card">
+        <div class="uc__top"><span class="uc__t">Consolidated group cash position</span><em class="uc__tag">Illustrative data</em></div>
+        <p class="uc__big">$18.0M</p>
+        <div class="uc__stack"><b style="--w:47%;--c:#1362f5"></b><b style="--w:29%;--c:#5b94f9"></b><b style="--w:16%;--c:#4cf6b9"></b><b style="--w:8%;--c:#a8c6fc"></b></div>
+        <div class="uc__row"><span><i style="background:#1362f5"></i>NGN <b>47%</b></span><span><i style="background:#5b94f9"></i>USD <b>29%</b></span><span><i style="background:#4cf6b9"></i>GHS <b>16%</b></span><span><i style="background:#a8c6fc"></i>XOF <b>8%</b></span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- 03 Trust and credibility bar -->
-<section class="sec trustbar" id="credentials" aria-label="Licences, certifications and Swift status">
+<section class="cred" id="credentials" aria-label="Licences, certifications and Swift status">
   <div class="note" data-note><b>Job of this section</b><br>Early reassurance for a risk-averse reader. Every item here needs Legal or Compliance confirmation before publication.</div>
-  <div class="frame">
-    <div class="cols3">
-      <div class="col"><p class="lab">Licensed &amp; registered</p><p class="tb__v">Nigeria &middot; Canada &middot; Mauritius</p><span class="flag" data-confirm="Three jurisdictions as in the legal text. Uganda to be confirmed."></span></div>
-      <div class="col"><p class="lab">Internationally recognised certifications</p><p class="tb__v">ISO/IEC 27001 &middot; ISO 22301 &middot; ISO/IEC 20000 &middot; PCI DSS</p><span class="flag" data-confirm="These four certifications were not in the signed-off copy. Compliance to confirm each one and its scope before publication."></span></div>
-      <div class="col"><p class="lab">Swift connectivity</p><p class="tb__v">Swift L2BA Certified</p><span class="flag" data-confirm="Confirm the exact Swift certification wording with Compliance."></span></div>
-    </div>
+  <div class="wrap cred__g">
+    <div><p class="cred__l">Licensed &amp; registered</p><p class="cred__v">Nigeria &middot; Canada &middot; Mauritius</p><span class="flag" data-confirm="Three jurisdictions as in the legal text. Uganda to be confirmed."></span></div>
+    <div><p class="cred__l">Internationally recognised certifications</p><p class="cred__v">ISO/IEC 27001 &middot; ISO 22301 &middot; ISO/IEC 20000 &middot; PCI DSS</p><span class="flag" data-confirm="These four certifications were not in the signed-off copy. Compliance to confirm each one and its scope before publication."></span></div>
+    <div><p class="cred__l">Swift connectivity</p><p class="cred__v">Swift L2BA Certified</p><span class="flag" data-confirm="Confirm the exact Swift certification wording with Compliance."></span></div>
   </div>
 </section>
 
 <!-- 04 The problem we solve -->
 <section class="sec" id="problem" aria-labelledby="h-problem">
   <div class="note" data-note><b>Job of this section</b><br>The four problems finance teams bring us, each paired with its answer, so a reader can find their own problem in seconds.</div>
-  <div class="frame">
-    <div class="cell cell--head cell--split">
-      <div><p class="lab">The problem we solve</p><h2 class="big big--s" id="h-problem"><span class="ln rv">Running finance across Africa</span><span class="ln ind rv" style="--d:90ms">shouldn't take ten bank portals</span><span class="ln rv" style="--d:180ms">and a spreadsheet.</span></h2></div>
-      <div class="rv"><p class="lead">Managing money across multiple banks, business entities and markets shouldn't be complicated. Yet many finance teams still spend hours tracking balances, processing payments and reconciling transactions across disconnected systems.</p><p class="lead lead--s">Here are four challenges businesses face every day.</p></div>
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow">The problem we solve</p>
+      <h2 class="h2" id="h-problem">Running finance across Africa shouldn't take ten bank portals and a spreadsheet.</h2>
+      <p class="lead">Managing money across multiple banks, business entities and markets shouldn't be complicated. Yet many finance teams still spend hours tracking balances, processing payments and reconciling transactions across disconnected systems.</p>
+      <p class="lead lead--b">Here are four challenges businesses face every day.</p>
     </div>
-    <div class="cols4 pb">
-      <article class="col pbc pbc--1">
-        <p class="lab">Cash visibility</p>
-        <h3>&ldquo;We can't easily see how much money we have.&rdquo;</h3>
-        <p class="pbc__pain">Your money is spread across different banks, accounts and currencies. Getting a complete picture means logging into multiple portals and pulling information together manually.</p>
-        <div class="pbc__ans"><p class="lab">With Multigate</p><h4>See all your money in one place.</h4><p>View your cash balances across connected banks, business entities and currencies from one central dashboard.</p><a href="#platform" class="ul">Explore Treasury Management <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
-      </article>
-      <article class="col pbc pbc--2">
-        <p class="lab">Payments &amp; collections</p>
-        <h3>&ldquo;Managing payments takes too much time.&rdquo;</h3>
-        <p class="pbc__pain">Payments require multiple steps, approvals happen over email, and incoming transfers can be difficult to identify. Your finance team spends too much time chasing transactions instead of managing finances.</p>
-        <div class="pbc__ans"><p class="lab">With Multigate</p><h4>Manage payments and collections from one place.</h4><p>Approve and send payments through connected banks, while incoming payments are automatically matched to the right customer and invoice.</p><a href="#movement" class="ul">Explore Payments &amp; Collections <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
-      </article>
-      <article class="col pbc pbc--3">
-        <p class="lab">Cross-border payments</p>
-        <h3>&ldquo;Sending money across African markets is complicated.&rdquo;</h3>
-        <p class="pbc__pain">Working across different countries often means dealing with multiple providers, unclear exchange rates and delays before money reaches its destination.</p>
-        <div class="pbc__ans"><p class="lab">With Multigate</p><h4>Collect, convert and send money across markets.</h4><p>Access local collections, clearly quoted FX rates and payments in NGN, GHS and XOF through one connection. <span class="flag" data-confirm="The copy says 'transparent FX rates'. Kept as 'clearly quoted' until transparent pricing is a proven strength."></span></p><a href="#movement" class="ul">Explore Payments &amp; FX <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
-      </article>
-      <article class="col pbc pbc--4">
-        <p class="lab">Supplier financing</p>
-        <h3>&ldquo;Our suppliers can't afford to wait for payment.&rdquo;</h3>
-        <p class="pbc__pain">Long payment cycles can leave suppliers waiting weeks or months for money they've already earned. Many have to borrow at high interest rates just to keep their businesses running. <span class="flag" data-confirm="'Weeks or months' and 'high interest rates' are new claims. Confirm they can be supported."></span></p>
-        <div class="pbc__ans"><p class="lab">With Multigate</p><h4>Give eligible suppliers access to early payments.</h4><p>Suppliers can receive early payment from participating banks and lenders on invoices you've already approved, while your original payment terms remain unchanged.</p><a href="#financing" class="ul">Explore Payables Financing <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
-      </article>
-    </div>
+
+    <article class="prow">
+      <div class="prow__t rv">
+        <p class="prow__n">01</p>
+        <p class="eyebrow">Cash visibility</p>
+        <h3 class="h3">&ldquo;We can't easily see how much money we have.&rdquo;</h3>
+        <p class="body">Your money is spread across different banks, accounts and currencies. Getting a complete picture means logging into multiple portals and pulling information together manually.</p>
+        <div class="sol"><p class="chip">With Multigate</p><h4>See all your money in one place.</h4><p class="body">View your cash balances across connected banks, business entities and currencies from one central dashboard.</p><a href="#platform" class="ul">Explore Treasury Management <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
+      </div>
+      <div class="prow__v rv" role="img" aria-label="Illustrative example: balances from four banks brought together into one cash position.">
+        <div class="uc uc--stack"><div class="uc__top"><span class="uc__t">Your banks</span><em class="uc__tag">Illustrative data</em></div>
+          <div class="ur"><i class="ur__i">A</i><b>Bank A</b><span>NGN</span><em>$4.1M</em></div><div class="ur"><i class="ur__i">B</i><b>Bank B</b><span>USD</span><em>$5.2M</em></div><div class="ur"><i class="ur__i">C</i><b>Bank C</b><span>GHS</span><em>$2.9M</em></div><div class="ur"><i class="ur__i">D</i><b>Bank D</b><span>XOF</span><em>$1.5M</em></div></div>
+        <div class="uc uc--hi"><div class="uc__top"><span class="uc__t">All accounts, one view</span><em class="uc__tag uc__tag--b">Live balances</em></div><p class="uc__big">$18.0M</p><p class="uc__s">Group cash position, USD equivalent</p></div>
+      </div>
+    </article>
+
+    <article class="prow">
+      <div class="prow__t rv">
+        <p class="prow__n">02</p>
+        <p class="eyebrow">Payments &amp; collections</p>
+        <h3 class="h3">&ldquo;Managing payments takes too much time.&rdquo;</h3>
+        <p class="body">Payments require multiple steps, approvals happen over email, and incoming transfers can be difficult to identify. Your finance team spends too much time chasing transactions instead of managing finances.</p>
+        <div class="sol"><p class="chip">With Multigate</p><h4>Manage payments and collections from one place.</h4><p class="body">Approve and send payments through connected banks, while incoming payments are automatically matched to the right customer and invoice.</p><a href="#movement" class="ul">Explore Payments &amp; Collections <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
+      </div>
+      <div class="prow__v rv" role="img" aria-label="Illustrative example: three payments awaiting approval and two incoming payments matched to invoices.">
+        <div class="uc"><div class="uc__top"><span class="uc__t">Payments awaiting approval</span><em class="uc__tag">Illustrative data</em></div>
+          <div class="ur"><i class="ur__i">A</i><b>Supplier A</b><span>Swift payment</span><em class="ok">Approved</em></div><div class="ur"><i class="ur__i">B</i><b>Supplier B</b><span>Local payment</span><em class="ok">Approved</em></div><div class="ur"><i class="ur__i">C</i><b>Supplier C</b><span>Swift payment</span><em class="wt">Waiting</em></div></div>
+        <div class="uc uc--hi"><div class="uc__top"><span class="uc__t">Incoming payments</span></div><div class="ur"><i class="ur__i">1</i><b>Payer A</b><span>Invoice 0142</span><em class="ok">Matched</em></div><div class="ur"><i class="ur__i">2</i><b>Payer B</b><span>Invoice 0143</span><em class="ok">Matched</em></div></div>
+      </div>
+    </article>
+
+    <article class="prow">
+      <div class="prow__t rv">
+        <p class="prow__n">03</p>
+        <p class="eyebrow">Cross-border payments</p>
+        <h3 class="h3">&ldquo;Sending money across African markets is complicated.&rdquo;</h3>
+        <p class="body">Working across different countries often means dealing with multiple providers, unclear exchange rates and delays before money reaches its destination.</p>
+        <div class="sol"><p class="chip">With Multigate</p><h4>Collect, convert and send money across markets.</h4><p class="body">Access local collections, clearly quoted FX rates and payments in NGN, GHS and XOF through one connection. <span class="flag" data-confirm="The copy says 'transparent FX rates'. Kept as 'clearly quoted' until transparent pricing is a proven strength."></span></p><a href="#movement" class="ul">Explore Payments &amp; FX <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
+      </div>
+      <div class="prow__v rv" role="img" aria-label="Illustrative example: a conversion from Nigerian naira to US dollars at a quoted rate, and payouts in NGN, GHS and XOF.">
+        <div class="uc"><div class="uc__top"><span class="uc__t">Convert</span><em class="uc__tag">Illustrative data</em></div><div class="fxp"><div><span>From</span><b>NGN</b></div><i class="arr-c">&rarr;</i><div><span>To</span><b>USD</b></div></div><p class="uc__s">Rate quoted before you confirm</p></div>
+        <div class="uc uc--hi"><div class="uc__top"><span class="uc__t">Pay out in</span></div><div class="chips"><span>NGN</span><span>GHS</span><span>XOF</span></div><p class="uc__s">One connection, tracked from instruction to credit</p></div>
+      </div>
+    </article>
+
+    <article class="prow">
+      <div class="prow__t rv">
+        <p class="prow__n">04</p>
+        <p class="eyebrow">Supplier financing</p>
+        <h3 class="h3">&ldquo;Our suppliers can't afford to wait for payment.&rdquo;</h3>
+        <p class="body">Long payment cycles can leave suppliers waiting weeks or months for money they've already earned. Many have to borrow at high interest rates just to keep their businesses running. <span class="flag" data-confirm="'Weeks or months' and 'high interest rates' are new claims. Confirm they can be supported."></span></p>
+        <div class="sol"><p class="chip">With Multigate</p><h4>Give eligible suppliers access to early payments.</h4><p class="body">Suppliers can receive early payment from participating banks and lenders on invoices you've already approved, while your original payment terms remain unchanged.</p><a href="#financing" class="ul">Explore Payables Financing <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
+      </div>
+      <div class="prow__v rv" role="img" aria-label="Illustrative example: an approved invoice, a financing offer from a participating financier, and the supplier paid early while the buyer pays on the original due date.">
+        <div class="uc"><div class="uc__top"><span class="uc__t">Invoice 0207</span><em class="uc__tag">Illustrative data</em></div><div class="tl"><div class="tl__r on"><i></i><b>Approved by you</b><span>Day 1</span></div><div class="tl__r on"><i></i><b>Offer from a participating financier</b><span>Day 2</span></div><div class="tl__r on"><i></i><b>Supplier paid early</b><span>Day 3</span></div><div class="tl__r"><i></i><b>You pay on the original due date</b><span>Due date</span></div></div></div>
+        <div class="uc uc--hi"><div class="uc__top"><span class="uc__t">Your payment terms</span></div><p class="uc__s">Unchanged</p></div>
+      </div>
+    </article>
   </div>
 </section>
 
-<!-- 05 Mission and vision (dark) -->
-<section class="sec dark" id="mission" aria-labelledby="h-mission">
+<!-- 05 Mission and vision -->
+<section class="sec sec--mis" id="mission" aria-labelledby="h-mission">
   <div class="note" data-note><b>Job of this section</b><br>What Multigate is, in the company's own mission and vision words.</div>
-  <div class="frame">
-    <div class="cell cell--center cell--mission">
-      <i class="mark" aria-hidden="true"></i>
-      <p class="lab">Our mission</p>
-      <h2 class="state rv" id="h-mission">We connect African businesses and financial institutions on one network, helping businesses manage cash, move money and finance their trade.</h2>
-      <div class="mis__cols rv">
-        <p>Businesses use the Treasury &amp; Trade OS to manage their finances, move money across markets and finance their trade. <span class="flag" data-confirm="'Treasury &amp; Trade OS' is the product name in the new copy. The signed-off copy used 'the Multigate system'. Confirm the name before it is used everywhere."></span></p>
-        <p>Banks, payment providers and financiers connect to the same network to serve those businesses.</p>
+  <div class="wrap">
+    <div class="mis">
+      <p class="eyebrow rv">Our mission</p>
+      <h2 class="h2 h2--l rv" id="h-mission">We connect African businesses and financial institutions on one network, helping businesses manage cash, move money and finance their trade.</h2>
+      <div class="mis__c rv">
+        <p class="lead">Businesses use the Treasury &amp; Trade OS to manage their finances, move money across markets and finance their trade. <span class="flag" data-confirm="'Treasury &amp; Trade OS' is the product name in the new copy. The signed-off copy used 'the Multigate system'. Confirm the name before it is used everywhere."></span></p>
+        <p class="lead">Banks, payment providers and financiers connect to the same network to serve those businesses.</p>
       </div>
-      <p class="lab lab--v rv">Our vision <span>To be the trusted network powering African treasury &amp; trade.</span></p>
+      <div class="vis rv"><span class="chip chip--l">Our vision</span><p class="vis__t">To be the trusted network powering African treasury &amp; trade.</p></div>
     </div>
   </div>
 </section>
 
 <!-- 06 The enterprise interface -->
 <section class="sec" id="platform" aria-labelledby="h-platform">
-  <div class="note" data-note><b>Job of this section</b><br>The first thing a business does: see all its cash and run treasury from one place. The dashboard shows illustrative data and says so.</div>
-  <div class="frame">
-    <div class="cell cell--head cell--split">
-      <div><p class="lab">01 &middot; The enterprise interface</p><h2 class="big" id="h-platform"><span class="ln rv">See and control</span><span class="ln ind rv" style="--d:90ms">your money</span></h2></div>
-      <div class="rv"><p class="lead">Connect your banks, business entities and currencies to get a complete view of your cash in one place.</p><p class="lead lead--s">From the same platform, your finance team can approve payments, manage liquidity, track cash positions and oversee banking relationships across your organisation.</p><a href="#book" class="bt js-book">Explore the Treasury &amp; Trade OS <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a></div>
+  <div class="note" data-note><b>Job of this section</b><br>The first thing a business does: see all its cash and run treasury from one place. The dashboards show illustrative data and say so.</div>
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow">01 &middot; The enterprise interface</p>
+      <h2 class="h2" id="h-platform">See and control your money.</h2>
+      <p class="lead">Connect your banks, business entities and currencies to get a complete view of your cash in one place.</p>
+      <p class="lead lead--b">From the same platform, your finance team can approve payments, manage liquidity, track cash positions and oversee banking relationships across your organisation.</p>
+      <a href="#book" class="btn btn--p js-book">Explore the Treasury &amp; Trade OS <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a>
     </div>
-    <div class="tabs" id="tabs">
-      <div class="tabs__l"><div class="tabs__stick">
-        <div class="tabs__t on"><span class="tagbox"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14"/><path d="M4 10h16M9 10v9"/></svg>01 &middot; Cash</span><div class="tabs__body"><h3>Cash &amp; Liquidity</h3><p>See cash balances across your group, entities and currencies. Manage liquidity, forecasts and FX exposure from one place.</p></div></div>
-        <div class="tabs__t"><span class="tagbox"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>02 &middot; Payments</span><div class="tabs__body"><h3>Treasury Payments</h3><p>Manage payment approvals and send Swift payments through your connected banks.</p></div></div>
-        <div class="tabs__t"><span class="tagbox"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10l8-5 8 5M6 10v8M12 10v8M18 10v8M4 19h16"/></svg>03 &middot; Banks</span><div class="tabs__body"><h3>Bank Connectivity</h3><p>Connect your banks through Swift (MT &amp; MX), FileAct, host-to-host connections and APIs.</p></div></div>
-        <div class="tabs__t"><span class="tagbox"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/><path d="M11 7h5v6M13 17H8v-6"/></svg>04 &middot; ERP</span><div class="tabs__body"><h3>ERP Integration</h3><p>Connect your ERP to bring in bank statements, send payment files and reconcile transactions.</p></div></div>
-        <div class="dash" id="tabDash" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
-      </div></div>
-      <div class="tabs__r">
-        <div class="tp"><div class="dsh" role="img" aria-label="Illustrative treasury dashboard showing a group cash position of 18.0 million US dollars across Nigerian naira, US dollars, Ghanaian cedi and CFA franc balances, connected banks and accounts, and three payments awaiting approval.">
-          <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
-          <div class="dsh__body"><ul class="dsh__nav"><li class="on">Cash</li><li>Payments</li><li>Banks</li><li>ERP</li></ul>
-          <div class="dsh__main">
-            <div class="dsh__head"><div><p class="dsh__k">Consolidated group cash position</p><p class="dsh__big">$18.0M</p><p class="dsh__s">USD equivalent &middot; 4 currencies &middot; 4 connected banks</p></div><span class="dsh__pill">3 payments awaiting approval</span></div>
-            <div class="dsh__stack"><b style="--w:47%;--c:#1362f5"></b><b style="--w:29%;--c:#5b94f9"></b><b style="--w:16%;--c:#4cf6b9"></b><b style="--w:8%;--c:#a8c6fc"></b></div>
-            <div class="dsh__split">
-              <div><p class="dsh__k">Balances by currency</p><table class="dsh__t"><thead><tr><th>Currency</th><th>Share</th><th>USD equivalent</th></tr></thead><tbody><tr><td><i style="background:#1362f5"></i>NGN</td><td>47%</td><td>$8.4M</td></tr><tr><td><i style="background:#5b94f9"></i>USD</td><td>29%</td><td>$5.2M</td></tr><tr><td><i style="background:#4cf6b9"></i>GHS</td><td>16%</td><td>$2.9M</td></tr><tr><td><i style="background:#a8c6fc"></i>XOF</td><td>8%</td><td>$1.5M</td></tr></tbody></table></div>
-              <div><p class="dsh__k">Connected banks and accounts</p><ul class="dsh__l"><li><b>Bank A</b><span>4 accounts</span><em class="ok">Live</em></li><li><b>Bank B</b><span>3 accounts</span><em class="ok">Live</em></li><li><b>Bank C</b><span>2 accounts</span><em class="ok">Live</em></li><li><b>Bank D</b><span>2 accounts</span><em class="ok">Live</em></li></ul></div>
-            </div>
-          </div></div>
-        </div></div>
-        <div class="tp"><div class="dsh" role="img" aria-label="Illustrative payments view: three supplier payments, two approved and one waiting for approval.">
-          <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
-          <div class="dsh__body"><ul class="dsh__nav"><li>Cash</li><li class="on">Payments</li><li>Banks</li><li>ERP</li></ul>
-          <div class="dsh__main">
-            <div class="dsh__head"><div><p class="dsh__k">Treasury payments</p><p class="dsh__big">3 awaiting approval</p><p class="dsh__s">Sent through your connected banks</p></div></div>
-            <table class="dsh__t dsh__t--w"><thead><tr><th>Beneficiary</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>Supplier A</td><td>Swift payment</td><td>USD 120,000</td><td><em class="ok">Approved</em></td></tr><tr><td>Supplier B</td><td>Local payment</td><td>GHS 310,000</td><td><em class="ok">Approved</em></td></tr><tr><td>Supplier C</td><td>Swift payment</td><td>USD 85,000</td><td><em class="wt">Waiting for approval</em></td></tr></tbody></table>
-            <p class="dsh__btn">Approve and send</p>
-          </div></div>
-        </div></div>
-        <div class="tp"><div class="dsh" role="img" aria-label="Illustrative bank connectivity view: four banks connected by Swift, FileAct, host-to-host and API.">
-          <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
-          <div class="dsh__body"><ul class="dsh__nav"><li>Cash</li><li>Payments</li><li class="on">Banks</li><li>ERP</li></ul>
-          <div class="dsh__main">
-            <div class="dsh__head"><div><p class="dsh__k">Bank connectivity</p><p class="dsh__big">4 banks connected</p><p class="dsh__s">Your banks, your way</p></div></div>
-            <table class="dsh__t dsh__t--w"><thead><tr><th>Bank</th><th>Connection</th><th>Status</th></tr></thead><tbody><tr><td>Bank A</td><td>Swift (MT &amp; MX)</td><td><em class="ok">Live</em></td></tr><tr><td>Bank B</td><td>FileAct</td><td><em class="ok">Live</em></td></tr><tr><td>Bank C</td><td>Host-to-host</td><td><em class="ok">Live</em></td></tr><tr><td>Bank D</td><td>API</td><td><em class="ok">Live</em></td></tr></tbody></table>
-          </div></div>
-        </div></div>
-        <div class="tp"><div class="dsh" role="img" aria-label="Illustrative ERP view: bank statements in, payment files out, transactions reconciled.">
-          <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
-          <div class="dsh__body"><ul class="dsh__nav"><li>Cash</li><li>Payments</li><li>Banks</li><li class="on">ERP</li></ul>
-          <div class="dsh__main">
-            <div class="dsh__head"><div><p class="dsh__k">ERP integration</p><p class="dsh__big">Connected</p><p class="dsh__s">Statements in, payment files out</p></div></div>
-            <table class="dsh__t dsh__t--w"><thead><tr><th>Flow</th><th>Direction</th><th>Status</th></tr></thead><tbody><tr><td>Bank statements</td><td>Bank to ERP</td><td><em class="ok">Synced</em></td></tr><tr><td>Payment files</td><td>ERP to bank</td><td><em class="ok">Sent</em></td></tr><tr><td>Transactions</td><td>Statements to ledger</td><td><em class="ok">Reconciled</em></td></tr></tbody></table>
-          </div></div>
-        </div></div>
+  </div>
+  <div class="pin pin--fx" id="fx" style="--n:4">
+    <div class="pin__st">
+      <div class="wrap fx">
+        <ul class="fx__l" role="tablist" aria-label="Enterprise interface features">
+          <li><button type="button" class="on" data-s="0" role="tab"><span>01</span>Cash &amp; Liquidity</button></li>
+          <li><button type="button" data-s="1" role="tab"><span>02</span>Treasury Payments</button></li>
+          <li><button type="button" data-s="2" role="tab"><span>03</span>Bank Connectivity</button></li>
+          <li><button type="button" data-s="3" role="tab"><span>04</span>ERP Integration</button></li>
+        </ul>
+        <div class="fx__v">
+          <div class="fx__bg" aria-hidden="true"><img class="fx__ic on" data-v="0" src="assets/d/t-collect.png" alt=""><img class="fx__ic" data-v="1" src="assets/d/t-convert.png" alt=""><img class="fx__ic" data-v="2" src="assets/d/t-pay.png" alt=""><img class="fx__ic" data-v="3" src="assets/d/t-finance.png" alt=""></div>
+          <div class="fx__card on" data-v="0"><div class="dsh" role="img" aria-label="Illustrative treasury dashboard: a consolidated group cash position of 18.0 million US dollars across NGN, USD, GHS and XOF, and four connected banks.">
+            <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
+            <div class="dsh__main">
+              <p class="dsh__k">Consolidated group cash position</p><p class="dsh__big">$18.0M</p><p class="dsh__s">USD equivalent &middot; 4 currencies &middot; 4 connected banks</p>
+              <div class="dsh__stack"><b style="--w:47%;--c:#1362f5"></b><b style="--w:29%;--c:#5b94f9"></b><b style="--w:16%;--c:#4cf6b9"></b><b style="--w:8%;--c:#a8c6fc"></b></div>
+              <table class="dsh__t"><thead><tr><th>Currency</th><th>Share</th><th>USD equivalent</th></tr></thead><tbody><tr><td><i style="background:#1362f5"></i>NGN</td><td>47%</td><td>$8.4M</td></tr><tr><td><i style="background:#5b94f9"></i>USD</td><td>29%</td><td>$5.2M</td></tr><tr><td><i style="background:#4cf6b9"></i>GHS</td><td>16%</td><td>$2.9M</td></tr><tr><td><i style="background:#a8c6fc"></i>XOF</td><td>8%</td><td>$1.5M</td></tr></tbody></table>
+            </div></div></div>
+          <div class="fx__card" data-v="1"><div class="dsh" role="img" aria-label="Illustrative payments view: three supplier payments, two approved and one waiting for approval.">
+            <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
+            <div class="dsh__main"><p class="dsh__k">Treasury payments</p><p class="dsh__big">3 awaiting approval</p><p class="dsh__s">Sent through your connected banks</p>
+              <table class="dsh__t dsh__t--w"><thead><tr><th>Beneficiary</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>Supplier A</td><td>Swift payment</td><td>USD 120,000</td><td><em class="ok">Approved</em></td></tr><tr><td>Supplier B</td><td>Local payment</td><td>GHS 310,000</td><td><em class="ok">Approved</em></td></tr><tr><td>Supplier C</td><td>Swift payment</td><td>USD 85,000</td><td><em class="wt">Waiting</em></td></tr></tbody></table>
+              <p class="dsh__btn">Approve and send</p></div></div></div>
+          <div class="fx__card" data-v="2"><div class="dsh" role="img" aria-label="Illustrative bank connectivity view: four banks connected by Swift, FileAct, host-to-host and API.">
+            <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
+            <div class="dsh__main"><p class="dsh__k">Bank connectivity</p><p class="dsh__big">4 banks connected</p><p class="dsh__s">Your banks, your way</p>
+              <table class="dsh__t dsh__t--w"><thead><tr><th>Bank</th><th>Connection</th><th>Status</th></tr></thead><tbody><tr><td>Bank A</td><td>Swift (MT &amp; MX)</td><td><em class="ok">Live</em></td></tr><tr><td>Bank B</td><td>FileAct</td><td><em class="ok">Live</em></td></tr><tr><td>Bank C</td><td>Host-to-host</td><td><em class="ok">Live</em></td></tr><tr><td>Bank D</td><td>API</td><td><em class="ok">Live</em></td></tr></tbody></table></div></div></div>
+          <div class="fx__card" data-v="3"><div class="dsh" role="img" aria-label="Illustrative ERP view: bank statements in, payment files out, transactions reconciled.">
+            <div class="dsh__bar"><span>Group treasury</span><em>Illustrative data</em></div>
+            <div class="dsh__main"><p class="dsh__k">ERP integration</p><p class="dsh__big">Connected</p><p class="dsh__s">Statements in, payment files out</p>
+              <table class="dsh__t dsh__t--w"><thead><tr><th>Flow</th><th>Direction</th><th>Status</th></tr></thead><tbody><tr><td>Bank statements</td><td>Bank to ERP</td><td><em class="ok">Synced</em></td></tr><tr><td>Payment files</td><td>ERP to bank</td><td><em class="ok">Sent</em></td></tr><tr><td>Transactions</td><td>Statements to ledger</td><td><em class="ok">Reconciled</em></td></tr></tbody></table></div></div></div>
+        </div>
+        <div class="fx__c">
+          <p class="on" data-c="0">See cash balances across your group, entities and currencies. Manage liquidity, forecasts and FX exposure from one place.</p>
+          <p data-c="1">Manage payment approvals and send Swift payments through your connected banks.</p>
+          <p data-c="2">Connect your banks through Swift (MT &amp; MX), FileAct, host-to-host connections and APIs.</p>
+          <p data-c="3">Connect your ERP to bring in bank statements, send payment files and reconcile transactions.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 07 Customers and partners -->
-<section class="sec" id="trusted" aria-labelledby="h-trusted">
+<!-- 07 Customers and partners (dark logo panel) -->
+<section class="sec sec--cus" id="trusted" aria-labelledby="h-trusted">
   <div class="note" data-note><b>Job of this section</b><br>Proof by name, in two groups. Names are text until each organisation gives written consent and an approved logo file.</div>
-  <div class="frame">
-    <div class="cell cell--head cell--split">
-      <div><p class="lab">Trusted by businesses and financial institutions</p><h2 class="big big--s" id="h-trusted"><span class="ln rv">Supporting the businesses</span><span class="ln ind rv" style="--d:90ms">and institutions that</span><span class="ln rv" style="--d:180ms">keep trade moving</span></h2></div>
-      <p class="lead rv">From major conglomerates and manufacturers to global payment platforms, Multigate supports the financial operations that help businesses move money and operate across markets. <span class="flag" data-confirm="Naming consent for every name. Replace text with approved logo files."></span></p>
-    </div>
-    <div class="cols2 cust">
-      <div class="col"><p class="lab">Enterprises</p><ul class="cust__l"><li>NNPC Limited</li><li>Flour Mills of Nigeria</li><li>Odum FZE</li></ul></div>
-      <div class="col"><p class="lab">Financial institutions &amp; global platforms</p><ul class="cust__l"><li>XTransfer</li><li>PingPong</li><li>LianLian</li><li>YeePay</li><li>TapTapSend</li></ul></div>
+  <div class="wrap">
+    <div class="cust">
+      <p class="eyebrow">Trusted by businesses and financial institutions</p>
+      <h2 class="h2" id="h-trusted">Supporting the businesses and institutions that keep trade moving.</h2>
+      <p class="cust__p">From major conglomerates and manufacturers to global payment platforms, Multigate supports the financial operations that help businesses move money and operate across markets. <span class="flag" data-confirm="Naming consent for every name. Replace text with approved logo files."></span></p>
+      <p class="cust__g">Enterprises</p>
+      <ul class="tiles"><li>NNPC Limited</li><li>Flour Mills of Nigeria</li><li>Odum FZE</li></ul>
+      <p class="cust__g">Financial institutions &amp; global platforms</p>
+      <ul class="tiles"><li>XTransfer</li><li>PingPong</li><li>LianLian</li><li>YeePay</li><li>TapTapSend</li></ul>
     </div>
   </div>
 </section>
 
-<!-- 08 Payments and FX -->
-<section class="sec" id="movement" aria-labelledby="h-movement">
-  <div class="note" data-note><b>Job of this section</b><br>The second thing a business does: collect, convert and pay across African markets, shown as one connected journey.</div>
-  <div class="frame">
-    <div class="cell cell--head cell--split">
-      <div><p class="lab">02 &middot; Payments &amp; FX</p><h2 class="big" id="h-movement"><span class="ln rv">Move and settle money</span><span class="ln ind rv" style="--d:90ms">across markets</span></h2></div>
-      <div class="rv"><p class="lead">Collect payments locally, convert between currencies and pay beneficiaries across African markets through one connection.</p><p class="lead lead--s">Whether you're managing corporate payments or powering a global payment platform, Multigate helps you move money with greater visibility and control.</p></div>
+<!-- 08 Payments and FX (dark numbered panel) -->
+<section class="sec sec--pan" id="movement" aria-labelledby="h-movement">
+  <div class="note" data-note><b>Job of this section</b><br>The second thing a business does: collect, convert and pay across African markets, as one connected journey.</div>
+  <div class="pin pin--st" id="steps" style="--n:3">
+    <div class="pin__st">
+      <div class="wrap">
+        <div class="dk">
+          <div class="dk__l">
+            <p class="dk__e">02 &middot; Payments &amp; FX</p>
+            <h2 class="h2 h2--w" id="h-movement">Move and settle money across markets.</h2>
+            <p class="dk__p">Collect payments locally, convert between currencies and pay beneficiaries across African markets through one connection.</p>
+            <p class="dk__p dk__p--d">Whether you're managing corporate payments or powering a global payment platform, Multigate helps you move money with greater visibility and control.</p>
+            <ol class="stp" role="tablist" aria-label="Collect, convert and pay">
+              <li class="on"><button type="button" data-s="0" role="tab"><span>01.</span>Collect</button><p>Local-currency virtual accounts in NGN, GHS and XOF. Receive payments with incoming transactions automatically matched to the right payer and invoice. <span class="flag" data-confirm="'Virtual accounts' is new product detail. The signed-off copy said 'local accounts'. Confirm with Product."></span></p></li>
+              <li><button type="button" data-s="1" role="tab"><span>02.</span>Convert</button><p>Convert between African currencies and USD with clearly quoted exchange rates and settlement to your nominated account. <span class="flag" data-confirm="The copy says 'transparent exchange rates'. Kept as 'clearly quoted' for now."></span></p></li>
+              <li><button type="button" data-s="2" role="tab"><span>03.</span>Pay</button><p>Send supplier and cross-border payments in NGN, GHS and XOF. Track each transaction from instruction to credit.</p></li>
+            </ol>
+            <a href="#coverage" class="ul ul--w">See currency availability <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a>
+          </div>
+          <div class="dk__r">
+            <div class="dk__in">
+              <div class="dk__vs">
+                <div class="dkv on" data-v="0" role="img" aria-label="Illustrative example of collections: local accounts in NGN, GHS and XOF, and incoming payments matched to payers and invoices.">
+                  <div class="wc"><b>Local accounts</b><span>Virtual accounts in NGN, GHS and XOF</span><div class="chips chips--s"><span>NGN</span><span>GHS</span><span>XOF</span></div></div>
+                  <div class="wc"><b>Payer A</b><span>Invoice 0142</span><em class="ok">Matched</em></div>
+                  <div class="wc"><b>Payer B</b><span>Invoice 0143</span><em class="ok">Matched</em></div>
+                  <div class="wc"><b>Payer C</b><span>Invoice 0144</span><em class="ok">Matched</em></div>
+                </div>
+                <div class="dkv" data-v="1" role="img" aria-label="Illustrative example of a conversion from NGN to USD at a quoted rate, settled to a nominated account.">
+                  <div class="wc"><b>From</b><span>Nigerian naira</span><div class="chips chips--s"><span>NGN</span></div></div>
+                  <div class="wc"><b>Exchange rate</b><span>Clearly quoted before you confirm</span><em class="ok">Quoted</em></div>
+                  <div class="wc"><b>To</b><span>US dollars</span><div class="chips chips--s"><span>USD</span></div></div>
+                  <div class="wc"><b>Settlement</b><span>To your nominated account</span><em class="ok">Ready</em></div>
+                </div>
+                <div class="dkv" data-v="2" role="img" aria-label="Illustrative example of a payment tracked from instruction to credit.">
+                  <div class="wc"><b>Pay suppliers and partners</b><span>Local and cross-border payments</span><div class="chips chips--s"><span>NGN</span><span>GHS</span><span>XOF</span></div></div>
+                  <div class="wc"><b>Instruction</b><span>Payment instructed</span><em class="ok">Done</em></div>
+                  <div class="wc"><b>Sent</b><span>Through your connected bank</span><em class="ok">Done</em></div>
+                  <div class="wc"><b>Credit</b><span>Beneficiary credited</span><em class="ok">Done</em></div>
+                </div>
+              </div>
+              <p class="dk__ill">Illustrative example</p>
+              <img class="dk__ic" src="assets/d/t-convert.png" alt="" aria-hidden="true">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <ol class="cols3 mvs" aria-label="Collect, convert and pay">
-      <li class="col mvc"><p class="lab">01 &middot; Collect</p><div class="mvc__art"><img src="assets/d/icon-collect.png" width="476" height="380" alt="" aria-hidden="true"></div><h3>Collect</h3><p>Local-currency virtual accounts in NGN, GHS and XOF. Receive payments with incoming transactions automatically matched to the right payer and invoice. <span class="flag" data-confirm="'Virtual accounts' is new product detail. The signed-off copy said 'local accounts'. Confirm with Product."></span></p>
-        <div class="mini" role="img" aria-label="Illustrative example: two incoming payments matched to a payer and invoice."><p class="mini__h"><span>Incoming payments</span><em>Illustrative</em></p><div class="mini__r"><b>Payer A</b><span>Invoice 0142</span><em class="ok">Matched</em></div><div class="mini__r"><b>Payer B</b><span>Invoice 0143</span><em class="ok">Matched</em></div></div></li>
-      <li class="col mvc"><p class="lab">02 &middot; Convert</p><div class="mvc__art"><img src="assets/d/icon-convert.png" width="476" height="380" alt="" aria-hidden="true"></div><h3>Convert</h3><p>Convert between African currencies and USD with clearly quoted exchange rates and settlement to your nominated account. <span class="flag" data-confirm="The copy says 'transparent exchange rates'. Kept as 'clearly quoted' for now."></span></p>
-        <div class="mini" role="img" aria-label="Illustrative example: a currency conversion from NGN to USD, settled to a nominated account."><p class="mini__h"><span>Currency conversion</span><em>Illustrative</em></p><div class="mini__r"><b>From</b><span>NGN</span><em>Rate quoted</em></div><div class="mini__r"><b>To</b><span>USD</span><em>Your nominated account</em></div></div></li>
-      <li class="col mvc"><p class="lab">03 &middot; Pay</p><div class="mvc__art"><img src="assets/d/icon-pay.png" width="476" height="380" alt="" aria-hidden="true"></div><h3>Pay</h3><p>Send supplier and cross-border payments in NGN, GHS and XOF. Track each transaction from instruction to credit.</p>
-        <div class="mini" role="img" aria-label="Illustrative example: a payment tracked from instruction to credit."><p class="mini__h"><span>Payment tracking</span><em>Illustrative</em></p><div class="mini__trk"><span class="on">Instruction</span><span class="on">Sent</span><span>Credited</span></div></div></li>
-    </ol>
-    <div class="cell cell--foot"><a href="#coverage" class="ul">See currency availability <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div>
   </div>
 </section>
 
 <!-- 09 Payables Financing -->
-<section class="sec sec--tint" id="financing" aria-labelledby="h-financing">
-  <div class="note" data-note><b>Job of this section</b><br>Payables Financing, the flagship product, as a four-step workflow that lights up as you scroll.</div>
-  <div class="frame">
-    <div class="cell cell--head cell--split">
-      <div><p class="lab">03 &middot; Payables Financing</p><h2 class="big big--s" id="h-financing"><span class="ln rv">Get your suppliers</span><span class="ln ind rv" style="--d:90ms">paid early.</span><span class="ln rv" style="--d:180ms">Keep your terms.</span></h2><span class="flag" data-confirm="The copy headline 'Pay suppliers early. Keep your terms.' reads as if the buyer pays early. Kept the earlier wording, where financiers pay the supplier early and the buyer pays on the original due date."></span></div>
-      <div class="rv"><p class="lead">Give eligible suppliers access to early payment from participating banks and lenders on invoices you've already approved.</p><p class="lead lead--s">Your payment terms remain unchanged, while your suppliers get access to the cash they need to keep their businesses moving.</p></div>
+<section class="sec" id="financing" aria-labelledby="h-financing">
+  <div class="note" data-note><b>Job of this section</b><br>Payables Financing, the flagship product, as a simple four-step workflow.</div>
+  <div class="wrap fin">
+    <div class="fin__l rv">
+      <p class="eyebrow">03 &middot; Payables Financing</p>
+      <h2 class="h2" id="h-financing">Get your suppliers paid early. Keep your terms.</h2>
+      <span class="flag" data-confirm="The copy headline 'Pay suppliers early. Keep your terms.' reads as if the buyer pays early. Kept the earlier wording, where financiers pay the supplier early and the buyer pays on the original due date."></span>
+      <p class="lead">Give eligible suppliers access to early payment from participating banks and lenders on invoices you've already approved.</p>
+      <p class="lead lead--b">Your payment terms remain unchanged, while your suppliers get access to the cash they need to keep their businesses moving.</p>
+      <p class="fin__note">Early payments are funded by participating banks and lenders. Multigate does not lend. <span class="flag" data-confirm="Legal sign-off on 'Multigate does not lend' and the Payables Financing disclaimer."></span></p>
+      <a href="#" class="btn btn--p">How Payables Financing works <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a>
+      <div class="dots" id="finDots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
     </div>
-    <ol class="cols4 wf fl" aria-label="How Payables Financing works">
-      <li class="col fo"><p class="lab">01 &middot; Approve</p><i class="wf__dot" aria-hidden="true"></i><p>Approve supplier invoices as you normally would.</p></li>
-      <li class="col fo"><p class="lab">02 &middot; Verify</p><i class="wf__dot" aria-hidden="true"></i><p>Multigate verifies the approved invoice and makes it available to participating financiers. <span class="flag" data-confirm="'Makes it available to participating financiers' is new detail on how invoices are shared. Confirm with Product and Legal."></span></p></li>
-      <li class="col fo"><p class="lab">03 &middot; Offer &amp; fund</p><i class="wf__dot" aria-hidden="true"></i><p>Participating financiers provide financing offers. Suppliers choose whether to accept and receive early payment.</p></li>
-      <li class="col fo"><p class="lab">04 &middot; Settle</p><i class="wf__dot" aria-hidden="true"></i><p>You pay on the original invoice due date. Your payment terms remain unchanged.</p></li>
-    </ol>
-    <div class="cell cell--split cell--foot2">
-      <p class="note-s">Early payments are funded by participating banks and lenders. Multigate does not lend. <span class="flag" data-confirm="Legal sign-off on 'Multigate does not lend' and the Payables Financing disclaimer."></span></p>
-      <div><img class="fin__img" src="assets/d/icon-finance.png" width="476" height="380" alt="" aria-hidden="true"><a href="#" class="bt">How Payables Financing works <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a></div>
+    <div class="car" id="finCar">
+      <ol class="car__t" aria-label="How Payables Financing works">
+        <li class="cc"><div class="cc__v"><div class="uc uc--s"><div class="uc__top"><span class="uc__t">Invoice 0207</span><em class="uc__tag">Illustrative data</em></div><div class="ur"><i class="ur__i">A</i><b>Supplier invoice</b><span>Awaiting your approval</span></div><p class="dsh__btn">Approve invoice</p></div></div><p class="cc__n">01 &middot; Approve</p><p class="cc__b">Approve supplier invoices as you normally would.</p></li>
+        <li class="cc"><div class="cc__v"><div class="uc uc--s"><div class="uc__top"><span class="uc__t">Invoice 0207</span><em class="uc__tag">Illustrative data</em></div><div class="ur"><i class="ur__i">A</i><b>Approved invoice</b><span>Verified on Multigate</span><em class="ok">Verified</em></div></div></div><p class="cc__n">02 &middot; Verify</p><p class="cc__b">Multigate verifies the approved invoice and makes it available to participating financiers. <span class="flag" data-confirm="'Makes it available to participating financiers' is new detail on how invoices are shared. Confirm with Product and Legal."></span></p></li>
+        <li class="cc"><div class="cc__v"><div class="uc uc--s"><div class="uc__top"><span class="uc__t">Financing offer</span><em class="uc__tag">Illustrative data</em></div><div class="ur"><i class="ur__i">F</i><b>Participating financier</b><span>Early payment offer</span></div><div class="duo"><span class="duo__a">Accept</span><span class="duo__b">Decline</span></div></div></div><p class="cc__n">03 &middot; Offer &amp; fund</p><p class="cc__b">Participating financiers provide financing offers. Suppliers choose whether to accept and receive early payment.</p></li>
+        <li class="cc"><div class="cc__v"><div class="uc uc--s"><div class="uc__top"><span class="uc__t">Invoice 0207</span><em class="uc__tag">Illustrative data</em></div><div class="ur"><i class="ur__i">&#10003;</i><b>Original due date</b><span>Payment terms unchanged</span><em class="ok">You pay</em></div></div></div><p class="cc__n">04 &middot; Settle</p><p class="cc__b">You pay on the original invoice due date. Your payment terms remain unchanged.</p></li>
+      </ol>
+      <div class="car__nav"><button type="button" class="car__b" data-dir="-1" aria-label="Previous step">&larr;</button><button type="button" class="car__b" data-dir="1" aria-label="Next step">&rarr;</button></div>
     </div>
   </div>
 </section>
 
 <!-- 10 Why a network -->
 <section class="sec" id="network" aria-labelledby="h-network">
-  <div class="note" data-note><b>Job of this section</b><br>One network, two sides. The diagram shows who connects to whom, then each reader finds their own door as the drawing turns.</div>
-  <div class="frame">
-    <div class="cell cell--center">
-      <p class="lab">Why a network</p>
-      <h2 class="big big--s" id="h-network"><span class="ln rv">One network connecting</span><span class="ln rv" style="--d:90ms">businesses to the financial</span><span class="ln rv" style="--d:180ms">institutions that power them</span></h2>
-      <div class="net__p rv"><p class="lead lead--c">Multigate brings businesses and financial institutions together on one connected platform.</p><p class="lead lead--c">Businesses get one place to manage their banking, payments and financing. Banks, payment providers and financiers gain access to business activity they can serve.</p><p class="lead lead--c">As more institutions and businesses connect, everyone gets more ways to work together.</p></div>
+  <div class="note" data-note><b>Job of this section</b><br>One network, two sides. The diagram shows who connects to whom, then each reader finds their own door.</div>
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow">Why a network</p>
+      <h2 class="h2" id="h-network">One network connecting businesses to the financial institutions that power them.</h2>
+      <p class="lead">Multigate brings businesses and financial institutions together on one connected platform.</p>
+      <p class="lead lead--b">Businesses get one place to manage their banking, payments and financing. Banks, payment providers and financiers gain access to business activity they can serve.</p>
+      <p class="lead lead--b">As more institutions and businesses connect, everyone gets more ways to work together.</p>
     </div>
-    <div class="eco" role="img" aria-label="Ecosystem diagram: businesses connect to the Treasury and Trade OS, which connects to banks, payment providers and financiers.">
-      <div class="eco__side"><p class="lab">Businesses</p><p>Use the Treasury &amp; Trade OS to manage their finances, move money across markets and finance their trade.</p></div>
-      <svg class="eco__svg" viewBox="0 0 700 340" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
-        <g class="eco__l"><path d="M150 170H260"/><path d="M440 170C500 170 500 60 560 60"/><path d="M440 170H560"/><path d="M440 170C500 170 500 280 560 280"/></g>
-        <g class="eco__f"><path pathLength="100" d="M150 170H260"/><path pathLength="100" d="M440 170C500 170 500 60 560 60"/><path pathLength="100" d="M440 170H560"/><path pathLength="100" d="M440 170C500 170 500 280 560 280"/></g>
-        <g class="eco__n"><rect x="10" y="138" width="140" height="64" rx="3"/><text x="80" y="176">Businesses</text><rect x="560" y="28" width="130" height="64" rx="3"/><text x="625" y="66">Banks</text><rect x="560" y="138" width="130" height="64" rx="3"/><text x="625" y="171">Payment</text><text x="625" y="188">providers</text><rect x="560" y="248" width="130" height="64" rx="3"/><text x="625" y="286">Financiers</text></g>
-        <g class="eco__c"><rect x="260" y="120" width="180" height="100" rx="3"/><text x="350" y="162">Treasury &amp;</text><text x="350" y="184">Trade OS</text></g>
-      </svg>
-      <div class="eco__side"><p class="lab">Banks, payment providers and financiers</p><p>Connect to the same network to serve those businesses.</p></div>
-    </div>
-    <div class="sl" data-views="0.55,0.3,0.62|-0.4,0.2,1.05|1.0,0.42,0.95|-0.95,0.14,1.12">
-      <div class="sl__art"><canvas class="wire" data-model="gate" data-color="#1362f5" aria-hidden="true"></canvas></div>
-      <div class="sl__list">
-        <article class="sli"><div><p class="lab">Corporates</p><h3>Manage your finances from one place.</h3></div><div><p>Connect your banks, manage payments and collections, and access financing through one interface.</p><a href="#book" class="ul js-book">Book a treasury review <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div></article>
-        <article class="sli"><div><p class="lab">Financiers</p><h3>Fund approved supplier invoices.</h3></div><div><p>Access verified, buyer-approved invoices from large businesses and provide early payment to eligible suppliers.</p><a href="#" class="ul">Become a Financier <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div></article>
-        <article class="sli"><div><p class="lab">Banks</p><h3>Connect your banking services to businesses.</h3></div><div><p>Provide corporate clients with ERP connectivity and ISO 20022 messaging without building the infrastructure yourself.</p><a href="#" class="ul">Financial Infrastructure for Banks <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></div></article>
-        <article class="sli" id="payco"><div><p class="lab">Payment providers</p><h3>Reach African markets through one connection.</h3></div><div><p>Collect payments, convert currencies and pay out across supported African markets through one API.</p><a href="#" class="ul">Explore solutions for payment providers <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a><span class="flag" data-confirm="The copy labels this card 'Financial institutions' and its CTA says 'fintechs'. Both overlap with Banks and Financiers or use jargon. Changed to 'Payment providers', the term the copy uses elsewhere."></span></div></article>
+    <div class="bento">
+      <div class="bc bc--w rv">
+        <div class="eco" role="img" aria-label="Ecosystem diagram: businesses connect to the Treasury and Trade OS, which connects to banks, payment providers and financiers.">
+          <div class="eco__side"><p class="chip">Businesses</p><p>Use the Treasury &amp; Trade OS to manage their finances, move money across markets and finance their trade.</p></div>
+          <svg class="eco__svg" viewBox="0 0 700 340" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+            <g class="eco__l"><path d="M150 170H260"/><path d="M440 170C500 170 500 60 560 60"/><path d="M440 170H560"/><path d="M440 170C500 170 500 280 560 280"/></g>
+            <g class="eco__f"><path pathLength="100" d="M150 170H260"/><path pathLength="100" d="M440 170C500 170 500 60 560 60"/><path pathLength="100" d="M440 170H560"/><path pathLength="100" d="M440 170C500 170 500 280 560 280"/></g>
+            <g class="eco__n"><rect x="10" y="138" width="140" height="64"/><text x="80" y="176">Businesses</text><rect x="560" y="28" width="130" height="64"/><text x="625" y="66">Banks</text><rect x="560" y="138" width="130" height="64"/><text x="625" y="171">Payment</text><text x="625" y="190">providers</text><rect x="560" y="248" width="130" height="64"/><text x="625" y="286">Financiers</text></g>
+            <g class="eco__c"><rect x="260" y="120" width="180" height="100"/><text x="350" y="162">Treasury &amp;</text><text x="350" y="186">Trade OS</text></g>
+          </svg>
+          <div class="eco__side eco__side--r"><p class="chip">Banks, payment providers and financiers</p><p>Connect to the same network to serve those businesses.</p></div>
+        </div>
       </div>
+      <article class="bc rv"><div class="bc__v"><img src="assets/d/t-collect.png" alt="" aria-hidden="true"></div><p class="bc__e">Corporates</p><h3 class="h3 h3--s">Manage your finances from one place.</h3><p class="body">Connect your banks, manage payments and collections, and access financing through one interface.</p><a href="#book" class="ul js-book">Book a treasury review <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></article>
+      <article class="bc rv" style="--d:80ms"><div class="bc__v"><img src="assets/d/t-finance.png" alt="" aria-hidden="true"></div><p class="bc__e">Financiers</p><h3 class="h3 h3--s">Fund approved supplier invoices.</h3><p class="body">Access verified, buyer-approved invoices from large businesses and provide early payment to eligible suppliers.</p><a href="#" class="ul">Become a Financier <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></article>
+      <article class="bc rv"><div class="bc__v"><img src="assets/d/t-pay.png" alt="" aria-hidden="true"></div><p class="bc__e">Banks</p><h3 class="h3 h3--s">Connect your banking services to businesses.</h3><p class="body">Provide corporate clients with ERP connectivity and ISO 20022 messaging without building the infrastructure yourself.</p><a href="#" class="ul">Financial Infrastructure for Banks <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a></article>
+      <article class="bc rv" style="--d:80ms" id="payco"><div class="bc__v"><img src="assets/d/t-convert.png" alt="" aria-hidden="true"></div><p class="bc__e">Payment providers</p><h3 class="h3 h3--s">Reach African markets through one connection.</h3><p class="body">Collect payments, convert currencies and pay out across supported African markets through one API.</p><a href="#" class="ul">Explore solutions for payment providers <svg class="arr" width="14" height="14" aria-hidden="true"><use href="#arr"/></svg></a><span class="flag" data-confirm="The copy labels this card 'Financial institutions' and its CTA says 'fintechs'. Both overlap with Banks and Financiers or use jargon. Changed to 'Payment providers', the term the copy uses elsewhere."></span></article>
     </div>
   </div>
 </section>
@@ -284,45 +361,45 @@
 <!-- 11 Network metrics + live map -->
 <section class="sec sec--tint" id="coverage" aria-labelledby="h-coverage">
   <div class="note" data-note><b>Job of this section</b><br>The network today. Both bracketed values stay placeholders until Finance and Partnerships verify them. Pick a currency to see its markets.</div>
-  <div class="frame">
-    <div class="cell cell--head"><p class="lab">The network today</p><h2 class="big big--s" id="h-coverage"><span class="ln rv">A network built for</span><span class="ln ind rv" style="--d:90ms">African treasury and trade</span></h2><span class="flag" data-confirm="The copy says 'A growing network'. Growth needs data we do not have, so 'built for' is used instead."></span></div>
-    <div class="cols4 met">
-      <div class="col"><p class="met__v ph">[VERIFIED VALUE]</p><p class="met__l">Transaction value processed</p><span class="flag" data-confirm="Verified figure and period from Finance. The earlier draft used $950M."></span></div>
-      <div class="col"><p class="met__v ph">[VERIFIED VALUE]</p><p class="met__l">Connected partner banks</p><span class="flag" data-confirm="Verified count from Partnerships. Partner banks are not named publicly."></span></div>
-      <div class="col"><p class="met__v">3</p><p class="met__l">African currencies available for collection and payout</p></div>
-      <div class="col"><p class="met__v">3</p><p class="met__l">Regulatory jurisdictions</p><span class="flag" data-confirm="Three or four (Uganda)? Confirm with Legal."></span></div>
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow">The network today</p>
+      <h2 class="h2" id="h-coverage">A network built for African treasury and trade.</h2>
+      <span class="flag" data-confirm="The copy says 'A growing network'. Growth needs data we do not have, so 'built for' is used instead."></span>
     </div>
-    <div class="amap" id="amap">
+    <div class="met rv">
+      <div><p class="met__v ph">[VERIFIED VALUE]</p><p class="met__l">Transaction value processed</p><span class="flag" data-confirm="Verified figure and period from Finance. The earlier draft used $950M."></span></div>
+      <div><p class="met__v ph">[VERIFIED VALUE]</p><p class="met__l">Connected partner banks</p><span class="flag" data-confirm="Verified count from Partnerships. Partner banks are not named publicly."></span></div>
+      <div><p class="met__v">3</p><p class="met__l">African currencies available for collection and payout</p></div>
+      <div><p class="met__v">3</p><p class="met__l">Regulatory jurisdictions</p><span class="flag" data-confirm="Three or four (Uganda)? Confirm with Legal."></span></div>
+    </div>
+    <div class="amap rv" id="amap">
       <div class="amap__side">
-        <div class="acc__b">
-          <p class="lab">Collection and payout currencies</p>
-          <div class="amap__chips" role="group" aria-label="Currencies"><button type="button" data-cur="NGN" aria-pressed="false">NGN</button><button type="button" data-cur="GHS" aria-pressed="false">GHS</button><button type="button" data-cur="XOF" aria-pressed="false">XOF</button></div>
-          <h3 class="amap__t" id="amTitle">Where Multigate is live</h3>
-          <p class="amap__d" id="amDesc">Choose a currency to see its markets. Then select a country to zoom in.</p>
-          <button type="button" class="ul amap__back" id="amBack" hidden>&larr; Back to Africa</button>
-          <span class="flag" data-confirm="XOF scope: confirm the eight countries with Partnerships."></span>
-        </div>
+        <p class="chip">Collection and payout currencies</p>
+        <div class="amap__chips" role="group" aria-label="Currencies"><button type="button" data-cur="NGN" aria-pressed="false">NGN</button><button type="button" data-cur="GHS" aria-pressed="false">GHS</button><button type="button" data-cur="XOF" aria-pressed="false">XOF</button></div>
+        <h3 class="amap__t" id="amTitle">Where Multigate is live</h3>
+        <p class="amap__d" id="amDesc">Choose a currency to see its markets. Then select a country to zoom in.</p>
+        <button type="button" class="ul amap__back" id="amBack" hidden>&larr; Back to Africa</button>
+        <span class="flag" data-confirm="XOF scope: confirm the eight countries with Partnerships."></span>
       </div>
       <div class="amap__stage"><div class="amap__svg" id="amapSvg" role="group" aria-label="Map of Africa with the markets Multigate serves"></div></div>
     </div>
   </div>
 </section>
 
-<!-- 12 Our commitment (dark) -->
-<section class="sec dark" id="commitment" aria-labelledby="h-commit">
+<!-- 12 Our commitment -->
+<section class="sec" id="commitment" aria-labelledby="h-commit">
   <div class="note" data-note><b>Job of this section</b><br>The promise that wins banks and keeps businesses in control.</div>
-  <div class="frame">
-    <div class="cell cell--head cell--split">
-      <div><p class="lab">Our commitment</p><h2 class="big big--s" id="h-commit"><span class="ln rv">Your relationships.</span><span class="ln ind rv" style="--d:90ms">Your choice.</span><span class="ln rv" style="--d:180ms">One connected network.</span></h2></div>
-      <p class="lead rv">Multigate connects your financial operations without taking control away from the institutions and relationships you already trust.</p>
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow">Our commitment</p>
+      <h2 class="h2" id="h-commit">Your relationships. Your choice. One connected network.</h2>
+      <p class="lead">Multigate connects your financial operations without taking control away from the institutions and relationships you already trust.</p>
     </div>
-    <div class="sl sl--rev" data-views="0.4,0.52,0.8|1.2,0.3,0.86|2.1,0.1,0.82">
-      <div class="sl__list sl__list--stack">
-        <article class="sli sli--v"><svg class="ic ic--box" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg><h3>You choose your banks</h3><p>The Treasury &amp; Trade OS is bank-agnostic. You decide which banks you connect and how you use them.</p></article>
-        <article class="sli sli--v"><svg class="ic ic--box" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><h3>Banks keep their clients</h3><p>We connect businesses to their banks. We don't route around existing banking relationships.</p></article>
-        <article class="sli sli--v"><svg class="ic ic--box" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6zM9 12l2 2 4-4"/></svg><h3>Financiers carry the financing</h3><p>Multigate provides the platform, not the loans. Participating banks and lenders provide the financing and carry the credit risk. <span class="flag" data-confirm="Legal sign-off on 'Multigate provides the platform, not the loans'."></span></p></article>
-      </div>
-      <div class="sl__art"><canvas class="wire" data-model="rotunda" data-color="#ffffff" aria-hidden="true"></canvas></div>
+    <div class="cm3">
+      <article class="bc rv"><div class="bc__v bc__v--w"><canvas class="wire" data-model="gate" data-color="#1362f5" data-view="0.55,0.3,0.6" aria-hidden="true"></canvas></div><h3 class="h3 h3--s">You choose your banks</h3><p class="body">The Treasury &amp; Trade OS is bank-agnostic. You decide which banks you connect and how you use them.</p></article>
+      <article class="bc rv" style="--d:80ms"><div class="bc__v bc__v--w"><canvas class="wire" data-model="rotunda" data-color="#1362f5" data-view="0.4,0.5,0.62" aria-hidden="true"></canvas></div><h3 class="h3 h3--s">Banks keep their clients</h3><p class="body">We connect businesses to their banks. We don't route around existing banking relationships.</p></article>
+      <article class="bc rv" style="--d:160ms"><div class="bc__v bc__v--w"><canvas class="wire" data-model="stack" data-color="#1362f5" data-spin="1" aria-hidden="true"></canvas></div><h3 class="h3 h3--s">Financiers carry the financing</h3><p class="body">Multigate provides the platform, not the loans. Participating banks and lenders provide the financing and carry the credit risk. <span class="flag" data-confirm="Legal sign-off on 'Multigate provides the platform, not the loans'."></span></p></article>
     </div>
   </div>
 </section>
@@ -330,9 +407,9 @@
 <!-- 13 Trust Centre -->
 <section class="sec" id="trust" aria-labelledby="h-trust">
   <div class="note" data-note><b>Job of this section</b><br>Everything a risk committee will ask for, in one place.</div>
-  <div class="frame">
+  <div class="wrap">
     <div class="trustp">
-      <div class="trustp__t"><p class="lab">Trust Centre</p><h2 class="big" id="h-trust">Built for your due-diligence committee.</h2><p class="lead">Trust is essential when managing money and financial operations.</p><p class="lead lead--s">Our licences, registrations, certifications and Swift status are documented to help your treasury, IT security, procurement and legal teams review our credentials.</p><a href="#" class="bt bt--w">Visit the Trust Centre <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a></div>
+      <div class="trustp__t"><p class="trustp__e">Trust Centre</p><h2 class="h2 h2--w" id="h-trust">Built for your due-diligence committee.</h2><p class="trustp__p">Trust is essential when managing money and financial operations.</p><p class="trustp__p trustp__p--d">Our licences, registrations, certifications and Swift status are documented to help your treasury, IT security, procurement and legal teams review our credentials.</p><a href="#" class="btn btn--l">Visit the Trust Centre <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a></div>
       <img class="trustp__img" src="assets/d/seal.png" width="620" height="515" alt="" aria-hidden="true">
     </div>
   </div>
@@ -341,32 +418,28 @@
 <!-- 14 Final conversion -->
 <section class="sec cta" id="cta" aria-labelledby="h-cta">
   <div class="note" data-note><b>Job of this section</b><br>One clear next step, and a second door.</div>
-  <div class="frame cta__in">
-    <canvas class="wire cta__wire" data-model="gate" data-color="#5b94f9" data-view="-0.62,0.26,1.45" aria-hidden="true"></canvas>
-    <h2 class="mega mega--cta" id="h-cta"><span class="ln rv">Start by seeing</span><span class="ln ind rv" style="--d:90ms">your money</span></h2>
-    <div class="cta__copy rv">
-      <p>Get a clearer picture of your banking relationships, cash positions and financial operations.</p>
-      <p>A treasury review maps your banks, accounts, currencies and payment flows, helping you identify where cash is idle, trapped or unreconciled, and where your supply chain could benefit from financing.</p>
-    </div>
-    <div class="cta__b rv"><a href="#book" class="bt js-book">Book a treasury review <svg class="arr" width="16" height="16" aria-hidden="true"><use href="#arr"/></svg></a><a href="#book" class="bt bt--line js-book">Talk to us</a><span class="flag" data-confirm="The copy says 'Talk to the FI team'. 'FI' is jargon, and which team this routes to is still open."></span></div>
+  <div class="wrap cta__in">
+    <img class="fl fl--3" src="assets/d/t-pay.png" width="216" height="263" alt="" aria-hidden="true">
+    <img class="fl fl--4" src="assets/d/t-finance.png" width="208" height="263" alt="" aria-hidden="true">
+    <h2 class="h1 h1--m rv" id="h-cta"><span class="h1__a">Start by seeing</span> <span class="h1__b">your money.</span></h2>
+    <div class="hero__copy rv"><p>Get a clearer picture of your banking relationships, cash positions and financial operations.</p><p>A treasury review maps your banks, accounts, currencies and payment flows, helping you identify where cash is idle, trapped or unreconciled, and where your supply chain could benefit from financing.</p></div>
+    <div class="hero__cta rv"><a href="#book" class="btn btn--p js-book">Book a treasury review</a><a href="#book" class="btn btn--o js-book">Talk to us</a><span class="flag" data-confirm="The copy says 'Talk to the FI team'. 'FI' is jargon, and which team this routes to is still open."></span></div>
   </div>
 </section>
 
 </main>
 
-<footer class="foot dark">
-  <div class="frame">
+<footer class="foot">
+  <div class="wrap">
     <div class="foot__grid">
-      <div class="col foot__m"><i class="mark" aria-hidden="true"></i><p class="foot__tag">The trusted network powering African treasury &amp; trade.</p></div>
-      <div class="col"><h6>Platform</h6><ul><li><a href="#platform">Treasury &amp; Trade OS</a></li><li><a href="#financing">Payables Financing</a></li><li><a href="#network">For Banks</a></li></ul></div>
-      <div class="col"><h6>Network</h6><ul><li><a href="#coverage">Coverage</a></li><li><a href="#network">Financiers</a></li><li><a href="#payco">For payment providers &amp; platforms</a></li><li><a href="#">Developers</a></li></ul></div>
-      <div class="col"><h6>Trust</h6><ul><li><a href="#trust">Licences</a></li><li><a href="#trust">Certifications</a></li><li><a href="#trust">Swift</a></li></ul></div>
-      <div class="col"><h6>Company</h6><ul><li><a href="#mission">About</a></li><li><a href="#">Leadership</a></li><li><a href="#">Insights</a></li><li><a href="#">Careers</a></li></ul>
-        <div class="foot__legal"><p class="lg">Privacy &nbsp; Terms &nbsp; Cookies</p><p>Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services.</p><p>Financing is provided by participating Financiers; Multigate does not lend. <span class="flag" data-confirm="Legal wording carried over word for word."></span></p></div>
-      </div>
+      <div class="foot__m"><svg class="foot__logo" aria-hidden="true"><use href="#logo"/></svg><p class="foot__tag">The trusted network powering African treasury &amp; trade.</p></div>
+      <div><h6>Platform</h6><ul><li><a href="#platform">Treasury &amp; Trade OS</a></li><li><a href="#financing">Payables Financing</a></li><li><a href="#network">For Banks</a></li></ul></div>
+      <div><h6>Network</h6><ul><li><a href="#coverage">Coverage</a></li><li><a href="#network">Financiers</a></li><li><a href="#payco">For payment providers &amp; platforms</a></li><li><a href="#">Developers</a></li></ul></div>
+      <div><h6>Trust</h6><ul><li><a href="#trust">Licences</a></li><li><a href="#trust">Certifications</a></li><li><a href="#trust">Swift</a></li></ul></div>
+      <div><h6>Company</h6><ul><li><a href="#mission">About</a></li><li><a href="#">Leadership</a></li><li><a href="#">Insights</a></li><li><a href="#">Careers</a></li></ul></div>
     </div>
-    <div class="foot__bar"><p class="tag">&copy; 2026 Multigate Holdings Ltd</p></div>
-    <svg class="foot__mark" aria-hidden="true"><use href="#logo"/></svg>
+    <div class="foot__legal"><p>Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services.</p><p>Financing is provided by participating Financiers; Multigate does not lend. <span class="flag" data-confirm="Legal wording carried over word for word."></span></p></div>
+    <div class="foot__bar"><p>&copy; 2026 Multigate Holdings Ltd</p><p class="foot__lg"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></p></div>
   </div>
 </footer>
 

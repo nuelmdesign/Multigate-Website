@@ -195,66 +195,55 @@
     paint();
   }
 
-  /* ================= Counters ================= */
-  var tre = $('#treasury');
-  function count(el) {
-    var end = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0, pre = el.dataset.pre || '', suf = el.dataset.suf || '';
-    var fmt = function (v) { return pre + v.toLocaleString('en-GB', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf; };
-    var s = performance.now(); (function step(now) { var k = ease(clamp((now - s) / 1700, 0, 1)); el.textContent = fmt(end * k); if (k < 1) requestAnimationFrame(step); })(s);
+  /* ================= Carousel ================= */
+  function carousel(rootSel, dotsSel) {
+    var root = $(rootSel); if (!root) return;
+    var t = $('.car__t', root), cards = $$('.cc', t), dots = $$(dotsSel + ' i');
+    function cur() { var best = 0, bd = 1e9; cards.forEach(function (c, i) { var d = Math.abs(c.offsetLeft - t.scrollLeft - cards[0].offsetLeft); if (d < bd) { bd = d; best = i; } }); return best; }
+    function upd() { var i = cur(); dots.forEach(function (d, k) { d.classList.toggle('on', k === i); }); }
+    t.addEventListener('scroll', function () { requestAnimationFrame(upd); }, { passive: true });
+    $$('.car__b', root).forEach(function (b) { b.addEventListener('click', function () { var i = clamp(cur() + (+b.dataset.dir), 0, cards.length - 1); t.scrollTo({ left: cards[i].offsetLeft - cards[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' }); }); });
+    upd();
   }
-  if (tre && 'IntersectionObserver' in window && !reduce) {
-    $$('[data-count]', tre).forEach(function (e) { e.textContent = (e.dataset.pre || '') + '0' + (e.dataset.suf || ''); });
-    var tio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { tre.classList.add('in'); $$('[data-count]', tre).forEach(count); tio.disconnect(); } }); }, { threshold: 0.25 });
-    tio.observe($('.tre__stats', tre));
-  } else if (tre) tre.classList.add('in');
+  carousel('#finCar', '#finDots');
 
-  /* ================= Testimonials ================= */
-  var tm = $('#tm');
-  if (tm) {
-    var lis = $$('#tmList li'), ti = 0, timer = 0, MS = 6000;
-    var show = function (i, user) {
-      ti = (i + lis.length) % lis.length; var name = $('button', lis[ti]).textContent;
-      lis.forEach(function (l, k) { l.classList.toggle('on', false); void l.offsetWidth; l.classList.toggle('on', k === ti); });
-      tm.classList.add('sw');
-      setTimeout(function () { $('#tmQuote .ph').textContent = '[Quote from ' + name + ' goes here. One or two sentences in the customer’s own words.]'; $('#tmCo').textContent = name; $('#tmN').textContent = ('0' + (ti + 1)).slice(-2); tm.classList.remove('sw'); }, reduce ? 0 : 320);
-      clearInterval(timer); if (!reduce && !user) timer = setInterval(function () { show(ti + 1); }, MS); else if (!reduce) timer = setInterval(function () { show(ti + 1); }, MS * 2);
-    };
-    lis.forEach(function (l, k) { $('button', l).addEventListener('click', function () { show(k, true); }); });
-    if (!reduce) timer = setInterval(function () { show(ti + 1); }, MS);
+  /* ================= Pinned sections ================= */
+  var pins = $$('.pin');
+  function pinned() { return !reduce && window.innerWidth >= 1000; }
+  function setPin(p, i) {
+    if (p._i === i) return; p._i = i;
+    $$('[data-s]', p).forEach(function (b) { var on = +b.dataset.s === i; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); var li = b.closest('li'); if (li) li.classList.toggle('on', on); });
+    $$('[data-v]', p).forEach(function (v) { v.classList.toggle('on', +v.dataset.v === i); });
+    $$('[data-c]', p).forEach(function (v) { v.classList.toggle('on', +v.dataset.c === i); });
   }
-
-  /* ================= Accordion (network today) ================= */
-  $$('#acc > li > button').forEach(function (b) { b.addEventListener('click', function () { $$('#acc > li').forEach(function (l) { l.classList.toggle('open', l === b.parentNode); }); }); });
-
-  /* ================= Clock ================= */
-  var clock = $('#clock');
-  if (clock) { var tick = function () { try { clock.textContent = new Date().toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Africa/Lagos' }).replace(' ', '').toUpperCase(); } catch (e) { clock.textContent = ''; } }; tick(); setInterval(tick, 20000); }
-
-  /* ================= Scroll-driven state ================= */
-  var prog = $('#prog'), fls = $$('.fl'), sls = $$('.sl'), tabs = $('#tabs');
-  var hero = $('.hero__wire'), ctaW = $('.cta__wire');
-  sls.forEach(function (sl) { sl._views = (sl.dataset.views || '').split('|').map(function (v) { return v.split(',').map(Number); }); sl._items = $$('.sli', sl); sl._wire = ($('canvas.wire', sl) || {})._wire; });
-  var ticking = false;
-  function frame() {
-    ticking = false; var y = window.scrollY, doc = document.documentElement;
-    if (prog) prog.style.transform = 'scaleX(' + clamp(y / Math.max(1, doc.scrollHeight - vh), 0, 1) + ')';
-    /* hero globe turns and sinks a little as you leave it */
-    if (hero && hero._wire) { var hp = clamp(y / vh, 0, 1.2); hero._wire.to = [hero._wire.base[0] + hp * 0.5, hero._wire.base[1] + hp * 0.18, hero._wire.base[2]]; if (!reduce) hero.style.transform = 'translate3d(0,' + (y * 0.18).toFixed(1) + 'px,0)'; }
-    if (ctaW && ctaW._wire) { var cr = ctaW.getBoundingClientRect(), cp = clamp(1 - cr.top / vh, 0, 1.6); ctaW._wire.to = [ctaW._wire.base[0] + cp * 0.35, ctaW._wire.base[1], ctaW._wire.base[2]]; }
-    /* sticky lists: the item nearest the middle is active, and the drawing turns to its view */
-    sls.forEach(function (sl) {
-      var best = 0, bd = 1e9; sl._items.forEach(function (it, i) { var r = it.getBoundingClientRect(), d = Math.abs(r.top + Math.min(r.height, 220) / 2 - vh * 0.5); if (d < bd) { bd = d; best = i; } });
-      sl._items.forEach(function (it, i) { it.classList.toggle('is-on', reduce || i === best); });
-      if (sl._wire && sl._views[best] && sl._views[best].length === 3) sl._wire.to = sl._views[best].slice();
+  pins.forEach(function (p) {
+    p._n = $$('[data-s]', p).length; p._i = -1; setPin(p, 0);
+    $$('[data-s]', p).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var i = +b.dataset.s;
+        if (!pinned()) { setPin(p, i); return; }
+        var top = p.getBoundingClientRect().top + window.scrollY, total = p.offsetHeight - window.innerHeight;
+        window.scrollTo({ top: top + total * (i + 0.5) / p._n, behavior: 'smooth' });
+      });
     });
-    /* reveal lists: lit once reached */
-    fls.forEach(function (c) { $$('.fo', c).forEach(function (it) { it.classList.toggle('is-on', reduce || it.getBoundingClientRect().top < vh * 0.62); }); });
-    /* platform tabs: left text follows the panel in view */
-    if (tabs) {
-      var ps = $$('.tp', tabs), ts = $$('.tabs__t', tabs), ds = $$('#tabDash i'), bi = 0, bdist = 1e9;
-      ps.forEach(function (p, i) { var r = p.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - vh * 0.55); if (d < bdist) { bdist = d; bi = i; } var iso = p.firstElementChild; if (iso && !reduce) iso.style.setProperty('--py', (clamp((r.top - vh * 0.2) * 0.14, -60, 120)).toFixed(1)); });
-      ts.forEach(function (t, i) { t.classList.toggle('on', i === bi); }); ds.forEach(function (d, i) { d.classList.toggle('on', i === bi); });
+  });
+
+  /* ================= Scroll state ================= */
+  var nav = $('#nav'), hv = $('.hv__wire'), lastY = window.scrollY, ticking = false;
+  function frame() {
+    ticking = false; var y = window.scrollY;
+    if (nav) {
+      nav.classList.toggle('sc', y > 24);
+      if (y < 80) nav.classList.remove('dn');
+      else if (y > lastY + 6) { nav.classList.add('dn'); var pn = $('#navPanel'); if (pn && pn.classList.contains('open')) { pn.classList.remove('open'); var tg = $('#navToggle'); if (tg) tg.setAttribute('aria-expanded', 'false'); } }
+      else if (y < lastY - 6) nav.classList.remove('dn');
+      lastY = y;
     }
+    if (hv && hv._wire) { var hp = clamp(y / vh, 0, 1.2); hv._wire.to = [hv._wire.base[0] + hp * 0.7, hv._wire.base[1] + hp * 0.1, hv._wire.base[2]]; }
+    if (pinned()) pins.forEach(function (p) {
+      var r = p.getBoundingClientRect(), total = p.offsetHeight - vh;
+      if (r.top > 0) setPin(p, 0); else if (r.top <= -total) setPin(p, p._n - 1); else setPin(p, Math.min(p._n - 1, Math.floor(clamp(-r.top / total, 0, 0.999) * p._n)));
+    });
     kick();
   }
   function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
