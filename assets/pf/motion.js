@@ -478,23 +478,38 @@
     });
   }
 
+  var useCase = [];
   function lottieCards() {
-    if (!window.lottie || !window.PF_LOTTIE || !window.DecompressionStream) return;
     var specs = [['collect', 0, 440, 258, 241], ['convert', 1, 560, 258, 233], ['pay', 3, 520, 258, 229]];
-    specs.forEach(function (sp) {
+    if (window.lottie && window.PF_LOTTIE && window.DecompressionStream) specs.forEach(function (sp) {
       var card = shCards[sp[1]], old = card.children[1];
       var bin = atob(window.PF_LOTTIE[sp[0]]), u = new Uint8Array(bin.length); for (var i = 0; i < u.length; i++) u[i] = bin.charCodeAt(i);
       new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('gzip'))).json().then(function (data) {
         var box = document.createElement('div');
         box.style.cssText = 'position:absolute;pointer-events:none;width:' + sp[2] + 'px;height:' + sp[2] + 'px;left:' + (sp[3] - sp[2] / 2) + 'px;top:' + (sp[4] - sp[2] / 2) + 'px';
         card.appendChild(box); old.style.display = 'none'; shVis[sp[1]] = box;
-        var a = lottie.loadAnimation({ container: box, renderer: 'svg', loop: true, autoplay: false, animationData: data });
-        a.setSpeed(.3);
-        new IntersectionObserver(function (es) { if (es[0].isIntersecting) a.play(); else a.pause(); }).observe(card);
+        var a = lottie.loadAnimation({ container: box, renderer: 'svg', loop: false, autoplay: false, animationData: data });
+        a.goToAndStop(0, true);
+        useCase.push({ a: a, card: card, vis: false });
+        new IntersectionObserver(function (es) { useCase.forEach(function (u) { if (u.card === card) u.vis = es[0].isIntersecting; }); }).observe(card);
       });
     });
     // the bank card has no earlier motion asset: give it a slow float so every card is alive
-    var bank = shCards[2].children[1]; if (bank && bank.firstElementChild) bank.firstElementChild.style.animation = 'pffloat 14s ease-in-out infinite';
+    var bank = shCards[2].children[1];
+    useCase.push({ dome: bank, card: shCards[2], vis: false });
+    new IntersectionObserver(function (es) { useCase.forEach(function (u) { if (u.dome) u.vis = es[0].isIntersecting; }); }).observe(shCards[2]);
+    /* one shared clock: every use-case illustration (coin, coins, dome, stack) completes a loop in the same time */
+    var PERIOD = 16000, lastF = 0;
+    (function tick(now) {
+      requestAnimationFrame(tick);
+      if (now - lastF < 33) return; lastF = now;
+      var ph = (now % PERIOD) / PERIOD;
+      useCase.forEach(function (u) {
+        if (!u.vis) return;
+        if (u.a) u.a.goToAndStop(ph * 47.9, true);
+        else if (u.dome) u.dome.style.transform = 'translateY(' + (Math.sin(ph * 6.2832) * -16) + 'px) rotate(' + (Math.sin(ph * 6.2832) * 1.6) + 'deg) scale(' + (1 + Math.sin(ph * 6.2832) * .015) + ')';
+      });
+    })(performance.now());
   }
 
   /* hero globe: drawn live so it can turn. It sways on its own and follows the pointer / drag left and right. */
