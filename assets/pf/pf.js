@@ -6,7 +6,7 @@
     document.querySelectorAll('.pf-sec').forEach(function (sec) {
       var h = parseFloat(sec.style.getPropertyValue('--h'));
       var inner = sec.firstElementChild;
-      inner.style.transform = s < 1 ? 'scale(' + s + ')' : '';
+      inner.style.zoom = s < 1 ? s : '';
       sec.style.height = h * s + 'px';
       inner.style.marginLeft = s < 1 ? '0' : '';
     });
@@ -31,5 +31,5 @@
   }
   // "One network" cards: five 389px cards, 16px gap, visible width = 1440 - 570
   var t = document.getElementById('pf-track');
-  if (t) carousel(t, 405, 5 * 389 + 4 * 16 - (W - 100 - 470 - 100) - 100, document.getElementById('pf-prev'), document.getElementById('pf-next'));
+  if (t) carousel(t, 405, 5 * 389 + 4 * 16 - 772, document.getElementById('pf-prev'), document.getElementById('pf-next'));
 })();

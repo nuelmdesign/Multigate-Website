@@ -38,6 +38,7 @@
       var f = [{ opacity: 0, translate: x + 'px ' + y + 'px', scale: o.scale || 1 }, { opacity: 1, translate: '0px 0px', scale: 1 }];
       if (o.blur) { f[0].filter = 'blur(' + o.blur + 'px)'; f[1].filter = 'blur(0px)'; }
       anim(el, f, { delay: o.delay || 0, duration: o.dur || 900 });
+      setTimeout(function () { el.style.opacity = ''; }, (o.delay || 0) + (o.dur || 900) + 1500);
     };
     if (o.now) return go;
     onView(o.trigger || el, go);
@@ -65,8 +66,9 @@
         a.onfinish = function () { a.cancel(); b.style.translate = '0 0'; b.style.rotate = ''; };
       });
     };
-    if (o.now) return go;
-    onView(o.trigger || el, go);
+    var go2 = function () { go(); setTimeout(function () { wi.forEach(function (b) { b.style.translate = '0 0'; b.style.rotate = ''; }); }, (o.delay || 0) + wi.length * (o.each || 55) + (o.dur || 1000) + 1500); };
+    if (o.now) return go2;
+    onView(o.trigger || el, go2);
   }
   function lerp(a, b, t) { return a + (b - a) * t; }
 
@@ -89,30 +91,26 @@
 
   /* ---------- progress bar and side dots ---------- */
   var bar = document.createElement('div'); bar.id = 'pf-bar'; document.body.appendChild(bar);
-  var dots = document.createElement('div'); dots.id = 'pf-dots';
-  var labels = { header: 'Overview', mission: 'Mission', content: 'Platform', scrollh: 'Who it’s for', scrollv: 'Proof', footer: 'Start' };
-  var dotEls = ids.map(function (id) {
-    var b = document.createElement('button'); b.setAttribute('aria-label', labels[id]); b.innerHTML = '<span>' + labels[id] + '</span>';
-    b.onclick = function () { var t = sec[id].parentNode.classList.contains('pf-pin') ? sec[id].parentNode : sec[id]; var y = t.getBoundingClientRect().top + scrollY; scrollTo({ top: id === 'header' ? 0 : id === 'mission' ? y : y, behavior: 'smooth' }); };
-    dots.appendChild(b); return b;
-  });
-  document.body.appendChild(dots);
+  var dots = { classList: { toggle: function () {} } }, dotEls = [];
 
-  /* ---------- section stacking (sticky curtain) ---------- */
-  var z = { header: 1, mission: 2, content: 3, scrollv: 5, footer: 6 };
-  Object.keys(z).forEach(function (k) { sec[k].style.zIndex = z[k]; sec[k].style.position = k === 'header' || k === 'mission' ? 'sticky' : 'relative'; });
-  var veil = {};
-  ['header', 'mission'].forEach(function (k) { var v = document.createElement('div'); v.className = 'pf-veil'; sec[k].appendChild(v); veil[k] = v; });
+    /* ---------- sections stay in normal flow; only scrollh and the solution stack pin ---------- */
+  var z = {};
   var pin = document.createElement('div'); pin.className = 'pf-pin'; pin.style.cssText = 'position:relative;z-index:4;background:#041431';
   sec.scrollh.parentNode.insertBefore(pin, sec.scrollh); pin.appendChild(sec.scrollh);
   sec.scrollh.style.position = 'sticky';
+  var D = 1000;
+  var veil = {};
   function layout() {
     fit(); layoutNav();
-    ['header', 'mission'].forEach(function (k) { sec[k].style.top = Math.min(0, vh - H(k) * S) + 'px'; });
     var hs = H('scrollh') * S, travel = 1500 * S;
     sec.scrollh.style.top = Math.max(0, (vh - hs) / 2) + 'px';
     pin.style.height = (hs + travel) + 'px';
     pin._travel = travel; pin._hs = hs;
+    if (typeof cStack !== 'undefined') {
+      var sroot = cStack.firstElementChild;
+      cStack.style.height = (865 + D) + 'px';
+      sroot.style.position = 'sticky'; sroot.style.height = '865px'; sroot.style.top = Math.max(70, (vh / S - 865) / 2) + 'px';
+    }
   }
 
   /* ---------- hero parts ---------- */
@@ -239,68 +237,52 @@
   }
 
   /* ================= scroll-linked ================= */
-  var lastY = 0, navHidden = false;
-  var statDone = false;
+  var lastY = 0;
+  var shPP = [0, 546 / 1453, 1092 / 1453, 1];
+  function ease3(t) { return 1 - Math.pow(1 - t, 3); }
   function update() {
     sy = scrollY; vh = innerHeight;
     var docH = document.documentElement.scrollHeight;
     bar.style.transform = 'scaleX(' + clamp(sy / (docH - vh), 0, 1) + ')';
 
-    // nav: hide on scroll down, return on scroll up; dark when over navy sections
+    // nav: hide on scroll down, return on scroll up; dark over navy sections
     var dy = sy - lastY; lastY = sy;
     nav.classList.toggle('stuck', sy > 24);
-    if (sy > 160 && dy > 4) { nav.classList.add('hide'); } else if (dy < -4 || sy <= 160) { nav.classList.remove('hide'); }
-    var under = null;
-    ids.forEach(function (id) { var r = sec[id].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) under = id; });
-    var darkIds = { mission: 1, scrollh: 1, footer: 1 };
-    var isDark = !!darkIds[under] && !(under === 'mission' && false);
-    // sticky mission stays under later sections: use whichever topmost section covers the nav
-    var covering = null, best = -1;
-    ids.forEach(function (id) { var r = sec[id].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40 && (z[id] || 4) > best) { best = z[id] || 4; covering = id; } });
-    isDark = !!darkIds[covering];
-    nav.classList.toggle('dark', isDark); dots.classList.toggle('dark', isDark);
-    dotEls.forEach(function (d, i) { d.classList.toggle('on', ids[i] === (sy < 10 ? 'header' : covering)); });
+    if (sy > 160 && dy > 4) nav.classList.add('hide'); else if (dy < -4 || sy <= 160) nav.classList.remove('hide');
+    var covering = null;
+    ids.forEach(function (id) { var r = sec[id].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = id; });
+    nav.classList.toggle('dark', covering === 'mission' || covering === 'scrollh' || covering === 'footer');
 
-    // hero
-    var heroImgY = sy * .2;
-    globeImg.style.translate = '0 ' + heroImgY + 'px';
-    heroText.style.translate = '0 ' + (sy * .12) + 'px';
-    var mTop = sec.mission.getBoundingClientRect().top, pm = clamp(1 - mTop / vh, 0, 1);
-    sec.header.firstElementChild.style.scale = String(1 - .05 * pm);
-    veil.header.style.opacity = (pm * .6).toFixed(3);
-    var r1 = 44 * (1 - pm); sec.mission.style.borderRadius = r1 + 'px ' + r1 + 'px 0 0';
+    // hero text drifts slightly slower than the page
+    heroText.style.translate = '0 ' + (sy * .1) + 'px';
 
-    // mission under content
-    var cTop = sec.content.getBoundingClientRect().top, pc = clamp(1 - cTop / vh, 0, 1);
-    sec.mission.firstElementChild.style.scale = String(1 - .04 * pc);
-    veil.mission.style.opacity = (pc * .55).toFixed(3);
-    var r2 = 44 * (1 - pc); sec.content.style.borderRadius = r2 + 'px ' + r2 + 'px 0 0';
-    mText.style.translate = '0 ' + (-pc * 40) + 'px';
-    mission.pc = pc; mission.vis = mTop < vh && mTop + H('mission') * S > -vh;
-
-    // problem cards drift left
+    // problem cards drift left; the blue line fills the whole grey line as they go
     var rr = cardsRow.getBoundingClientRect(), cy = rr.top + rr.height / 2;
-    var pr = clamp((vh * .95 - cy) / (vh * .75), 0, 1);
-    cardsRow.style.translate = (-306 * lerp(0, 1, pr * pr * (3 - 2 * pr))) + 'px 0';
-    // connector line fills
-    var lr = cLine.getBoundingClientRect(), pl = clamp((vh * .9 - lr.top) / (vh * .55), 0, 1);
-    cLine.style.clipPath = 'inset(-4px ' + (100 - 100 * pl) + '% -4px 0)';
-    // stacked solution cards fan open
-    var sr = cStack.getBoundingClientRect(), ps = clamp((vh * .95 - sr.top) / (vh * .85), 0, 1), e = 1 - Math.pow(1 - ps, 3);
-    stackCards[0].style.translate = '0 ' + ((1 - e) * 259) + 'px'; stackCards[0].style.scale = String(.9 + .1 * e);
-    stackCards[1].style.translate = '0 ' + ((1 - e) * 173) + 'px'; stackCards[1].style.scale = String(.95 + .05 * e);
-    stackCards[0].style.opacity = String(clamp(e * 2.2, .001, 1)); stackCards[1].style.opacity = String(clamp(e * 1.8, .001, 1));
+    var pr = clamp((vh * .95 - cy) / (vh * .75), 0, 1), prs = pr * pr * (3 - 2 * pr);
+    cardsRow.style.translate = (-306 * prs) + 'px 0';
+    if (lineBlue) lineBlue.style.transform = 'scaleX(' + prs + ')';
+
+    // solutions: the stack is pinned; card 2 laps over card 1, card 3 laps over card 2
+    var pr0 = cStack.getBoundingClientRect(), ir = stackRoot.getBoundingClientRect();
+    var ps = clamp((ir.top - pr0.top) / (D * S), 0, 1);
+    var off = vh / S + 250;
+    stackCards[1].style.translate = '0 ' + ((1 - ease3(clamp(ps / .45, 0, 1))) * off) + 'px';
+    stackCards[2].style.translate = '0 ' + ((1 - ease3(clamp((ps - .5) / .45, 0, 1))) * (off + 120)) + 'px';
+    // lines behind the solutions section move as you scroll
+    var k = (vh / 2 - (pr0.top + pr0.height / 2)) / vh;
+    if (bgV1) { bgV1.style.translate = (k * 70) + 'px ' + (ps * 430 - k * 50) + 'px'; bgV1.style.rotate = (k * -1.4) + 'deg'; }
+    if (bgV2) { bgV2.style.translate = (k * -110) + 'px ' + (ps * 250 - k * 90) + 'px'; bgV2.style.rotate = (k * 1.8) + 'deg'; }
 
     // pinned horizontal scroll
-    var pr2 = pin.getBoundingClientRect(), off = parseFloat(sec.scrollh.style.top) || 0, pp = clamp((off - pr2.top) / Math.max(1, pin._travel || 1), 0, 1);
-    var shift = pp * (2154 - 801 + 100);
+    var pr2 = pin.getBoundingClientRect(), offT = parseFloat(sec.scrollh.style.top) || 0, pp = clamp((offT - pr2.top) / Math.max(1, pin._travel || 1), 0, 1);
+    var shift = pp * 1453;
     shRow.style.translate = (-shift) + 'px 0';
-    var idx = Math.min(3, Math.floor(pp * 3.999));
-    shDots.forEach(function (d, i) { d.style.transition = 'width .5s ' + EASE + ', background-color .4s'; d.style.width = i === idx ? '48px' : '10px'; d.style.backgroundColor = i === idx ? '#1362f5' : '#d0e0fd'; });
+    var idx = 0, best = 9; shPP.forEach(function (v, i) { var d = Math.abs(pp - v); if (d < best) { best = d; idx = i; } });
+    shDots.forEach(function (d, i) { d.style.width = i === idx ? '48px' : '10px'; d.style.backgroundColor = i === idx ? '#1362f5' : '#d0e0fd'; });
     shCards.forEach(function (c, i) {
-      var cx = 639 + i * 546 - shift + 258, d = (cx - 1000) / 900; // -1..1ish
+      var cx = 639 + i * 546 - shift + 258, d = (cx - 1000) / 900;
       c.style.scale = String(1 - clamp(Math.abs(d), 0, 1) * .045);
-      var vis = c.children[1]; if (vis) vis.style.translate = (-d * 28) + 'px 0';
+      var vis = shVis[i]; if (vis) vis.style.translate = (-d * 28) + 'px 0';
     });
 
     // testimonial parallax
@@ -310,8 +292,6 @@
     // footer rise
     var fTop = sec.footer.getBoundingClientRect().top, pf = clamp(1 - fTop / vh, 0, 1);
     ftRoot.style.translate = '0 ' + ((1 - pf) * 70) + 'px';
-    var r3 = 44 * (1 - pf); sec.footer.style.borderRadius = r3 + 'px ' + r3 + 'px 0 0';
-    gl2.vis = fTop < vh; gl1.pf = pf;
   }
 
   /* ================= count-ups ================= */
@@ -453,8 +433,127 @@
     (function f() { requestAnimationFrame(f); cx += (tx - cx) * .06; cy += (ty - cy) * .06; if (sy < vh) { globeWrap.style.translate = (cx * -26) + 'px ' + (cy * -16) + 'px'; } })();
   }
 
+
+  /* ================= structure tweaks + new pieces ================= */
+  var stackRoot = cStack.firstElementChild, lineBlue = null, bgV1 = cp[0].children[0], bgV2 = cp[0].children[1], shVis = shCards.map(function (c) { return c.children[1]; });
+
+  function marquee() {
+    var root = cLic.firstElementChild; if (!root) return;
+    var items = [].slice.call(root.children);
+    var track = document.createElement('div'); track.className = 'pf-mq';
+    var set = function () { return items.map(function (n) { return n.cloneNode(true); }); };
+    var sep = items[1].cloneNode(true);
+    [0, 1, 2].forEach(function () { set().forEach(function (n) { track.appendChild(n); }); track.appendChild(sep.cloneNode(true)); });
+    root.innerHTML = ''; root.style.justifyContent = 'flex-start'; root.style.overflow = 'hidden'; root.style.padding = '0';
+    root.style.alignItems = 'center'; root.style.height = '58px';
+    root.style.webkitMaskImage = root.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%)';
+    root.appendChild(track);
+    if (reduce) track.style.animation = 'none';
+  }
+
+  function blueLine() {
+    var r = cLine.firstElementChild; if (!r) return;
+    r.innerHTML = '<div style="position:absolute;left:0;top:-1px;width:500px;height:2px;background:#E5E6E9"></div><div class="pf-lb" style="position:absolute;left:0;top:-1px;width:500px;height:2px;background:#3375FB;transform-origin:0 50%;transform:scaleX(0)"></div>';
+    cLine.style.clipPath = 'none'; lineBlue = r.querySelector('.pf-lb');
+  }
+
+  function netClip() {
+    var root = cNet.firstElementChild, track = $('#pf-track'); if (!track) return;
+    var clip = document.createElement('div');
+    clip.style.cssText = 'position:absolute;left:568px;top:0;width:772px;height:403px;overflow:hidden';
+    root.appendChild(clip); clip.appendChild(track);
+    track.style.position = 'absolute'; track.style.left = '0'; track.style.top = '0';
+  }
+
+  function logoHover() { /* handled in CSS: overlay fades out so the true brand colours show */ }
+
+  function dotClicks() {
+    shDots.forEach(function (d, i) {
+      d.classList.add('pf-sdot');
+      d.addEventListener('click', function () {
+        var offT = parseFloat(sec.scrollh.style.top) || 0;
+        var y0 = pin.getBoundingClientRect().top + scrollY - offT;
+        scrollTo({ top: y0 + shPP[i] * pin._travel + 1, behavior: 'smooth' });
+      });
+    });
+  }
+
+  function lottieCards() {
+    if (!window.lottie || !window.PF_LOTTIE || !window.DecompressionStream) return;
+    var specs = [['collect', 0, 440, 258, 241], ['convert', 1, 560, 258, 233], ['pay', 3, 520, 258, 229]];
+    specs.forEach(function (sp) {
+      var card = shCards[sp[1]], old = card.children[1];
+      var bin = atob(window.PF_LOTTIE[sp[0]]), u = new Uint8Array(bin.length); for (var i = 0; i < u.length; i++) u[i] = bin.charCodeAt(i);
+      new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('gzip'))).json().then(function (data) {
+        var box = document.createElement('div');
+        box.style.cssText = 'position:absolute;pointer-events:none;width:' + sp[2] + 'px;height:' + sp[2] + 'px;left:' + (sp[3] - sp[2] / 2) + 'px;top:' + (sp[4] - sp[2] / 2) + 'px';
+        card.appendChild(box); old.style.display = 'none'; shVis[sp[1]] = box;
+        var a = lottie.loadAnimation({ container: box, renderer: 'svg', loop: true, autoplay: false, animationData: data });
+        new IntersectionObserver(function (es) { if (es[0].isIntersecting) a.play(); else a.pause(); }).observe(card);
+      });
+    });
+    // the bank card has no earlier motion asset: give it a slow float so every card is alive
+    var bank = shCards[2].children[1]; if (bank && bank.firstElementChild) bank.firstElementChild.style.animation = 'pffloat 7s ease-in-out infinite';
+  }
+
+  /* hero globe: drawn live so it can turn. It sways on its own and follows the pointer / drag left and right. */
+  function heroGlobe() {
+    var G = window.MG_GEO; if (!G || reduce) return;
+    var cv = document.createElement('canvas'); cv.className = 'pf-gl'; cv.style.cssText = 'left:0;top:0;width:1528px;height:1528px;';
+    var ctx = cv.getContext('2d'); if (!ctx) return;
+    globeWrap.appendChild(cv);
+    var CX = 841, CY = 886, R = 813, D2 = Math.PI / 180;
+    var base = 24.6, cur = 0, target = 0, tilt = 0, tiltT = 0, vel = 0, drag = false, lastX = 0, t0 = performance.now(), vis = true, px0 = 0;
+    var hero = sec.header;
+    addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+      var nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+      if (drag) { var dx = e.clientX - lastX; lastX = e.clientX; base -= dx * .16; vel = -dx * .16; }
+      else { target = -nx * 80; }
+      tiltT = ny * -10;
+    });
+    hero.addEventListener('pointerdown', function (e) { if (e.target.closest('.pf-btn')) return; drag = true; lastX = e.clientX; hero.style.cursor = 'grabbing'; });
+    addEventListener('pointerup', function () { drag = false; hero.style.cursor = ''; });
+    new IntersectionObserver(function (es) { vis = es[0].isIntersecting; }).observe(hero);
+    var started = false;
+    function draw(now) {
+      requestAnimationFrame(draw); if (!vis) return;
+      var t = (now - t0) / 1000, px = Math.min(devicePixelRatio || 1, 2) * Math.max(.5, S);
+      var cw = Math.round(1528 * px); if (cv.width !== cw) { cv.width = cw; cv.height = cw; }
+      if (!drag) { base += vel; vel *= .94; }
+      cur += (target - cur) * .06; tilt += (tiltT - tilt) * .06;
+      var l0 = (base + cur + Math.sin(t * .5) * 12) * D2, a0 = (-2.8 + tilt + Math.sin(t * .3) * 1.5) * D2;
+      var sa = Math.sin(a0), ca = Math.cos(a0), sy_ = 0;
+      ctx.setTransform(px, 0, 0, px, 0, 0); ctx.clearRect(0, 0, 1528, 1528);
+      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      function P(lon, lat) {
+        var dl = lon * D2 - l0, cl = Math.cos(lat * D2), sl = Math.sin(lat * D2), cd = Math.cos(dl);
+        return [CX + cl * Math.sin(dl) * R, CY - (ca * sl - sa * cl * cd) * R, sa * sl + ca * cl * cd];
+      }
+      function path(pts, col, w) {
+        ctx.beginPath(); var pen = false;
+        for (var i = 0; i < pts.length; i += 2) {
+          var q = P(pts[i], pts[i + 1]);
+          if (q[2] < .01) { pen = false; continue; }
+          if (!pen) { ctx.moveTo(q[0], q[1]); pen = true; } else ctx.lineTo(q[0], q[1]);
+        }
+        ctx.strokeStyle = col; ctx.lineWidth = w; ctx.stroke();
+      }
+      // graticule
+      var i, j, pts;
+      for (var lat = -75; lat <= 75; lat += 15) { pts = []; for (j = -180; j <= 180; j += 3) pts.push(j, lat); path(pts, 'rgba(19,98,245,.22)', 1); }
+      for (var lon = -180; lon < 180; lon += 4) { pts = []; for (j = -84; j <= 84; j += 6) pts.push(lon, j); path(pts, lon % 20 ? 'rgba(19,98,245,.16)' : 'rgba(19,98,245,.26)', 1); }
+      G.oth.forEach(function (r) { path(r, 'rgba(60,120,250,.42)', 1); });
+      G.afr.forEach(function (r) { path(r, 'rgba(19,98,245,.78)', 1.7); });
+      G.live.forEach(function (r) { path(r, '#1362f5', 2.8); });
+      ctx.beginPath(); ctx.arc(CX, CY, R, 0, 6.2832); ctx.strokeStyle = 'rgba(19,98,245,.14)'; ctx.lineWidth = 1; ctx.stroke();
+      if (!started) { started = true; globeImg.style.opacity = '0'; }
+    }
+    requestAnimationFrame(draw);
+  }
+
   /* ================= boot ================= */
-  layout(); setup(); buttons(); countUps(); cashVideo(); pointerParallax();
+  marquee(); blueLine(); netClip(); layout(); setup(); buttons(); countUps(); cashVideo(); dotClicks(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [0, 880, 1440, 401], { blend: 'screen', opacity: .6, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .28, c1: [.45, .65, 1], c2: [.35, .85, 1] });
@@ -463,6 +562,7 @@
   addEventListener('scroll', req, { passive: true });
   addEventListener('resize', function () { vh = innerHeight; setTimeout(function () { layout(); update(); }, 30); });
   setTimeout(function () { layout(); update(); }, 80); update();
+  new IntersectionObserver(function (es) { mission.vis = es[0].isIntersecting; }).observe(mRoot);
   /* hash-friendly: let the review links jump */
   window.__pfmotion = { update: update, layout: layout };
 })();

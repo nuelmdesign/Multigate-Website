@@ -58,3 +58,16 @@ html.pf-js { scroll-behavior: auto; }
 canvas.pf-gl { position: absolute; pointer-events: none; }
 video.pf-vid { position: absolute; object-fit: cover; }
 @media (prefers-reduced-motion: reduce) { #pf-bar { display: none; } }
+
+/* auto-scrolling licence strip */
+.pf-mq { display: flex; align-items: center; gap: 20px; width: max-content; animation: pfmq 55s linear infinite; will-change: transform; }
+.pf-mq > * { flex: none; }
+@keyframes pfmq { to { transform: translateX(-33.3333%); } }
+@keyframes pffloat { 50% { transform: translateY(-12px) rotate(1.2deg); } }
+.pf-sdot { cursor: pointer; position: relative; }
+.pf-sdot::after { content: ""; position: absolute; inset: -9px -3px; }
+/* logos reveal their true brand colour on hover */
+.pf-logo [class*="mix-blend"] { transition: opacity .45s; }
+.pf-cell:hover .pf-logo [class*="mix-blend"] { opacity: 0 !important; }
+.pf-cell { transition: background-color .4s; }
+.pf-cell:hover > div { background: #fff; }
