@@ -102,7 +102,7 @@
   var veil = {};
   function layout() {
     fit(); layoutNav();
-    var hs = H('scrollh') * S, travel = 1500 * S;
+    var hs = H('scrollh') * S, travel = 2400 * S;
     sec.scrollh.style.top = Math.max(0, (vh - hs) / 2) + 'px';
     pin.style.height = (hs + travel) + 'px';
     pin._travel = travel; pin._hs = hs;
@@ -489,11 +489,12 @@
         box.style.cssText = 'position:absolute;pointer-events:none;width:' + sp[2] + 'px;height:' + sp[2] + 'px;left:' + (sp[3] - sp[2] / 2) + 'px;top:' + (sp[4] - sp[2] / 2) + 'px';
         card.appendChild(box); old.style.display = 'none'; shVis[sp[1]] = box;
         var a = lottie.loadAnimation({ container: box, renderer: 'svg', loop: true, autoplay: false, animationData: data });
+        a.setSpeed(.3);
         new IntersectionObserver(function (es) { if (es[0].isIntersecting) a.play(); else a.pause(); }).observe(card);
       });
     });
     // the bank card has no earlier motion asset: give it a slow float so every card is alive
-    var bank = shCards[2].children[1]; if (bank && bank.firstElementChild) bank.firstElementChild.style.animation = 'pffloat 7s ease-in-out infinite';
+    var bank = shCards[2].children[1]; if (bank && bank.firstElementChild) bank.firstElementChild.style.animation = 'pffloat 14s ease-in-out infinite';
   }
 
   /* hero globe: drawn live so it can turn. It sways on its own and follows the pointer / drag left and right. */
