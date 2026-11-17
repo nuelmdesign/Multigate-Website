@@ -1,0 +1,60 @@
+/* Motion layer for the Multigate landing page. Layout is untouched: everything here is additive. */
+html.pf-js { scroll-behavior: auto; }
+.pf-sec { will-change: auto; }
+.pf-veil { position: absolute; inset: 0; background: #020a1a; opacity: 0; pointer-events: none; z-index: 40; }
+
+/* Word-by-word headline reveal */
+.pf-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .2em; margin-bottom: -.2em; }
+.pf-wi { display: inline-block; will-change: transform; }
+
+/* Fixed navigation (moved out of the hero) */
+#pf-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 80; background: #fff; border-bottom: 1px solid #eff0f2; transition: transform .55s cubic-bezier(.2,.7,.2,1), background-color .4s, backdrop-filter .4s, border-color .4s; }
+#pf-nav.stuck { background: rgba(255,255,255,.82); -webkit-backdrop-filter: saturate(1.6) blur(18px); backdrop-filter: saturate(1.6) blur(18px); border-bottom-color: #eff0f2; }
+#pf-nav.hide { transform: translateY(-101%); }
+#pf-nav.dark.stuck { background: rgba(4,20,49,.72); border-bottom-color: rgba(255,255,255,.08); }
+#pf-nav.dark .pf-navin p, #pf-nav.dark .pf-navin div { color: #fff; }
+#pf-nav.dark .pf-navin img { filter: brightness(0) invert(1); }
+#pf-nav .pf-navin p, #pf-nav .pf-navin div { transition: color .4s; }
+
+/* Buttons: text roll + liquid fill from the pointer */
+.pf-btn { position: relative; isolation: isolate; cursor: pointer; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.pf-btn::before { content: ""; position: absolute; left: var(--x, 50%); top: var(--y, 50%); width: 0; height: 0; border-radius: 50%; background: var(--hf, #041431); transform: translate(-50%, -50%); transition: width .6s cubic-bezier(.2,.7,.2,1), height .6s cubic-bezier(.2,.7,.2,1); z-index: -1; }
+.pf-btn.hov::before { width: var(--d, 600px); height: var(--d, 600px); }
+.pf-btn.hov p, .pf-btn.hov div { color: #fff !important; }
+.pf-btn p, .pf-btn div { transition: color .35s; }
+.rl { display: inline-block; overflow: hidden; position: relative; vertical-align: top; }
+.rl-a, .rl-b { display: block; transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+.rl-b { position: absolute; left: 0; top: 0; transform: translateY(115%); }
+.pf-btn.hov .rl-a { transform: translateY(-115%); }
+.pf-btn.hov .rl-b { transform: translateY(0); }
+.pf-btn [class*="size-[6"] { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.pf-btn.hov [class*="size-[6"] { transform: scale(1.7); }
+.pf-circ { cursor: pointer; transition: background-color .3s, transform .3s, opacity .3s; }
+.pf-circ:hover { background: #041431 !important; }
+.pf-circ:hover img { filter: invert(1) brightness(2); }
+.pf-circ:active { transform: scale(.93); }
+
+/* Logo grid + news hover */
+.pf-logo { transition: opacity .4s, filter .4s; }
+.pf-cell:hover .pf-logo { opacity: 1 !important; filter: none; }
+.pf-news { cursor: pointer; }
+.pf-news .pf-img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.pf-news:hover .pf-img { transform: scale(1.06); }
+.pf-news h4, .pf-news .pf-t { transition: color .3s; }
+.pf-news:hover .pf-t { color: #1261f2; }
+.pf-card { transition: transform .6s cubic-bezier(.2,.7,.2,1), box-shadow .6s; }
+
+/* Side navigation + progress */
+#pf-bar { position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 90; background: linear-gradient(90deg, #1362f5, #3dd5ff); transform-origin: 0 50%; transform: scaleX(0); pointer-events: none; }
+#pf-dots { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 85; display: flex; flex-direction: column; gap: 14px; }
+#pf-dots button { position: relative; width: 10px; height: 10px; padding: 0; border-radius: 50%; border: 1.5px solid #9ea0a4; background: transparent; cursor: pointer; transition: transform .3s, background-color .3s, border-color .3s; }
+#pf-dots button.on { background: #1362f5; border-color: #1362f5; transform: scale(1.35); }
+#pf-dots button span { position: absolute; right: 22px; top: 50%; transform: translate(6px, -50%); white-space: nowrap; font: 500 11px/1 "JetBrains Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: #232426; background: #fff; padding: 6px 9px; border-radius: 6px; box-shadow: 0 6px 20px rgba(4,20,49,.15); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; }
+#pf-dots button:hover span { opacity: 1; transform: translate(0, -50%); }
+#pf-dots.dark button { border-color: rgba(255,255,255,.6); }
+#pf-dots.dark button.on { background: #3dd5ff; border-color: #3dd5ff; }
+@media (max-width: 900px) { #pf-dots { display: none; } }
+
+canvas.pf-gl { position: absolute; pointer-events: none; }
+video.pf-vid { position: absolute; object-fit: cover; }
+@media (prefers-reduced-motion: reduce) { #pf-bar { display: none; } }
