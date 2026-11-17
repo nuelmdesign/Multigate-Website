@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="2189.08" height="1184.68" viewBox="0 0 2189.08 1184.68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Glow / Network" filter="url(#filter0_f_0_8)">
+<ellipse cx="1094.54" cy="592.338" rx="837" ry="334.8" fill="#1261F2" fill-opacity="0.14"/>
+</g>
+<defs>
+<filter id="filter0_f_0_8" x="0" y="0" width="2189.08" height="1184.68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="128.769" result="effect1_foregroundBlur_0_8"/>
+</filter>
+</defs>
+</svg>
