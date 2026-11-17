@@ -308,28 +308,17 @@
           </div>
           <div class="dk__r">
             <div class="dk__in">
-              <div class="dk__vs">
-                <div class="dkv on" data-v="0" role="img" aria-label="Illustrative example of collections: local accounts in NGN, GHS and XOF, and incoming payments matched to payers and invoices.">
-                  <div class="wc"><b>Local accounts</b><span>Virtual accounts in NGN, GHS and XOF</span><div class="chips chips--s"><span>NGN</span><span>GHS</span><span>XOF</span></div></div>
-                  <div class="wc"><b>Payer A</b><span>Invoice 0142</span><em class="ok">Matched</em></div>
-                  <div class="wc"><b>Payer B</b><span>Invoice 0143</span><em class="ok">Matched</em></div>
-                  <div class="wc"><b>Payer C</b><span>Invoice 0144</span><em class="ok">Matched</em></div>
-                </div>
-                <div class="dkv" data-v="1" role="img" aria-label="Illustrative example of a conversion from NGN to USD at a quoted rate, settled to a nominated account.">
-                  <div class="wc"><b>From</b><span>Nigerian naira</span><div class="chips chips--s"><span>NGN</span></div></div>
-                  <div class="wc"><b>Exchange rate</b><span>Clearly quoted before you confirm</span><em class="ok">Quoted</em></div>
-                  <div class="wc"><b>To</b><span>US dollars</span><div class="chips chips--s"><span>USD</span></div></div>
-                  <div class="wc"><b>Settlement</b><span>To your nominated account</span><em class="ok">Ready</em></div>
-                </div>
-                <div class="dkv" data-v="2" role="img" aria-label="Illustrative example of a payment tracked from instruction to credit.">
-                  <div class="wc"><b>Pay suppliers and partners</b><span>Tracked from instruction to credit</span><div class="chips chips--s"><span>NGN</span><span>GHS</span><span>XOF</span></div></div>
-                  <div class="wc"><b>Instruction</b><span>Payment instructed</span><em class="ok">Done</em></div>
-                  <div class="wc"><b>Sent</b><span>Through your connected bank</span><em class="ok">Done</em></div>
-                  <div class="wc"><b>Credit</b><span>Beneficiary credited</span><em class="ok">Done</em></div>
-                </div>
+              <div class="gs" id="gs" role="img" aria-label="A dotted globe facing Africa with the currencies Multigate supports tagged on it: NGN, GHS, XOF and USD, with arcs showing money moving between them. An illustrative badge shows a named virtual account with its figures reconciled.">
+                <canvas class="gs__cv" aria-hidden="true"></canvas>
+                <span class="gt" data-id="ngn" data-ll="3.4,6.5" data-dx="34" data-dy="-8">NGN</span><i class="gm"></i>
+                <span class="gt" data-id="ghs" data-ll="-0.2,5.6" data-dx="-36" data-dy="26">GHS</span><i class="gm"></i>
+                <span class="gt" data-id="xof" data-ll="-17.4,14.7" data-dx="0" data-dy="-10">XOF</span><i class="gm"></i>
+                <span class="gt gt--usd" data-id="usd" data-fx="0.78,0.4" data-dx="0" data-dy="0">USD</span>
+                <div class="gb on" data-v="0"><p class="gb__k">Named virtual account</p><p class="gb__n">Acme Logistics Ltd</p><p class="gb__a">NGN &middot; 0123 4567 89</p><div class="gb__r"><span>Received</span><b>&#8358;12,450,000</b></div><div class="gb__r"><span>Invoice 0142</span><b>&#8358;12,450,000</b></div><p class="gb__ok">Matched and reconciled &middot; difference &#8358;0</p></div>
+                <div class="gb" data-v="1"><p class="gb__k">Convert and settle</p><p class="gb__n">Acme Logistics Ltd</p><p class="gb__a">To your nominated account</p><div class="gb__r"><span>Debited</span><b>NGN 5,000,000</b></div><div class="gb__r"><span>Credited</span><b>USD 3,100.00</b></div><p class="gb__ok">Rate quoted before you confirm &middot; reconciled</p></div>
+                <div class="gb" data-v="2"><p class="gb__k">Payment to Supplier A</p><p class="gb__n">Acme Logistics Ltd</p><p class="gb__a">NGN &middot; 0123 4567 89</p><div class="gb__r"><span>Instruction</span><b>&#8358;2,000,000</b></div><div class="gb__r"><span>Credited</span><b>&#8358;2,000,000</b></div><p class="gb__ok">Tracked to credit &middot; reconciled to statement</p></div>
               </div>
               <p class="dk__ill">Illustrative example</p>
-              <img class="dk__ic" src="assets/d/t-convert.png" alt="" aria-hidden="true">
             </div>
           </div>
         </div>
@@ -534,5 +523,7 @@
 <script src="assets/africa.js"></script>
 <script src="assets/main.js"></script>
 <script src="assets/motion.js"></script>
+<script src="assets/landmask.js"></script>
+<script src="assets/dotglobe.js"></script>
 </body>
 </html>
