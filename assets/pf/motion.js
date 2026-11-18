@@ -294,7 +294,7 @@
     nav.classList.toggle('dark', covering === 'mission' || covering === 'scrollh' || covering === 'footer');
 
     // hero text drifts slightly slower than the page
-    heroText.style.translate = '0 ' + (sy * .1) + 'px';
+    heroText.style.translate = '0 ' + (sy * .1 - 44) + 'px';
 
     var rr = cardsRow.getBoundingClientRect(), cy = rr.top + rr.height / 2;
     // problem cards: moved by horizontal swipe / drag only (see problemSwipe)
