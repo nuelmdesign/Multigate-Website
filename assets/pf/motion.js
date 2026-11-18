@@ -1030,6 +1030,7 @@
       { l: 'Company', i: [['About us', 'Who we are and why we built Multigate', 'users'], ['Leadership', 'The people building the network', 'users'], ['Careers', 'Join the team', 'brief']] },
       { l: 'Resources', i: [['Insights', 'News, analysis and expert views', 'doc'], ['Trust Centre', 'Licences, certifications and security', 'shield']] }] }
   ];
+  window.PF_MENUS = MENUS;
   function megaMenu() {
     var items = $$('[class*="rounded-[8px]"]', nav);
     if (items.length < 4) return;
@@ -1092,6 +1093,8 @@
     document.addEventListener('pointerdown', function (e) { if (menuOpen && !panel.contains(e.target) && !nav.contains(e.target)) close(); });
     addEventListener('resize', function () { if (menuOpen) { place(); mark(menuIdx); } });
   }
+
+  window.__pfBook = openBooking;
 
   /* ================= boot ================= */
   problemSwipe(); fixLogos(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); useCaseControl(); footerRebuild(); soundToggle(); hoverFx(); megaMenu(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
