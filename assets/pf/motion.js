@@ -202,7 +202,7 @@
     words(ftRoot.querySelector('[class*="text-[84px]"] p'), { each: 60, dur: 1200 });
     var fcol = ftRoot.querySelector('[class*="text-[84px]"]').parentNode;
     rise(fcol.children[1], { delay: 400, y: 20 }); rise(fcol.parentNode.children[1], { delay: 650, y: 20, scale: .94, trigger: fcol });
-    $$('p.absolute', ftRoot).forEach(function (p, i) { rise(p, { y: 16, delay: (i % 5) * 50, dur: 800 }); });
+    $$('p.absolute', ftRoot).forEach(function (p, i) { rise(p, { y: 16, delay: (i % 5) * 50, dur: 800, trigger: sec.footer }); });
     // grid-rule lines draw in
   }
 
@@ -695,10 +695,26 @@
     applyShift(); requestAnimationFrame(shiftTick);
   }
 
+
+  /* footer: no grid lines (text sits straight on the background) and the glow bleeds across the full width */
+  function footerBleed() {
+    var kids = [].slice.call(ftRoot.children);
+    kids.forEach(function (k, i) {
+      if (i === 0) return;                                           // base background
+      if (k.tagName === 'DIV' && k.children.length === 1 && k.firstElementChild.tagName === 'IMG' && /inset-\[/.test(k.className)) {
+        if (/50\.37%_94\.71%/.test(k.className)) return;             // the small blue mark beside the tagline
+        k.style.display = 'none';
+      }
+    });
+    var base = ftRoot.children[0]; if (base) { base.style.left = '-3000px'; base.style.right = '-3000px'; base.style.display = 'none'; }
+    var glow = kids.filter(function (k) { return /h-\[520px\]/.test(k.className); })[0];
+    if (glow) { glow.style.left = '-1500px'; glow.style.width = '4440px'; glow.style.opacity = '.42'; }
+  }
+
   /* ================= boot ================= */
-  bleedHero(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); lottieCards(); heroGlobe();
+  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); lottieCards(); heroGlobe();
   dotGlobe();
-  aurora(ftRoot, ftRoot.children[1], [0, 880, 1440, 401], { blend: 'screen', opacity: .22, c1: [.05, .25, 1], c2: [.1, .85, 1] });
+  aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
   var tick = false;
   function req() { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; update(); }); } }
