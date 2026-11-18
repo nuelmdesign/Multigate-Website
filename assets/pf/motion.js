@@ -848,8 +848,28 @@
     });
   }
 
+
+  /* Problem cards: each illustration moves in a way that says what the card says. All slow, all looping. */
+  function problemMotion() {
+    if (reduce) return;
+    var c = probCards, set = function (el, name, dur, delay) { if (!el) return; el.style.animation = name + ' ' + dur + 's ease-in-out ' + delay + 's infinite both'; };
+    c.forEach(function (k) { k.classList.add('pf-pc'); });
+    // 1. scattered balances drift out of step with each other
+    $$('[class*="rounded-[1170000.125px]"]', c[0]).forEach(function (p, i) { set(p, 'pfdrift' + (i % 2 + 1), 7 + i * 1.3, -i * 1.7); });
+    // 2. work arrives one supplier at a time, and "Matched" only lands late
+    $$('[class*="rounded-[1170000.125px]"]', c[1]).forEach(function (p, i) { set(p, 'pfpick', 12, i * 2.2); });
+    $$('[class*="bg-[#1baa43]"]', c[1]).forEach(function (b, i) { set(b, 'pflate', 12, 5 + i * 2.6); });
+    // 3. the "3 days" pills crawl along their path, the blocks pulse as they arrive
+    $$('[class*="border-[#eff0f2]"][class*="rounded-[1376470"]', c[2]).forEach(function (p, i) { set(p, 'pfcrawl', 10, -i * 2.4); });
+    $$('[class*="h-[37.647px]"]', c[2]).forEach(function (b, i) { set(b, 'pfpulse', 6, -i * 1.2); });
+    // 4. suppliers waiting in a queue: rows light up one after another
+    $$('[class*="py-[4.224px]"]', c[3]).forEach(function (r, i) { set(r, 'pfqueue', 9, i * 3); });
+    var io2 = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('pf-run', e.isIntersecting); }); }, { threshold: .15 });
+    c.forEach(function (k) { io2.observe(k); });
+  }
+
   /* ================= boot ================= */
-  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); lottieCards(); heroGlobe();
+  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
