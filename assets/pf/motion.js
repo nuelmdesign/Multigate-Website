@@ -250,16 +250,20 @@
     });
   }
   function stackFocus(f) {
-    var slot = lerp(40, 259.37, ease3(clamp(f - 1, 0, 1)));
+    // Each new card slides up from below over the previous one, already at full (Treasury) size.
+    // As it covers the card behind, that card settles back into its place in the final stack.
+    var e2 = ease3(clamp(f, 0, 1)), e3 = ease3(clamp(f - 1, 0, 1));
+    var enter = [1, e2, e3];
+    var bigs = [1 - e2, f < 1 ? 1 : 1 - e3, 1];
+    var slot = lerp(40, 259.37, e3);
+    var off = vh / S + 320;
     stackCards.forEach(function (c, i) {
-      var d = Math.abs(f - i), big = clamp(1 - d, 0, 1);
-      var enter = i === 0 ? 1 : ease3(clamp(f - (i - 1), 0, 1));
-      var k = SLOT_W / WIDTH[i];
+      var big = bigs[i], k = SLOT_W / WIDTH[i];
       c.style.scale = String(1 + (k - 1) * big);
       c.style.top = (REST[i] + (slot - REST[i]) * big) + 'px';
-      c.style.translate = '0 ' + ((1 - enter) * 160) + 'px';
-      c.style.opacity = String(enter);
-      c.style.zIndex = String(Math.round(100 - d * 10));
+      c.style.translate = '0 ' + ((1 - enter[i]) * off) + 'px';
+      c.style.opacity = '1';
+      c.style.zIndex = String(10 + i);
       var col = CARD_COL[i];
       if (col) {
         c.style.backgroundColor = mixc(col.bg, FOCUS_COL.bg, big);
