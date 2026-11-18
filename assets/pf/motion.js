@@ -711,8 +711,70 @@
     if (glow) { glow.style.left = '-1500px'; glow.style.width = '4440px'; glow.style.opacity = '.42'; }
   }
 
+
+  /* ---------- footer: real link columns that light up as a group, newsletter, legal; plus a soft hover tick ---------- */
+  var sfx = { on: true, ctx: null, last: 0 };
+  try { if (localStorage.getItem('pf-sound') === 'off') sfx.on = false; } catch (e) {}
+  function unlockAudio() {
+    if (!sfx.ctx) { try { sfx.ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (sfx.ctx && sfx.ctx.state === 'suspended') sfx.ctx.resume();
+  }
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) { addEventListener(ev, unlockAudio, { passive: true }); });
+  function tick() {
+    if (!sfx.on || !sfx.ctx || sfx.ctx.state !== 'running') return;
+    var now = performance.now(); if (now - sfx.last < 45) return; sfx.last = now;
+    var c = sfx.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(2600, t0); o.frequency.exponentialRampToValueAtTime(1300, t0 + .02);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.03, t0 + .002); g.gain.exponentialRampToValueAtTime(.0001, t0 + .028);
+    o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0 + .035);
+  }
+  function soundToggle() {
+    var b = document.createElement('button'); b.id = 'pf-sound'; b.type = 'button';
+    var paint = function () { b.setAttribute('aria-pressed', String(sfx.on)); b.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/>' + (sfx.on ? '<path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>' : '<path d="m22 9-6 6M16 9l6 6"/>') + '</svg><span>Sound ' + (sfx.on ? 'on' : 'off') + '</span>'; };
+    paint();
+    b.addEventListener('click', function () { sfx.on = !sfx.on; try { localStorage.setItem('pf-sound', sfx.on ? 'on' : 'off'); } catch (e) {} paint(); unlockAudio(); if (sfx.on) setTimeout(tick, 30); });
+    document.body.appendChild(b);
+  }
+  function hoverFx() {
+    $$('[class*="rounded-[8px]"]', nav).forEach(function (m) { m.classList.add('pf-mi'); m.parentNode.classList.add('pf-menu'); m.addEventListener('pointerenter', tick); });
+    $$('.pf-fl a, .pf-fl button.pf-fsub').forEach(function (a) { a.addEventListener('pointerenter', tick); });
+  }
+  function footerRebuild() {
+    $$('p.absolute', ftRoot).forEach(function (p) { p.style.display = 'none'; });
+    $$('div', ftRoot).forEach(function (d) { if (d.parentNode === ftRoot && /50\.37%_94\.71%/.test(d.className)) d.style.display = 'none'; });
+    var col = function (h, links) { return '<div class="pf-fc"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
+    var box = document.createElement('div'); box.className = 'pf-fl';
+    box.style.cssText = 'position:absolute;left:100px;top:548px;width:1240px;';
+    box.innerHTML =
+      '<div class="pf-ftop">' +
+        '<div class="pf-fbrand"><div class="pf-flogo"><img src="assets/pf/header-77157.svg" alt=""><span>Multigate</span></div>' +
+        '<p>The trusted network powering African treasury and trade.</p>' +
+        '<form class="pf-news-f" novalidate><input type="email" placeholder="Get monthly updates" aria-label="Email address"><button class="pf-fsub" type="submit" aria-label="Subscribe">→</button></form>' +
+        '<p class="pf-news-ok" hidden>Thank you. You are on the list.</p></div>' +
+        '<div class="pf-fcols">' +
+          col('Platform', ['Multigate system', 'Payables Financing', 'For banks']) +
+          col('Network', ['Coverage', 'Financiers', 'For payment companies and platforms', 'Developers']) +
+          col('Trust', ['Licences', 'Certifications', 'Swift']) +
+          col('Company', ['About', 'Leadership', 'Insights', 'Careers']) +
+        '</div></div>' +
+      '<div class="pf-fbadges" data-confirm="certifications"><span>ISO/IEC 27001</span><span>ISO 22301</span><span>ISO/IEC 20000</span><span>PCI DSS</span></div>' +
+      '<p class="pf-flegal">Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services. Financing is provided by participating Financiers; Multigate does not lend.</p>' +
+      '<div class="pf-fbot"><span>Copyright © 2026 Multigate Holdings Ltd</span><div class="pf-fl2"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div><div class="pf-fl2"><a href="#">LinkedIn</a><a href="#">X</a></div></div>';
+    ftRoot.appendChild(box);
+    box.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
+    var f = box.querySelector('.pf-news-f');
+    f.addEventListener('submit', function (e) { e.preventDefault(); var v = f.querySelector('input').value.trim(); if (!/^\S+@\S+\.\S+$/.test(v)) { f.classList.add('bad'); return; } f.classList.remove('bad'); f.hidden = true; box.querySelector('.pf-news-ok').hidden = false; });
+    if (!reduce) {
+      rise(box.querySelector('.pf-fbrand'), { y: 24, trigger: box });
+      $$('.pf-fc', box).forEach(function (c, i) { rise(c, { y: 24, delay: 120 + i * 90, trigger: box }); });
+      rise(box.querySelector('.pf-fbadges'), { y: 16, delay: 300, trigger: box });
+      rise(box.querySelector('.pf-flegal'), { y: 16, delay: 400, trigger: box });
+      rise(box.querySelector('.pf-fbot'), { y: 12, delay: 500, trigger: box });
+    }
+  }
+
   /* ================= boot ================= */
-  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); lottieCards(); heroGlobe();
+  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
