@@ -299,7 +299,7 @@
     // problem cards drift left; the blue line fills the whole grey line as they go
     var rr = cardsRow.getBoundingClientRect(), cy = rr.top + rr.height / 2;
     var pr = clamp((vh * .95 - cy) / (vh * .75), 0, 1), prs = pr * pr * (3 - 2 * pr);
-    cardsRow.style.translate = (-306 * prs) + 'px 0';
+    cardsRow.style.translate = (-406 * prs) + 'px 0';
     if (lineBlue) lineBlue.style.transform = 'scaleX(' + prs + ')';
 
     // solutions: the stack is pinned. The card in focus is the size and colour of the Treasury card;
@@ -495,7 +495,7 @@
   }
 
   function padClips() {
-    cCards.style.width = '1240px'; cCards.style.overflow = 'hidden';
+    cCards.style.width = '1240px'; cCards.style.overflow = 'hidden'; cCards.style.webkitMaskImage = cCards.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%)';
     shRow.parentNode.style.clipPath = 'inset(0 100px 0 0)';
   }
   function netClip() {
