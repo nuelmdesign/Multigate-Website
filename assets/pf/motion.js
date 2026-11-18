@@ -296,11 +296,9 @@
     // hero text drifts slightly slower than the page
     heroText.style.translate = '0 ' + (sy * .1) + 'px';
 
-    // problem cards drift left; the blue line fills the whole grey line as they go
     var rr = cardsRow.getBoundingClientRect(), cy = rr.top + rr.height / 2;
-    var pr = clamp((vh * .5 - 190 * S - cy) / (560 * S), 0, 1), prs = pr * pr * (3 - 2 * pr);
-    var lf = prs > .01 ? 28 : 0; if (lf !== cCards._lf) { cCards._lf = lf; cCards.style.webkitMaskImage = cCards.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 ' + lf + 'px, #000 calc(100% - 28px), transparent 100%)'; }
-    cardsRow.style.translate = (-366 * prs) + 'px 0';
+    // problem cards: moved by horizontal swipe / drag only (see problemSwipe)
+    var vpr = clamp((vh * .75 - cy) / (vh * .6), 0, 1), prs = Math.max(pcs.cur / PCMAX, vpr * vpr * (3 - 2 * vpr));
     if (lineBlue) lineBlue.style.transform = 'scaleX(' + prs + ')';
 
     // solutions: the stack is pinned. The card in focus is the size and colour of the Treasury card;
@@ -939,8 +937,33 @@
     news.children[1].style.gap = '53px';
   }
 
+
+  /* Problem cards: a sideways trackpad swipe (or drag) slides the row; vertical scrolling never moves it. */
+  var PCMAX = 366, pcs = { cur: 0, target: 0, drag: false, sx: 0, st: 0 };
+  function problemSwipe() {
+    cCards.style.touchAction = 'pan-y'; cCards.style.cursor = 'grab';
+    var apply = function () {
+      cardsRow.style.translate = (-pcs.cur).toFixed(2) + 'px 0';
+      var lf = pcs.cur > 4 ? 28 : 0, rf = pcs.cur < PCMAX - 4 ? 28 : 0, key = lf + '_' + rf;
+      if (key !== cCards._mk) { cCards._mk = key; cCards.style.webkitMaskImage = cCards.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 ' + lf + 'px, #000 calc(100% - ' + rf + 'px), transparent 100%)'; }
+    };
+    cCards.addEventListener('wheel', function (e) {
+      var dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+      if (!dx) return;
+      e.preventDefault();
+      pcs.target = clamp(pcs.target + dx / Math.max(.5, S), 0, PCMAX);
+    }, { passive: false });
+    cCards.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button !== 0) return; pcs.drag = true; pcs.sx = e.clientX; pcs.st = pcs.target; cCards.style.cursor = 'grabbing'; });
+    addEventListener('pointermove', function (e) { if (pcs.drag) pcs.target = clamp(pcs.st - (e.clientX - pcs.sx) / Math.max(.5, S), 0, PCMAX); });
+    addEventListener('pointerup', function () { pcs.drag = false; cCards.style.cursor = 'grab'; });
+    cCards.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') pcs.target = clamp(pcs.target + 200, 0, PCMAX); if (e.key === 'ArrowLeft') pcs.target = clamp(pcs.target - 200, 0, PCMAX); });
+    cCards.setAttribute('tabindex', '0');
+    (function f() { requestAnimationFrame(f); var d = pcs.target - pcs.cur; if (Math.abs(d) > .05) { pcs.cur += d * .12; apply(); } })();
+    apply();
+  }
+
   /* ================= boot ================= */
-  padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
+  problemSwipe(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
