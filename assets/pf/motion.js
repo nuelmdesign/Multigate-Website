@@ -513,6 +513,54 @@
     });
   }
 
+
+  /* Banks card: a wireframe rotunda that turns slowly, drawn live in the same blue line style as the coin and stack,
+     and driven by the same 16 second clock (a quarter turn per loop, so it repeats seamlessly). */
+  function bankDome(card) {
+    var cv = document.createElement('canvas'), W = 460;
+    cv.style.cssText = 'position:absolute;pointer-events:none;width:' + W + 'px;height:' + W + 'px;left:' + (258 - W / 2) + 'px;top:' + (232 - W / 2) + 'px';
+    var ctx = cv.getContext('2d'); if (!ctx) return null;
+    var L = [], TAU = Math.PI * 2;
+    function ring(r, y, n, cx, cz) { var a = []; for (var i = 0; i <= n; i++) { var th = i / n * TAU; a.push([(cx || 0) + r * Math.cos(th), y, (cz || 0) + r * Math.sin(th)]); } return a; }
+    function line(a, b) { return [a, b]; }
+    var w = .8;                                                         // line weight
+    L.push({ p: ring(1, 0, 56), w: w }, { p: ring(1, .13, 56), w: w }, { p: ring(.9, .13, 56), w: w * .8 }, { p: ring(.62, .13, 40), w: w * .5, f: 1 }, { p: ring(.3, .13, 28), w: w * .5, f: 1 });
+    for (var i = 0; i < 28; i++) { var a1 = i / 28 * TAU; L.push({ p: line([Math.cos(a1), 0, Math.sin(a1)], [Math.cos(a1), .13, Math.sin(a1)]), w: w * .8 }); }
+    for (var k = 0; k < 8; k++) {                                       // columns
+      var an = k * Math.PI / 4 + Math.PI / 8, cx = .84 * Math.cos(an), cz = .84 * Math.sin(an);
+      L.push({ p: ring(.065, .13, 14, cx, cz), w: w }, { p: ring(.065, 1.04, 14, cx, cz), w: w });
+      for (var j = 0; j < 7; j++) { var th = j / 7 * TAU; L.push({ p: line([cx + .065 * Math.cos(th), .13, cz + .065 * Math.sin(th)], [cx + .065 * Math.cos(th), 1.04, cz + .065 * Math.sin(th)]), w: w * .8 }); }
+    }
+    L.push({ p: ring(1, 1.04, 56), w: w }, { p: ring(.95, 1.04, 56), w: w * .8 }, { p: ring(1, 1.14, 56), w: w }, { p: ring(.95, 1.14, 56), w: w * .8 });
+    L.push({ p: ring(.78, 1.28, 56), w: w * .7 }, { p: ring(.55, 1.42, 48), w: w }, { p: ring(.5, 1.46, 40), w: w }, { p: ring(.2, 1.52, 28), w: w }, { p: ring(.12, 1.55, 20), w: w });
+    for (var r = 0; r < 56; r++) { var ar = r / 56 * TAU; L.push({ p: line([Math.cos(ar), 1.14, Math.sin(ar)], [.55 * Math.cos(ar), 1.42, .55 * Math.sin(ar)]), w: w * .8 }); }
+    for (var q = 0; q < 28; q++) { var aq = q / 28 * TAU; L.push({ p: line([.5 * Math.cos(aq), 1.46, .5 * Math.sin(aq)], [.2 * Math.cos(aq), 1.52, .2 * Math.sin(aq)]), w: w * .6, f: 1 }); }
+    var tilt = 25 * Math.PI / 180, ct = Math.cos(tilt), st = Math.sin(tilt), S0 = 168, YC = .74;
+    return {
+      cv: cv,
+      draw: function (ph) {
+        var px = Math.min(devicePixelRatio || 1, 2) * Math.max(.5, S), cw = Math.round(W * px);
+        if (cv.width !== cw) { cv.width = cw; cv.height = cw; }
+        ctx.setTransform(px, 0, 0, px, 0, 0); ctx.clearRect(0, 0, W, W);
+        var th = ph * Math.PI / 2 + .35, c = Math.cos(th), s = Math.sin(th);
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        L.forEach(function (ln) {
+          var pts = ln.p, zs = 0;
+          ctx.beginPath();
+          for (var i = 0; i < pts.length; i++) {
+            var x = pts[i][0] * c - pts[i][2] * s, z = pts[i][0] * s + pts[i][2] * c, y = pts[i][1];
+            var y2 = y * ct - z * st, z2 = y * st + z * ct; zs += z2;
+            var X = W / 2 + x * S0, Y = W / 2 + 18 - (y2 - YC) * S0;
+            if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+          }
+          var zm = zs / pts.length, al = Math.max(.24, Math.min(1, .78 + zm * .5)) * (ln.f ? .6 : 1);
+          ctx.strokeStyle = 'rgba(19,98,245,' + al.toFixed(3) + ')'; ctx.lineWidth = ln.w;
+          ctx.stroke();
+        });
+      }
+    };
+  }
+
   var useCase = [];
   function lottieCards() {
     var specs = [['collect', 0, 440, 258, 241], ['convert', 1, 560, 258, 233], ['pay', 3, 520, 258, 229]];
@@ -530,9 +578,9 @@
       });
     });
     // the bank card has no earlier motion asset: give it a slow float so every card is alive
-    var bank = shCards[2].children[1];
-    useCase.push({ dome: bank, card: shCards[2], vis: false });
-    new IntersectionObserver(function (es) { useCase.forEach(function (u) { if (u.dome) u.vis = es[0].isIntersecting; }); }).observe(shCards[2]);
+    var bank = shCards[2].children[1], bd = bankDome(shCards[2]);
+    if (bd) { bank.style.display = 'none'; shCards[2].appendChild(bd.cv); shVis[2] = bd.cv; useCase.push({ draw: bd.draw, card: shCards[2], vis: false }); bd.draw(0); }
+    new IntersectionObserver(function (es) { useCase.forEach(function (u) { if (u.draw) u.vis = es[0].isIntersecting; }); }).observe(shCards[2]);
     /* one shared clock: every use-case illustration (coin, coins, dome, stack) completes a loop in the same time */
     var PERIOD = 16000, lastF = 0;
     (function tick(now) {
@@ -542,7 +590,7 @@
       useCase.forEach(function (u) {
         if (!u.vis) return;
         if (u.a) u.a.goToAndStop(ph * 47.9, true);
-        else if (u.dome) u.dome.style.transform = 'translateY(' + (Math.sin(ph * 6.2832) * -16) + 'px) rotate(' + (Math.sin(ph * 6.2832) * 1.6) + 'deg) scale(' + (1 + Math.sin(ph * 6.2832) * .015) + ')';
+        else if (u.draw) u.draw(ph);
       });
     })(performance.now());
   }
