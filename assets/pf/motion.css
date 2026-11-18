@@ -259,3 +259,8 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pfm-cl { font-size: 10px; line-height: 10px; }
 .pfm-lk { font-size: 14px; line-height: 20px; letter-spacing: -1px; }
 .pfm-cn { font-size: 8px; line-height: 8px; }
+
+/* mega menu type sizes (revised) */
+.pfm-cl { font-size: 11px; line-height: 10px; }
+.pfm-lk { font-size: 14px; line-height: 20px; letter-spacing: -.5px; }
+.pfm-cl { letter-spacing: -.05px; }
