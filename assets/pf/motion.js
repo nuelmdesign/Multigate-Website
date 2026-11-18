@@ -725,7 +725,7 @@
   function tick() {
     if (!sfx.on || !sfx.ctx || sfx.ctx.state !== 'running') return;
     var now = performance.now(); if (now - sfx.last < 40) return; sfx.last = now;
-    var c = sfx.ctx, t0 = c.currentTime, out = c.createGain(); out.gain.value = 1;
+    var c = sfx.ctx, t0 = c.currentTime, out = c.createGain(); out.gain.value = .3;
     var lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200; out.connect(lp); lp.connect(c.destination);
     // body: low sine that drops fast
     var o = c.createOscillator(), g = c.createGain();
