@@ -190,3 +190,6 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf2 .pf-frule { margin-top: 0; }
 .pf2-bot { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; font: 400 15px/1 "Inter", sans-serif; letter-spacing: -.01em; color: #fff; }
 .pf2-legal { margin: 22px 0 0; max-width: 920px; font: 400 12.5px/1.55 "Inter", sans-serif; letter-spacing: -.005em; color: rgba(255,255,255,.42); }
+
+/* tagline sits directly under the logo, in PT Serif */
+.pf2-tag { left: 0 !important; top: 58px !important; width: 360px !important; font: 400 30px/1.2 "PT Serif", Georgia, serif !important; letter-spacing: -.025em !important; }
