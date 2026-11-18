@@ -778,7 +778,7 @@
     });
     var base = ftRoot.children[0]; if (base) { base.style.left = '-3000px'; base.style.right = '-3000px'; base.style.display = 'none'; }
     var glow = kids.filter(function (k) { return /h-\[520px\]/.test(k.className); })[0];
-    if (glow) { glow.style.left = '-1500px'; glow.style.width = '4440px'; glow.style.opacity = '.42'; }
+    if (glow) { glow.style.top = '1263px'; glow.style.left = '-1500px'; glow.style.width = '4440px'; glow.style.opacity = '.42'; }
   }
 
 
@@ -963,7 +963,7 @@
   /* ================= boot ================= */
   problemSwipe(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
-  aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
+  aurora(ftRoot, ftRoot.children[1], [-1300, 980, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
   var tick = false;
   function req() { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; update(); }); } }

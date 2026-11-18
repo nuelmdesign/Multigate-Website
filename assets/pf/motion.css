@@ -177,7 +177,7 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf-fl:hover .pf-fsoc a { color: rgba(255,255,255,.35); } .pf-fl .pf-fsoc:hover a { color: rgba(255,255,255,.6); } .pf-fl .pf-fsoc a:hover { color: #fff; }
 
 /* footer v3: matches the reference exactly */
-.pf2 { top: 500px !important; }
+.pf2 { top: 600px !important; }
 .pf2-top { position: relative; height: 470px; }
 .pf2-logo { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 8px; }
 .pf2-logo img { width: 40px; height: 18px; filter: brightness(0) invert(1); }
