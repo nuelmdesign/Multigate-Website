@@ -720,7 +720,7 @@
     var mk = function (css) { var d = document.createElement('div'); d.className = 'pf-bleed'; d.style.cssText = 'position:absolute;pointer-events:none;' + css; heroRoot.insertBefore(d, after); return d; };
     mk('left:-3000px;width:3000px;bottom:0;height:503px;background:' + grad);
     mk('left:1440px;width:3000px;bottom:0;height:503px;background:' + grad);
-    var navy = mk('left:1440px;width:3000px;top:841px;height:105px;background:#091832'); heroRoot.appendChild(navy);
+    var navy = mk('left:1440px;width:3000px;top:841px;height:105px;background:#041431'); heroRoot.appendChild(navy);
   }
 
 
