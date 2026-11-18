@@ -156,3 +156,7 @@ video.pf-vid { position: absolute; object-fit: cover; }
 /* problem cards */
 .pf-pc { transition: transform .7s cubic-bezier(.2,.7,.2,1); will-change: transform; }
 .pf-pc:hover { transform: translateY(-8px); }
+
+/* problem cards: dragging must never select or highlight content */
+.pf-pc, .pf-pc * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
+.pf-pc img { pointer-events: none; }

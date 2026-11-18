@@ -941,7 +941,7 @@
   /* Problem cards: a sideways trackpad swipe (or drag) slides the row; vertical scrolling never moves it. */
   var PCMAX = 366, pcs = { cur: 0, target: 0, drag: false, sx: 0, st: 0 };
   function problemSwipe() {
-    cCards.style.touchAction = 'pan-y'; cCards.style.cursor = 'grab';
+    cCards.style.touchAction = 'pan-y'; cCards.style.cursor = 'grab'; cCards.style.userSelect = cCards.style.webkitUserSelect = 'none'; cCards.addEventListener('dragstart', function (e) { e.preventDefault(); }); cCards.addEventListener('selectstart', function (e) { e.preventDefault(); });
     var apply = function () {
       cardsRow.style.translate = (-pcs.cur).toFixed(2) + 'px 0';
       var lf = pcs.cur > 4 ? 28 : 0, rf = pcs.cur < PCMAX - 4 ? 28 : 0, key = lf + '_' + rf;
@@ -953,7 +953,7 @@
       e.preventDefault();
       pcs.target = clamp(pcs.target + dx / Math.max(.5, S), 0, PCMAX);
     }, { passive: false });
-    cCards.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button !== 0) return; pcs.drag = true; pcs.sx = e.clientX; pcs.st = pcs.target; cCards.style.cursor = 'grabbing'; });
+    cCards.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button !== 0) return; pcs.drag = true; e.preventDefault(); pcs.sx = e.clientX; pcs.st = pcs.target; cCards.style.cursor = 'grabbing'; });
     addEventListener('pointermove', function (e) { if (pcs.drag) pcs.target = clamp(pcs.st - (e.clientX - pcs.sx) / Math.max(.5, S), 0, PCMAX); });
     addEventListener('pointerup', function () { pcs.drag = false; cCards.style.cursor = 'grab'; });
     cCards.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') pcs.target = clamp(pcs.target + 200, 0, PCMAX); if (e.key === 'ArrowLeft') pcs.target = clamp(pcs.target - 200, 0, PCMAX); });
