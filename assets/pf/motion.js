@@ -214,6 +214,7 @@
       if (!lab) { if (b.id === 'pf-prev' || b.id === 'pf-next') b.classList.add('pf-circ'); return; }
       var tn = lab.tagName === 'P' ? lab : lab.querySelector('p') || lab;
       var t = tn.textContent.trim();
+      if (/^Book a/.test(t)) b.addEventListener('click', function () { openBooking(); });
       tn.innerHTML = '<span class="rl"><span class="rl-a">' + t + '</span><span class="rl-b" aria-hidden="true">' + t + '</span></span>';
       b.classList.add('pf-btn');
       var bg = getComputedStyle(b).backgroundColor;
@@ -417,7 +418,7 @@
   function aurora(host, before, box, o) {
     if (reduce) return null;
     var cv = document.createElement('canvas'); cv.className = 'pf-gl';
-    cv.style.cssText = 'left:' + box[0] + 'px;top:' + box[1] + 'px;width:' + box[2] + 'px;height:' + box[3] + 'px;' + (o.blend ? 'mix-blend-mode:' + o.blend + ';' : '') + 'opacity:' + o.opacity + ';';
+    cv.style.cssText = 'left:' + box[0] + 'px;top:' + box[1] + 'px;width:' + box[2] + 'px;height:' + box[3] + 'px;' + (o.blend ? 'mix-blend-mode:' + o.blend + ';' : '') + (o.mask ? '-webkit-mask-image:' + o.mask + ';mask-image:' + o.mask + ';' : '') + 'opacity:' + o.opacity + ';';
     try {
       var ctx = gl(cv); if (!ctx) return null; var g = ctx.g;
       var vs = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
@@ -614,10 +615,49 @@
     requestAnimationFrame(draw);
   }
 
+
+  /* ---------- booking dialog (prototype: no data leaves the page) ---------- */
+  var bookDlg = null;
+  function openBooking() {
+    if (!bookDlg) {
+      bookDlg = document.createElement('dialog'); bookDlg.className = 'pf-book';
+      bookDlg.innerHTML =
+        '<form method="dialog" class="pf-bk-x"><button aria-label="Close">×</button></form>' +
+        '<div class="pf-bk-in"><div class="pf-bk-form">' +
+        '<p class="pf-bk-eyebrow"><i></i>Book a review</p>' +
+        '<h2>See your money in one place.</h2>' +
+        '<p class="pf-bk-lead">Tell us a little about your company. We will set up a short treasury review.</p>' +
+        '<form class="pf-bk-f" novalidate>' +
+        '<label>Full name<input name="n" autocomplete="name" required></label>' +
+        '<label>Work email<input name="e" type="email" autocomplete="email" required></label>' +
+        '<label>Company<input name="c" autocomplete="organization" required></label>' +
+        '<fieldset><legend>What would you like to see?</legend><div class="pf-chips">' +
+        ['Cash across banks', 'Payments and FX', 'Payables Financing', 'Treasury system'].map(function (x) { return '<label><input type="checkbox" name="i" value="' + x + '"><span>' + x + '</span></label>'; }).join('') +
+        '</div></fieldset>' +
+        '<button class="pf-bk-go" type="submit">Request a review</button>' +
+        '<p class="pf-bk-err" hidden>Please complete your name, a valid work email and your company.</p>' +
+        '</form></div>' +
+        '<div class="pf-bk-done" hidden><div class="pf-bk-tick">✓</div><h2>Thank you.</h2><p>We will be in touch within one working day to set up your review.</p><button class="pf-bk-close" type="button">Close</button></div></div>';
+      document.body.appendChild(bookDlg);
+      var f = bookDlg.querySelector('.pf-bk-f');
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var ok = f.n.value.trim() && /^\S+@\S+\.\S+$/.test(f.e.value.trim()) && f.c.value.trim();
+        bookDlg.querySelector('.pf-bk-err').hidden = !!ok; if (!ok) return;
+        bookDlg.querySelector('.pf-bk-form').hidden = true; bookDlg.querySelector('.pf-bk-done').hidden = false;
+      });
+      bookDlg.querySelector('.pf-bk-close').addEventListener('click', function () { bookDlg.close(); });
+      bookDlg.addEventListener('click', function (e) { if (e.target === bookDlg) bookDlg.close(); });
+      bookDlg.addEventListener('close', function () { bookDlg.querySelector('.pf-bk-form').hidden = false; bookDlg.querySelector('.pf-bk-done').hidden = true; f.reset(); });
+    }
+    if (!bookDlg.open) bookDlg.showModal();
+  }
+
   /* ================= boot ================= */
   marquee(); blueLine(); netClip(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [0, 880, 1440, 401], { blend: 'screen', opacity: .6, c1: [.05, .25, 1], c2: [.1, .85, 1] });
+  aurora(ftRoot, ftRoot.children[1], [160, 120, 1120, 560], { blend: 'screen', opacity: .6, c1: [.1, .3, 1], c2: [.15, .75, 1], mask: 'radial-gradient(ellipse 50% 50% at 50% 52%, #000 30%, transparent 100%)' });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .28, c1: [.45, .65, 1], c2: [.35, .85, 1] });
   var tick = false;
   function req() { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; update(); }); } }
