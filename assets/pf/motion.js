@@ -746,6 +746,7 @@
     if (!shAuto.vis) return;
     if (shAuto.pause > 0) { shAuto.pause -= dt; }
     else if (shAuto.hover && shAuto.mode === 'auto') { /* hold while the pointer is over the cards */ }
+    else if (shAuto.mode === 'manual') { shAuto.mode = 'auto'; }
     else if (shAuto.mode === 'auto') {
       shAuto.x += 24 * dt / 1000;
       if (shAuto.x >= 1413) { shAuto.x = 1413; shAuto.mode = 'rewind'; shAuto.pause = 2600; }
@@ -960,8 +961,33 @@
     apply();
   }
 
+
+  /* Who it's built for: soft fade where cards slide under the text, plus swipe / drag / keys (auto drift keeps running) */
+  function useCaseControl() {
+    var wrap = shRow.parentNode, MAX = 1413;
+    var fade = document.createElement('div');
+    fade.style.cssText = 'position:absolute;left:539px;top:0;bottom:0;width:56px;z-index:4;pointer-events:none;background:linear-gradient(90deg,#041431,rgba(4,20,49,0))';
+    wrap.style.position = 'relative'; wrap.appendChild(fade);
+    shRow.style.userSelect = shRow.style.webkitUserSelect = 'none'; shRow.style.touchAction = 'pan-y'; shRow.style.cursor = 'grab';
+    var hold = function () { shAuto.mode = 'manual'; shAuto.pause = 8000; };
+    shRow.addEventListener('wheel', function (e) {
+      var dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+      if (!dx) return; e.preventDefault(); hold();
+      shAuto.x = clamp(shAuto.x + dx / Math.max(.5, S), 0, MAX); applyShift();
+    }, { passive: false });
+    var drag = false, sx = 0, x0 = 0;
+    shRow.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    shRow.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button !== 0) return; drag = true; sx = e.clientX; x0 = shAuto.x; hold(); shRow.style.cursor = 'grabbing'; e.preventDefault(); });
+    addEventListener('pointermove', function (e) { if (!drag) return; hold(); shAuto.x = clamp(x0 - (e.clientX - sx) / Math.max(.5, S), 0, MAX); applyShift(); });
+    addEventListener('pointerup', function () { drag = false; shRow.style.cursor = 'grab'; });
+    shRow.setAttribute('tabindex', '0');
+    shRow.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { var i = shPP.map(function (v) { return Math.abs(v * MAX - shAuto.x); }); var k = i.indexOf(Math.min.apply(null, i)); k = clamp(k + (e.key === 'ArrowRight' ? 1 : -1), 0, 3); shAuto.mode = 'goto'; shAuto.target = shPP[k] * MAX; shAuto.pause = 0; e.preventDefault(); }
+    });
+  }
+
   /* ================= boot ================= */
-  problemSwipe(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
+  problemSwipe(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); useCaseControl(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 980, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
