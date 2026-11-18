@@ -720,13 +720,24 @@
     if (sfx.ctx && sfx.ctx.state === 'suspended') sfx.ctx.resume();
   }
   ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) { addEventListener(ev, unlockAudio, { passive: true }); });
+  /* a soft haptic "tap": a short low thump with a tiny felt click on top, like a phone's scroll-picker tick */
+  var tapNoise = null;
   function tick() {
     if (!sfx.on || !sfx.ctx || sfx.ctx.state !== 'running') return;
-    var now = performance.now(); if (now - sfx.last < 45) return; sfx.last = now;
-    var c = sfx.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();
-    o.type = 'sine'; o.frequency.setValueAtTime(2600, t0); o.frequency.exponentialRampToValueAtTime(1300, t0 + .02);
-    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.03, t0 + .002); g.gain.exponentialRampToValueAtTime(.0001, t0 + .028);
-    o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0 + .035);
+    var now = performance.now(); if (now - sfx.last < 40) return; sfx.last = now;
+    var c = sfx.ctx, t0 = c.currentTime, out = c.createGain(); out.gain.value = 1;
+    var lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200; out.connect(lp); lp.connect(c.destination);
+    // body: low sine that drops fast
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(240, t0); o.frequency.exponentialRampToValueAtTime(95, t0 + .045);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.34, t0 + .003); g.gain.exponentialRampToValueAtTime(.0001, t0 + .07);
+    o.connect(g); g.connect(out); o.start(t0); o.stop(t0 + .08);
+    // click: a few milliseconds of filtered noise
+    if (!tapNoise) { tapNoise = c.createBuffer(1, Math.floor(c.sampleRate * .02), c.sampleRate); var d = tapNoise.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+    var n = c.createBufferSource(), bp = c.createBiquadFilter(), ng = c.createGain();
+    n.buffer = tapNoise; bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = .8;
+    ng.gain.setValueAtTime(.16, t0); ng.gain.exponentialRampToValueAtTime(.0001, t0 + .012);
+    n.connect(bp); bp.connect(ng); ng.connect(out); n.start(t0); n.stop(t0 + .02);
   }
   function soundToggle() {
     var b = document.createElement('button'); b.id = 'pf-sound'; b.type = 'button';
