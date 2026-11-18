@@ -154,13 +154,5 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf-news:hover .pf-ul { background-size: 100% 1.5px; }
 
 /* problem cards */
-.pf-pc { transition: transform .6s cubic-bezier(.2,.7,.2,1), box-shadow .6s; }
-.pf-pc:hover { transform: translateY(-8px); box-shadow: 0 26px 50px -22px rgba(4,20,49,.28); }
-.pf-pc:not(.pf-run) * { animation-play-state: paused !important; }
-@keyframes pfdrift1 { 0%,100% { translate: 0 0; } 33% { translate: 10px -8px; } 66% { translate: -7px 6px; } }
-@keyframes pfdrift2 { 0%,100% { translate: 0 0; } 33% { translate: -9px 7px; } 66% { translate: 8px -6px; } }
-@keyframes pfpick { 0%,100% { opacity: .55; } 12%,30% { opacity: 1; box-shadow: 0 0 0 2px rgba(19,98,245,.35), 0px 1.3px 2.6px rgba(195,195,195,.24); } 48% { opacity: .55; } }
-@keyframes pflate { 0%,38% { opacity: 0; scale: .8; } 52%,86% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: .8; } }
-@keyframes pfcrawl { 0% { translate: -26px 0; opacity: 0; } 15%,80% { opacity: 1; } 100% { translate: 26px 0; opacity: 0; } }
-@keyframes pfpulse { 0%,100% { scale: 1; } 50% { scale: 1.08; } }
-@keyframes pfqueue { 0%,100% { background-color: transparent; } 12%,30% { background-color: rgba(19,98,245,.09); } 45% { background-color: transparent; } }
+.pf-pc { transition: transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .7s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+.pf-pc:hover { transform: translateY(-8px); box-shadow: 0 28px 54px -24px rgba(4,20,49,.26); }

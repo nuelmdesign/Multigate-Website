@@ -849,23 +849,65 @@
   }
 
 
-  /* Problem cards: each illustration moves in a way that says what the card says. All slow, all looping. */
+  /* Problem cards: each illustration moves in a way that says what the card says.
+     One continuous clock, smooth curves only (no keyframe stops), transform and opacity only, paused off screen. */
   function problemMotion() {
     if (reduce) return;
-    var c = probCards, set = function (el, name, dur, delay) { if (!el) return; el.style.animation = name + ' ' + dur + 's ease-in-out ' + delay + 's infinite both'; };
+    var c = probCards, TAU = Math.PI * 2;
     c.forEach(function (k) { k.classList.add('pf-pc'); });
-    // 1. scattered balances drift out of step with each other
-    $$('[class*="rounded-[1170000.125px]"]', c[0]).forEach(function (p, i) { set(p, 'pfdrift' + (i % 2 + 1), 7 + i * 1.3, -i * 1.7); });
-    // 2. work arrives one supplier at a time, and "Matched" only lands late
-    $$('[class*="rounded-[1170000.125px]"]', c[1]).forEach(function (p, i) { set(p, 'pfpick', 12, i * 2.2); });
-    $$('[class*="bg-[#1baa43]"]', c[1]).forEach(function (b, i) { set(b, 'pflate', 12, 5 + i * 2.6); });
-    // 3. the "3 days" pills crawl along their path, the blocks pulse as they arrive
-    $$('[class*="border-[#eff0f2]"][class*="rounded-[1376470"]', c[2]).forEach(function (p, i) { set(p, 'pfcrawl', 10, -i * 2.4); });
-    $$('[class*="h-[37.647px]"]', c[2]).forEach(function (b, i) { set(b, 'pfpulse', 6, -i * 1.2); });
-    // 4. suppliers waiting in a queue: rows light up one after another
-    $$('[class*="py-[4.224px]"]', c[3]).forEach(function (r, i) { set(r, 'pfqueue', 9, i * 3); });
-    var io2 = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('pf-run', e.isIntersecting); }); }, { threshold: .15 });
-    c.forEach(function (k) { io2.observe(k); });
+    var sm = function (x) { x = clamp(x, 0, 1); return x * x * x * (x * (x * 6 - 15) + 10); };           // smootherstep
+    var bump = function (x, a, b, c1, d) { return sm((x - a) / (b - a)) * (1 - sm((x - c1) / (d - c1))); }; // rise a..b, hold, fall c1..d
+    var all = function (card, sel) { return $$(sel, card); };
+    var G = '[class*="rounded-[1170000.125px]"]';
+    var balances = all(c[0], G), sup = all(c[1], G), late = all(c[1], '[class*="bg-[#1baa43]"]');
+    var days = all(c[2], '[class*="border-[#eff0f2]"][class*="rounded-[1376470"]'), blocks = all(c[2], '[class*="h-[37.647px]"]');
+    var rows = all(c[3], '[class*="py-[4.224px]"]');
+    [].concat(balances, sup, late, days, blocks).forEach(function (e) { e.style.willChange = 'transform, opacity'; });
+    // queue indicator: one soft bar that glides from row to row
+    var widget = rows[0] && rows[0].parentNode, bar = null;
+    if (widget) {
+      widget.style.position = 'relative';
+      bar = document.createElement('div');
+      bar.style.cssText = 'position:absolute;left:8px;right:8px;top:0;height:30px;border-radius:8px;background:rgba(19,98,245,.08);box-shadow:inset 0 0 0 1px rgba(19,98,245,.12);pointer-events:none;will-change:transform,opacity;opacity:0';
+      widget.insertBefore(bar, widget.firstChild);
+    }
+    var rowY = rows.map(function (r) { return r.offsetTop + (r.offsetHeight - 30) / 2; });
+    var run = false;
+    new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('pf-run', e.isIntersecting); }); run = c.some(function (k) { return k.classList.contains('pf-run'); }); }, { threshold: .1 }).observe(c[0]);
+    c.forEach(function (k) { new IntersectionObserver(function (es) { es.forEach(function (e) { k.classList.toggle('pf-run', e.isIntersecting); }); run = c.some(function (z) { return z.classList.contains('pf-run'); }); }, { threshold: .1 }).observe(k); });
+    var t0 = performance.now();
+    (function frame(now) {
+      requestAnimationFrame(frame); if (!run) return;
+      var t = (now - t0) / 1000;
+      // 1. balances drift on slow, unrelated orbits, so they never line up
+      balances.forEach(function (e, i) {
+        var T = 9 + i * 1.7, ph = i * 1.9;
+        e.style.translate = (Math.sin(t / T * TAU + ph) * 9).toFixed(2) + 'px ' + (Math.cos(t / (T * 1.3) * TAU + ph) * 7).toFixed(2) + 'px';
+      });
+      // 2. one supplier at a time is picked up; "Matched" only arrives after a long pause
+      var P = 14, ph2 = (t % P) / P;
+      sup.forEach(function (e, i) {
+        var u = (ph2 - i * .17 + 1) % 1, k = bump(u, 0, .09, .2, .3);
+        e.style.opacity = (.62 + .38 * k).toFixed(3); e.style.translate = '0 ' + (-3 * k).toFixed(2) + 'px'; e.style.scale = (1 + .02 * k).toFixed(4);
+      });
+      late.forEach(function (e, i) {
+        var u = (ph2 - (.42 + i * .12) + 1) % 1, k = bump(u, 0, .08, .34, .44);
+        e.style.opacity = k.toFixed(3); e.style.scale = (.86 + .14 * k).toFixed(4);
+      });
+      // 3. "3 days" pills crawl along the path; blocks breathe as they pass
+      days.forEach(function (e, i) {
+        var u = ((t / 16) + i * .25) % 1, k = Math.sin(Math.PI * u);
+        e.style.translate = ((u - .5) * 60).toFixed(2) + 'px 0'; e.style.opacity = Math.min(1, k * 1.8).toFixed(3);
+      });
+      blocks.forEach(function (e, i) { e.style.scale = (1 + .045 * (.5 + .5 * Math.sin(t / 7 * TAU + i * 1.3))).toFixed(4); });
+      // 4. a soft bar glides row to row, like a queue of suppliers being served
+      if (bar && rows.length) {
+        var cyc = 11, q = (t % cyc) / cyc * (rows.length + .6), idx = Math.min(rows.length - 1, Math.floor(q)), f = q - idx;
+        var cur = rowY[idx], nxt = rowY[Math.min(rows.length - 1, idx + 1)], mv = sm((f - .55) / .45);
+        var y = cur + (nxt - cur) * mv, vis = q < rows.length ? sm(Math.min(f * 4, 1)) * (idx === rows.length - 1 ? 1 - sm((f - .6) / .4) : 1) : 0;
+        bar.style.transform = 'translateY(' + y.toFixed(2) + 'px)'; bar.style.opacity = vis.toFixed(3);
+      }
+    })(performance.now());
   }
 
   /* ================= boot ================= */
