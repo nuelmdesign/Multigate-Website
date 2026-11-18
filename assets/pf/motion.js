@@ -826,10 +826,13 @@
     var col = function (h, links) { return '<div class="pf-fc"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
     var box = document.createElement('div'); box.className = 'pf-fl';
     box.style.cssText = 'position:absolute;left:80px;top:548px;width:1280px;';
+    var li = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>';
+    var xi = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93zm-1.29 19.5h2.04L6.48 3.24H4.3l13.31 17.41z"/></svg>';
+    var col = function (h, links) { return '<div class="pf-fc"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
     box.innerHTML =
       '<div class="pf-ftop">' +
         '<div class="pf-fbrand"><div class="pf-flogo"><img src="assets/pf/header-77157.svg" alt=""><span>Multigate</span></div>' +
-        '<p>The trusted network powering African treasury and trade.</p>' +
+        '<p class="pf-ftag">The trusted network powering African treasury and trade.</p>' +
         '<form class="pf-news-f" novalidate><input type="email" placeholder="Get monthly updates" aria-label="Email address"><button class="pf-fsub" type="submit" aria-label="Subscribe">→</button></form>' +
         '<p class="pf-news-ok" hidden>Thank you. You are on the list.</p></div>' +
         '<div class="pf-fcols">' +
@@ -840,7 +843,8 @@
         '</div></div>' +
       '<div class="pf-fbadges" data-confirm="certifications"><span>ISO/IEC 27001</span><span>ISO 22301</span><span>ISO/IEC 20000</span><span>PCI DSS</span></div>' +
       '<p class="pf-flegal">Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services. Financing is provided by participating Financiers; Multigate does not lend.</p>' +
-      '<div class="pf-fbot"><span>Copyright © 2026 Multigate Holdings Ltd</span><div class="pf-fl2"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div><div class="pf-fl2"><a href="#">LinkedIn</a><a href="#">X</a></div></div>';
+      '<div class="pf-frule"></div>' +
+      '<div class="pf-fbot"><span>© 2026 Multigate Holdings Ltd</span><div class="pf-fl2"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div><div class="pf-fsoc"><a href="#" aria-label="LinkedIn">' + li + '</a><a href="#" aria-label="X">' + xi + '</a></div></div>';
     ftRoot.appendChild(box);
     box.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
     var f = box.querySelector('.pf-news-f');
