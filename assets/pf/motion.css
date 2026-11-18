@@ -138,9 +138,16 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf-menu .pf-mi { transition: opacity .3s; }
 .pf-menu .pf-mi:hover { opacity: 1; }
 
-/* sound toggle */
-#pf-sound { position: fixed; left: 16px; bottom: 16px; z-index: 88; display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgba(4,20,49,.14); background: rgba(255,255,255,.86); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #041431; font: 500 12px/1 "DM Sans", sans-serif; cursor: pointer; transition: background-color .3s, transform .2s; }
-#pf-sound:hover { background: #fff; } #pf-sound:active { transform: scale(.96); }
+/* sound toggle: recessed track, white knob with grip, brand-blue when on */
+#pf-sound { position: fixed; left: 16px; bottom: 16px; z-index: 88; display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 8px 0 16px; border-radius: 999px; border: 1px solid rgba(4,20,49,.08); background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 10px 30px -12px rgba(4,20,49,.3); color: #232426; cursor: pointer; transition: transform .2s; }
+#pf-sound:active { transform: scale(.97); }
+#pf-sound:focus-visible { outline: 2px solid #1262f2; outline-offset: 3px; }
+.pfs-l { font: 500 13px/1 "DM Sans", sans-serif; letter-spacing: -.01em; }
+.pfs-t { position: relative; width: 52px; height: 30px; border-radius: 999px; background: #d9dce2; box-shadow: inset 0 2px 4px rgba(4,20,49,.22), inset 0 -1px 0 rgba(255,255,255,.6); transition: background-color .45s cubic-bezier(.2,.7,.2,1); }
+.pfs-k { position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(180deg, #fff, #f1f2f5); box-shadow: 0 4px 8px rgba(4,20,49,.28), 0 1px 2px rgba(4,20,49,.2); display: flex; align-items: center; justify-content: center; gap: 2px; transition: transform .5s cubic-bezier(.34,1.45,.5,1); }
+.pfs-k i { width: 1.5px; height: 9px; border-radius: 1px; background: rgba(4,20,49,.28); }
+#pf-sound.on .pfs-t { background: #1262f2; box-shadow: inset 0 2px 5px rgba(2,22,70,.45), inset 0 -1px 0 rgba(255,255,255,.25); }
+#pf-sound.on .pfs-k { transform: translateX(22px); }
 @media (max-width: 700px) { #pf-sound { display: none; } }
 
 /* use-case cards */

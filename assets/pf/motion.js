@@ -809,7 +809,7 @@
   }
   function soundToggle() {
     var b = document.createElement('button'); b.id = 'pf-sound'; b.type = 'button';
-    var paint = function () { b.setAttribute('aria-pressed', String(sfx.on)); b.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/>' + (sfx.on ? '<path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>' : '<path d="m22 9-6 6M16 9l6 6"/>') + '</svg><span>Sound ' + (sfx.on ? 'on' : 'off') + '</span>'; };
+    var paint = function () { b.setAttribute('role', 'switch'); b.setAttribute('aria-checked', String(sfx.on)); b.setAttribute('aria-label', 'Sound'); b.classList.toggle('on', sfx.on); if (!b.firstChild) b.innerHTML = '<span class="pfs-l">Sound</span><span class="pfs-t"><span class="pfs-k"><i></i><i></i><i></i></span></span>'; };
     paint();
     b.addEventListener('click', function () { sfx.on = !sfx.on; try { localStorage.setItem('pf-sound', sfx.on ? 'on' : 'off'); } catch (e) {} paint(); unlockAudio(); if (sfx.on) setTimeout(tick, 30); });
     document.body.appendChild(b);
