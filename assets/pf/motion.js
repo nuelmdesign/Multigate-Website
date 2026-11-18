@@ -98,7 +98,7 @@
   var pin = document.createElement('div'); pin.className = 'pf-pin'; pin.style.cssText = 'position:relative;z-index:4;background:#041431';
   sec.scrollh.parentNode.insertBefore(pin, sec.scrollh); pin.appendChild(sec.scrollh);
   sec.scrollh.style.position = 'sticky';
-  var D = 1000;
+  var D = 1500;
   var veil = {};
   function layout() {
     fit(); layoutNav();
@@ -236,6 +236,40 @@
     cells.forEach(function (c) { c.classList.add('pf-cell'); var lg = c.querySelector('[class*="opacity-55"]'); if (lg) lg.classList.add('pf-logo'); });
   }
 
+
+  /* focus morph for the three solution cards */
+  var REST = [0, 85.77, 259.37], WIDTH = [961, 1078, 1240.205], SLOT_W = 1240.205;
+  var CARD_COL = [{ bg: [250, 251, 251], h: [118, 121, 127], l: [118, 121, 127] }, { bg: [245, 245, 245], h: [118, 121, 127], l: [118, 121, 127] }, null];
+  var FOCUS_COL = { bg: [255, 255, 255], h: [35, 36, 38], l: [4, 20, 49] };
+  var cardParts = [];
+  function mixc(a, b, k) { return 'rgb(' + [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * k); }).join(',') + ')'; }
+  function stackInit() {
+    stackCards.forEach(function (c, i) {
+      c.style.transform = 'none'; c.style.left = ((1240.205 - WIDTH[i]) / 2) + 'px'; c.style.transformOrigin = '50% 0';
+      cardParts[i] = { head: c.querySelector('p[class*="text-[3"]'), label: c.querySelector('[class*="capitalize"]') };
+    });
+  }
+  function stackFocus(f) {
+    var slot = lerp(40, 259.37, ease3(clamp(f - 1, 0, 1)));
+    stackCards.forEach(function (c, i) {
+      var d = Math.abs(f - i), big = clamp(1 - d, 0, 1);
+      var enter = i === 0 ? 1 : ease3(clamp(f - (i - 1), 0, 1));
+      var k = SLOT_W / WIDTH[i];
+      c.style.scale = String(1 + (k - 1) * big);
+      c.style.top = (REST[i] + (slot - REST[i]) * big) + 'px';
+      c.style.translate = '0 ' + ((1 - enter) * 160) + 'px';
+      c.style.opacity = String(enter);
+      c.style.zIndex = String(Math.round(100 - d * 10));
+      var col = CARD_COL[i];
+      if (col) {
+        c.style.backgroundColor = mixc(col.bg, FOCUS_COL.bg, big);
+        var cp2 = cardParts[i];
+        if (cp2.head) cp2.head.style.color = mixc(col.h, FOCUS_COL.h, big);
+        if (cp2.label) cp2.label.style.color = mixc(col.l, FOCUS_COL.l, big);
+      }
+    });
+  }
+
   /* ================= scroll-linked ================= */
   var lastY = 0;
   var shPP = [0, 546 / 1453, 1092 / 1453, 1];
@@ -262,12 +296,11 @@
     cardsRow.style.translate = (-306 * prs) + 'px 0';
     if (lineBlue) lineBlue.style.transform = 'scaleX(' + prs + ')';
 
-    // solutions: the stack is pinned; card 2 laps over card 1, card 3 laps over card 2
+    // solutions: the stack is pinned. The card in focus is the size and colour of the Treasury card;
+    // scrolling hands focus to the next card, which grows while the previous one shrinks back.
     var pr0 = cStack.getBoundingClientRect(), ir = stackRoot.getBoundingClientRect();
     var ps = clamp((ir.top - pr0.top) / (D * S), 0, 1);
-    var off = vh / S + 250;
-    stackCards[1].style.translate = '0 ' + ((1 - ease3(clamp(ps / .45, 0, 1))) * off) + 'px';
-    stackCards[2].style.translate = '0 ' + ((1 - ease3(clamp((ps - .5) / .45, 0, 1))) * (off + 120)) + 'px';
+    stackFocus(clamp((ps - .08) / .84, 0, 1) * 2);
     // lines behind the solutions section move as you scroll
     var k = (vh / 2 - (pr0.top + pr0.height / 2)) / vh;
     if (bgV1) { bgV1.style.translate = (k * 70) + 'px ' + (ps * 430 - k * 50) + 'px'; bgV1.style.rotate = (k * -1.4) + 'deg'; }
@@ -427,6 +460,15 @@
     var st = { vis: false };
     new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && e.intersectionRatio > .5) { v.currentTime = 0; v.play().then(function () { v.style.opacity = 1; }).catch(function () {}); } else { v.pause(); } }); }, { threshold: [0, .5] }).observe(panel);
   }
+
+  function fxVideo() {
+    if (reduce) return;
+    var box = stackCards[1] && stackCards[1].querySelector('[class*="h-[510.253px]"]'); if (!box) return;
+    var v = document.createElement('video'); v.className = 'pf-vid'; v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+    v.style.cssText = 'left:0;top:0;width:100%;height:100%;opacity:0;transition:opacity .6s;-webkit-mask-image:radial-gradient(ellipse 72% 74% at 50% 50%,#000 68%,transparent 100%);mask-image:radial-gradient(ellipse 72% 74% at 50% 50%,#000 68%,transparent 100%)';
+    v.src = window.PF_FX || 'assets/pf/fxmap.mp4'; box.appendChild(v);
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { v.play().then(function () { v.style.opacity = 1; }).catch(function () {}); } else v.pause(); }); }, { threshold: .25 }).observe(box);
+  }
   function pointerParallax() {
     if (reduce) return; var tx = 0, ty = 0, cx = 0, cy = 0;
     addEventListener('pointermove', function (e) { tx = (e.clientX / innerWidth - .5); ty = (e.clientY / innerHeight - .5); });
@@ -569,7 +611,7 @@
   }
 
   /* ================= boot ================= */
-  marquee(); blueLine(); netClip(); layout(); setup(); buttons(); countUps(); cashVideo(); dotClicks(); lottieCards(); heroGlobe();
+  marquee(); blueLine(); netClip(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [0, 880, 1440, 401], { blend: 'screen', opacity: .6, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .28, c1: [.45, .65, 1], c2: [.35, .85, 1] });
