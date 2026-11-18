@@ -154,5 +154,5 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf-news:hover .pf-ul { background-size: 100% 1.5px; }
 
 /* problem cards */
-.pf-pc { transition: transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .7s cubic-bezier(.2,.7,.2,1); will-change: transform; }
-.pf-pc:hover { transform: translateY(-8px); box-shadow: 0 28px 54px -24px rgba(4,20,49,.26); }
+.pf-pc { transition: transform .7s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+.pf-pc:hover { transform: translateY(-8px); }

@@ -298,7 +298,8 @@
 
     // problem cards drift left; the blue line fills the whole grey line as they go
     var rr = cardsRow.getBoundingClientRect(), cy = rr.top + rr.height / 2;
-    var pr = clamp((vh * .95 - cy) / (vh * .75), 0, 1), prs = pr * pr * (3 - 2 * pr);
+    var pr = clamp((vh * .5 - 190 * S - cy) / (560 * S), 0, 1), prs = pr * pr * (3 - 2 * pr);
+    var lf = prs > .01 ? 28 : 0; if (lf !== cCards._lf) { cCards._lf = lf; cCards.style.webkitMaskImage = cCards.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 ' + lf + 'px, #000 calc(100% - 28px), transparent 100%)'; }
     cardsRow.style.translate = (-366 * prs) + 'px 0';
     if (lineBlue) lineBlue.style.transform = 'scaleX(' + prs + ')';
 
