@@ -784,8 +784,22 @@
     }
   }
 
+
+  /* every use-case card shows the arrow only while hovered, signalling that it can be opened */
+  function cardArrows() {
+    var src = shCards[0].querySelector('[class*="w-[24px]"]'); if (!src) return;
+    src.style.display = 'none';
+    shCards.forEach(function (c) {
+      var box = c.children[0]; if (!box) return;
+      var a = document.createElement('div'); a.className = 'pf-arr'; a.appendChild(src.cloneNode(true)); a.firstElementChild.style.display = '';
+      box.style.position = 'absolute'; box.appendChild(a);
+      c.classList.add('pf-uc'); c.setAttribute('tabindex', '0'); c.setAttribute('role', 'link');
+      c.addEventListener('pointerenter', tick);
+    });
+  }
+
   /* ================= boot ================= */
-  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); lottieCards(); heroGlobe();
+  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });

@@ -144,3 +144,9 @@ video.pf-vid { position: absolute; object-fit: cover; }
 #pf-sound { position: fixed; left: 16px; bottom: 16px; z-index: 88; display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgba(4,20,49,.14); background: rgba(255,255,255,.86); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #041431; font: 500 12px/1 "DM Sans", sans-serif; cursor: pointer; transition: background-color .3s, transform .2s; }
 #pf-sound:hover { background: #fff; } #pf-sound:active { transform: scale(.96); }
 @media (max-width: 700px) { #pf-sound { display: none; } }
+
+/* use-case cards */
+.pf-uc { cursor: pointer; outline: none; transition: background-color .4s; }
+.pf-uc:hover, .pf-uc:focus-visible { background-color: #0a2a63 !important; }
+.pf-arr { position: absolute; right: 32px; top: 18px; width: 24px; height: 0; opacity: 0; transform: translateX(-12px); transition: opacity .35s, transform .5s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+.pf-uc:hover .pf-arr, .pf-uc:focus-visible .pf-arr { opacity: 1; transform: none; }
