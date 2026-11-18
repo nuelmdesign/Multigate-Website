@@ -725,9 +725,11 @@
 
 
   /* use-case cards: drift slowly to the left on their own; the dots jump to a card. Page scroll does not move them. */
+  var shFadeEl = null;
   var shAuto = { x: 0, mode: 'auto', target: 0, pause: 1500, vis: false, hover: false, last: 0 };
   function applyShift() {
     var shift = shAuto.x, idx = 0, best = 1e9;
+    if (shFadeEl) shFadeEl.style.opacity = Math.max(0, Math.min(1, (shift - 12) / 90)).toFixed(3);
     shPP.forEach(function (v, i) { var d = Math.abs(shift - v * 1413); if (d < best) { best = d; idx = i; } });
     shRow.style.translate = (-shift) + 'px 0';
     shDots.forEach(function (d, i) { d.style.width = i === idx ? '48px' : '10px'; d.style.backgroundColor = i === idx ? '#1362f5' : '#d0e0fd'; });
@@ -966,7 +968,7 @@
     var wrap = shRow.parentNode, MAX = 1413;
     var fade = document.createElement('div');
     fade.style.cssText = 'position:absolute;left:539px;top:0;bottom:0;width:56px;z-index:4;pointer-events:none;background:linear-gradient(90deg,#041431,rgba(4,20,49,0))';
-    wrap.style.position = 'relative'; wrap.appendChild(fade);
+    fade.style.opacity = '0'; shFadeEl = fade; wrap.style.position = 'relative'; wrap.appendChild(fade);
     shRow.style.userSelect = shRow.style.webkitUserSelect = 'none'; shRow.style.touchAction = 'pan-y'; shRow.style.cursor = 'grab';
     var hold = function () { shAuto.mode = 'manual'; shAuto.pause = 8000; };
     shRow.addEventListener('wheel', function (e) {
