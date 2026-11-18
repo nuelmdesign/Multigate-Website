@@ -984,8 +984,23 @@
     });
   }
 
+
+  /* logo grid: repair the two logos that rendered wrongly */
+  function fixLogos() {
+    // Greptile: the multiply overlay turned the transparent PNG into a block. Use the PNG's own shape as a dark silhouette.
+    var gp = cells[4]; if (gp) {
+      var im = gp.querySelector('img'), ov = gp.querySelector('[class*="mix-blend-multiply"]');
+      if (ov) ov.style.display = 'none';
+      if (im) { im.style.filter = 'brightness(0)'; im.style.transition = 'filter .45s'; gp.classList.add('pf-gp'); }
+    }
+    // first logo: its exported vector is a distorted trace, so set it as a clean wordmark in the same spot
+    var bl = cells[0]; if (bl) {
+      var w = bl.querySelector('[class*="w-[92.09px]"]'); if (w) { w.innerHTML = '<div style="position:absolute;inset:0;display:grid;place-items:center;font:800 25px/1 \'DM Sans\',sans-serif;letter-spacing:-.05em;color:#111">bland</div>'; w.style.overflow = 'visible'; }
+    }
+  }
+
   /* ================= boot ================= */
-  problemSwipe(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); useCaseControl(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
+  problemSwipe(); fixLogos(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); useCaseControl(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 980, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });

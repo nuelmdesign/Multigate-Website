@@ -193,3 +193,5 @@ video.pf-vid { position: absolute; object-fit: cover; }
 
 /* tagline sits directly under the logo, in PT Serif */
 .pf2-tag { left: 0 !important; top: 58px !important; width: 360px !important; font: 400 30px/1.2 "PT Serif", Georgia, serif !important; letter-spacing: -.025em !important; }
+
+.pf-cell:hover.pf-gp img, .pf-gp:hover img { filter: none !important; }
