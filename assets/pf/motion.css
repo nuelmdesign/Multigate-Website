@@ -200,3 +200,35 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf-lg { position: absolute; inset: 0; display: grid; place-items: center; }
 .pf-lg img { display: block; width: auto; height: auto; max-width: 132px; max-height: 46px; object-fit: contain; filter: grayscale(1); opacity: .5; transition: filter .5s cubic-bezier(.2,.7,.2,1), opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1); -webkit-user-drag: none; }
 .pf-cell:hover .pf-lg img { filter: grayscale(0); opacity: 1; transform: scale(1.04); }
+
+/* mega menu */
+#pf-ind { position: fixed; top: 0; left: 0; width: 28px; height: 3px; background: #1262f2; border-radius: 0 0 3px 3px; z-index: 86; opacity: 0; transition: left .4s cubic-bezier(.2,.7,.2,1), opacity .3s; pointer-events: none; }
+#pf-mbd { position: fixed; left: 0; right: 0; bottom: 0; z-index: 78; background: rgba(4,20,49,.34); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; visibility: hidden; transition: opacity .35s, visibility .35s; }
+#pf-mbd.open { opacity: 1; visibility: visible; }
+#pf-mega { position: fixed; left: 0; right: 0; z-index: 79; background: #fff; border-bottom: 1px solid #eff0f2; box-shadow: 0 30px 60px -28px rgba(4,20,49,.28); clip-path: inset(0 0 100% 0); opacity: 0; visibility: hidden; transition: clip-path .5s cubic-bezier(.2,.7,.2,1), opacity .25s, visibility .5s; }
+#pf-mega.open { clip-path: inset(0 0 0 0); opacity: 1; visibility: visible; }
+.pfm-in { width: 1440px; margin: 0 auto; padding: 34px 80px 44px; display: grid; grid-template-columns: 1fr 380px; gap: 60px; box-sizing: border-box; transition: opacity .2s, transform .3s cubic-bezier(.2,.7,.2,1); font-family: "DM Sans", system-ui, sans-serif; color: #232426; }
+.pfm-sec { display: grid; grid-template-columns: 170px 1fr; padding: 4px 0; border-bottom: 1px solid #eff0f2; }
+.pfm-sec:last-child { border-bottom: 0; }
+.pfm-l { padding-top: 22px; font: 400 12.5px/1 "JetBrains Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: #9ea0a4; }
+.pfm-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+.pfm-it { display: flex; align-items: flex-start; gap: 14px; padding: 16px 12px; margin: 0 -12px; border-radius: 12px; text-decoration: none; color: inherit; transition: background-color .25s; }
+.pfm-it:hover { background: #f6f8fb; }
+.pfm-ico { flex: none; width: 36px; height: 36px; border-radius: 10px; border: 1px solid #eff0f2; display: grid; place-items: center; color: #232426; background: #fff; transition: color .25s, border-color .25s; }
+.pfm-it:hover .pfm-ico { color: #1262f2; border-color: #d0e0fd; }
+.pfm-tx { flex: 1; display: grid; gap: 3px; }
+.pfm-tx b { font: 500 16px/1.25 "DM Sans", sans-serif; letter-spacing: -.01em; }
+.pfm-tx i { font: 400 14px/1.4 "DM Sans", sans-serif; font-style: normal; color: #76797f; }
+.pfm-ar { flex: none; margin-top: 3px; color: #232426; opacity: .55; transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .25s; }
+.pfm-it:hover .pfm-ar { transform: translateX(4px); opacity: 1; }
+.pfm-feat { display: block; text-decoration: none; color: inherit; }
+.pfm-fl { font: 400 12.5px/1 "JetBrains Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: #9ea0a4; margin: 6px 0 16px; }
+.pfm-card { position: relative; height: 226px; border-radius: 14px; overflow: hidden; background: radial-gradient(120% 120% at 80% 10%, #0b2d6e 0%, #062152 45%, #041431 100%); }
+.pfm-card img { position: absolute; right: -10px; top: 14px; height: 190px; width: auto; filter: brightness(1.9) saturate(1.2); transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.pfm-feat:hover .pfm-card img { transform: scale(1.06) rotate(-2deg); }
+.pfm-ft { position: absolute; left: 20px; top: 18px; width: 190px; font: 400 26px/1.1 "PT Serif", Georgia, serif; letter-spacing: -.03em; color: #fff; }
+.pfm-go { position: absolute; left: 0; bottom: 0; width: 42px; height: 42px; display: grid; place-items: center; background: #1262f2; color: #fff; transition: width .4s cubic-bezier(.2,.7,.2,1); }
+.pfm-feat:hover .pfm-go { width: 56px; }
+.pfm-feat p { margin: 18px 0 0; font: 500 15px/1.35 "DM Sans", sans-serif; letter-spacing: -.01em; color: #232426; }
+@keyframes pfmin { from { opacity: 0; transform: translateY(10px); } }
+#pf-nav.menu { background: #fff !important; border-bottom-color: transparent !important; }

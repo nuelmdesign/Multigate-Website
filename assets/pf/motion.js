@@ -286,10 +286,10 @@
     // nav: hide on scroll down, return on scroll up; dark over navy sections
     var dy = sy - lastY; lastY = sy;
     nav.classList.toggle('stuck', sy > 24);
-    if (sy > 160 && dy > 4) nav.classList.add('hide'); else if (dy < -4 || sy <= 160) nav.classList.remove('hide');
+    if (menuOpen) { nav.classList.remove('hide'); if (Math.abs(sy - menuY) > 40 && window.__pfCloseMenu) window.__pfCloseMenu(); } else if (sy > 160 && dy > 4) nav.classList.add('hide'); else if (dy < -4 || sy <= 160) nav.classList.remove('hide');
     var covering = null;
     ids.forEach(function (id) { var r = sec[id].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = id; });
-    nav.classList.toggle('dark', covering === 'mission' || covering === 'scrollh' || covering === 'footer');
+    nav.classList.toggle('dark', !menuOpen && (covering === 'mission' || covering === 'scrollh' || covering === 'footer'));
 
     // hero text drifts slightly slower than the page
     heroText.style.translate = '0 ' + (sy * .1 - 44) + 'px';
@@ -998,13 +998,108 @@
     });
   }
 
+
+  /* ---------- mega menu: Product, Solutions, Who we serve, Company open a full-width panel ---------- */
+  var menuOpen = false, menuY = 0, menuIdx = -1;
+  var IC = {
+    acct: '<rect x="3" y="5" width="14" height="10" rx="2"/><path d="M3 9h14"/>',
+    eye: '<path d="M1.5 10S5 4 10 4s8.5 6 8.5 6-3.5 6-8.5 6-8.5-6-8.5-6z"/><circle cx="10" cy="10" r="2.5"/>',
+    swap: '<path d="M4 7h11l-3-3M16 13H5l3 3"/>',
+    coin: '<circle cx="10" cy="10" r="7"/><path d="M7.5 10h5M10 7.5v5"/>',
+    chart: '<path d="M3 16V4M3 16h14M6.5 12l3-3 2.5 2 4-5"/>',
+    bank: '<path d="M2.5 8 10 3.5 17.5 8M4.5 8v7M8 8v7M12 8v7M15.5 8v7M2.5 16.5h15"/>',
+    users: '<circle cx="7.5" cy="7" r="2.8"/><path d="M2.5 16c0-3 2.2-5 5-5s5 2 5 5M13 4.5a2.6 2.6 0 0 1 0 5M14.5 11c2 .5 3 2.3 3 5"/>',
+    doc: '<path d="M5 2.5h7l3.5 3.5v11.5H5z"/><path d="M12 2.5V6h3.5M7.5 10h5M7.5 13h5"/>',
+    shield: '<path d="M10 2.5 16 5v5c0 3.6-2.5 6-6 7.5C6.5 16 4 13.6 4 10V5z"/>',
+    brief: '<rect x="3" y="6" width="14" height="10" rx="1.5"/><path d="M7.5 6V4.5h5V6M3 10.5h14"/>'
+  };
+  var MENUS = [
+    { name: 'Product', feat: { img: 'assets/pf/scrollh-fb47a.svg', t: 'See your money', c: 'A live view of cash across every bank you use.' }, secs: [
+      { l: 'Accounts', i: [['Named virtual accounts', 'Give each customer their own account details', 'acct'], ['Cash visibility', 'One live view of cash across your banks', 'eye']] },
+      { l: 'Payments', i: [['Payments and FX', 'Collect, convert and pay across African markets', 'swap']] },
+      { l: 'Financing', i: [['Payables Financing', 'Get suppliers paid early while you keep your terms', 'coin']] },
+      { l: 'Treasury', i: [['Treasury management system', 'See and control your money across your banks', 'chart']] }] },
+    { name: 'Solutions', feat: { img: 'assets/pf/scrollh-8918e.svg', t: 'Pay suppliers early', c: 'Early payment on invoices you have already approved, with your payment terms unchanged.' }, secs: [
+      { l: 'Visibility', i: [['See your cash', 'Balances across banks and currencies in one place', 'eye'], ['Reconcile faster', 'Match incoming payments to invoices automatically', 'doc']] },
+      { l: 'Move money', i: [['Pay and collect in Africa', 'Local collections, currency conversion and payouts', 'swap'], ['Pay suppliers early', 'Early payment on approved invoices', 'coin']] },
+      { l: 'Control', i: [['Approvals and controls', 'Approve and send payments from one screen', 'shield']] }] },
+    { name: 'Who we serve', feat: { img: 'assets/pf/scrollh-ff863.svg', t: 'One network', c: 'Corporates, financiers, banks and financial institutions on one network.' }, secs: [
+      { l: 'Businesses', i: [['Corporates', 'One interface to all your banks, payments and financing', 'brief']] },
+      { l: 'Institutions', i: [['Financiers', 'Fund supplier invoices that large buyers have already approved', 'coin'], ['Banks', 'Give corporate clients ERP connectivity and ISO 20022 messaging, ready-made', 'bank'], ['Financial Institutions', 'Collect, pay out and convert in African currencies through one API', 'users']] }] },
+    { name: 'Company', feat: { img: 'assets/pf/scrollh-800c1.svg', t: 'Building the network', c: 'Reflections from our team on Africa’s treasury and trade network.' }, secs: [
+      { l: 'Company', i: [['About us', 'Who we are and why we built Multigate', 'users'], ['Leadership', 'The people building the network', 'users'], ['Careers', 'Join the team', 'brief']] },
+      { l: 'Resources', i: [['Insights', 'News, analysis and expert views', 'doc'], ['Trust Centre', 'Licences, certifications and security', 'shield']] }] }
+  ];
+  function megaMenu() {
+    var items = $$('[class*="rounded-[8px]"]', nav);
+    if (items.length < 4) return;
+    var chev = items[0].querySelector('[class*="w-[10px]"]');
+    if (items[4]) items[4].style.display = 'none';                       // Resources now lives inside Company
+    [2, 3].forEach(function (k) { var it = items[k]; it.style.display = 'flex'; it.style.alignItems = 'center'; it.style.gap = '4px'; if (chev) it.appendChild(chev.cloneNode(true)); });
+    var ind = document.createElement('div'); ind.id = 'pf-ind'; document.body.appendChild(ind);
+    var bd = document.createElement('div'); bd.id = 'pf-mbd'; document.body.appendChild(bd);
+    var panel = document.createElement('div'); panel.id = 'pf-mega'; panel.setAttribute('role', 'region'); document.body.appendChild(panel);
+    var inner = document.createElement('div'); inner.className = 'pfm-in'; panel.appendChild(inner);
+    var arrow = '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg>';
+    function html(m) {
+      var secs = m.secs.map(function (sec) {
+        return '<div class="pfm-sec"><div class="pfm-l">' + sec.l + '</div><div class="pfm-items">' + sec.i.map(function (it) {
+          return '<a href="#" class="pfm-it"><span class="pfm-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + IC[it[2]] + '</svg></span><span class="pfm-tx"><b>' + it[0] + '</b><i>' + it[1] + '</i></span><span class="pfm-ar">' + arrow + '</span></a>';
+        }).join('') + '</div></div>';
+      }).join('');
+      return '<div class="pfm-main">' + secs + '</div><a href="#" class="pfm-feat"><div class="pfm-fl">// Featured</div><div class="pfm-card"><img src="' + m.feat.img + '" alt=""><div class="pfm-ft">' + m.feat.t + '</div><span class="pfm-go">' + arrow + '</span></div><p>' + m.feat.c + '</p></a>';
+    }
+    function place() {
+      var r = nav.getBoundingClientRect();
+      panel.style.top = r.bottom + 'px'; bd.style.top = r.bottom + 'px';
+      inner.style.zoom = S < 1 ? S : '';
+    }
+    function mark(i) {
+      items.slice(0, 4).forEach(function (it, k) {
+        var on = k === i, ch = it.querySelector('[class*="w-[10px]"]');
+        it.setAttribute('aria-expanded', String(on)); if (ch) { ch.style.transition = 'transform .35s cubic-bezier(.2,.7,.2,1)'; ch.style.transform = on ? 'rotate(180deg)' : ''; }
+      });
+      if (i >= 0) { var r = items[i].getBoundingClientRect(); ind.style.left = (r.left + r.width / 2 - 14) + 'px'; ind.style.opacity = '1'; } else ind.style.opacity = '0';
+    }
+    function open(i) {
+      place();
+      var fresh = !menuOpen;
+      if (menuIdx !== i) {
+        inner.style.opacity = '0'; inner.style.transform = 'translateY(-6px)';
+        setTimeout(function () {
+          inner.innerHTML = html(MENUS[i]);
+          $$('a', inner).forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); close(); }); });
+          $$('.pfm-it', inner).forEach(function (a) { a.addEventListener('pointerenter', tick); });
+          void inner.offsetWidth; inner.style.opacity = '1'; inner.style.transform = 'none';
+          $$('.pfm-sec, .pfm-feat', inner).forEach(function (el, k) { el.style.animation = 'pfmin .55s cubic-bezier(.2,.7,.2,1) ' + (k * 60) + 'ms both'; });
+        }, fresh ? 0 : 140);
+      }
+      menuIdx = i; menuOpen = true; menuY = scrollY;
+      panel.classList.add('open'); bd.classList.add('open'); nav.classList.remove('hide', 'dark'); nav.classList.add('stuck', 'menu'); mark(i);
+    }
+    function close() {
+      if (!menuOpen) return;
+      menuOpen = false; menuIdx = -1; panel.classList.remove('open'); bd.classList.remove('open'); nav.classList.remove('menu'); mark(-1);
+    }
+    window.__pfCloseMenu = close;
+    items.slice(0, 4).forEach(function (it, k) {
+      it.setAttribute('role', 'button'); it.setAttribute('tabindex', '0'); it.setAttribute('aria-expanded', 'false'); it.style.cursor = 'pointer';
+      it.addEventListener('click', function (e) { e.preventDefault(); menuIdx === k && menuOpen ? close() : open(k); });
+      it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); menuIdx === k && menuOpen ? close() : open(k); } });
+    });
+    bd.addEventListener('click', close);
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    document.addEventListener('pointerdown', function (e) { if (menuOpen && !panel.contains(e.target) && !nav.contains(e.target)) close(); });
+    addEventListener('resize', function () { if (menuOpen) { place(); mark(menuIdx); } });
+  }
+
   /* ================= boot ================= */
-  problemSwipe(); fixLogos(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); useCaseControl(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
+  problemSwipe(); fixLogos(); padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); useCaseControl(); footerRebuild(); soundToggle(); hoverFx(); megaMenu(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 980, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
-  var tick = false;
-  function req() { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; update(); }); } }
+  var rafPending = false;
+  function req() { if (!rafPending) { rafPending = true; requestAnimationFrame(function () { rafPending = false; update(); }); } }
   addEventListener('scroll', req, { passive: true });
   addEventListener('resize', function () { vh = innerHeight; setTimeout(function () { layout(); update(); }, 30); });
   setTimeout(function () { layout(); update(); }, 80); update();
