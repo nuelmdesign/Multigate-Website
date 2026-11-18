@@ -80,7 +80,7 @@
   var nav = document.createElement('div'); nav.id = 'pf-nav';
   var navIn = document.createElement('div'); navIn.className = 'pf-navin';
   nav.appendChild(navIn); document.body.appendChild(nav); navIn.appendChild(navEl);
-  Object.assign(navEl.style, { position: 'relative', left: '0', top: '0', transform: 'none', background: 'transparent', borderBottom: '0', transformOrigin: '0 0' });
+  Object.assign(navEl.style, { paddingLeft: '80px', paddingRight: '80px', position: 'relative', left: '0', top: '0', transform: 'none', background: 'transparent', borderBottom: '0', transformOrigin: '0 0' });
   var navH = function () { return 80 * S; };
   function layoutNav() {
     navIn.style.height = navH() + 'px';
@@ -108,8 +108,8 @@
     pin._travel = travel; pin._hs = hs;
     if (typeof cStack !== 'undefined') {
       var sroot = cStack.firstElementChild;
-      cStack.style.height = (865 + D) + 'px';
-      sroot.style.position = 'sticky'; sroot.style.height = '865px'; sroot.style.top = Math.max(70, (vh / S - 865) / 2) + 'px';
+      cStack.style.height = (894 + D) + 'px';
+      sroot.style.zoom = '1.0323'; sroot.style.position = 'sticky'; sroot.style.height = '865px'; sroot.style.top = Math.max(70, (vh / S - 894) / 2) + 'px';
     }
   }
 
@@ -278,7 +278,7 @@
 
   /* ================= scroll-linked ================= */
   var lastY = 0;
-  var shPP = [0, 546 / 1453, 1092 / 1453, 1];
+  var shPP = [0, 546 / 1413, 1092 / 1413, 1];
   function ease3(t) { return 1 - Math.pow(1 - t, 3); }
   function update() {
     sy = scrollY; vh = innerHeight;
@@ -299,7 +299,7 @@
     // problem cards drift left; the blue line fills the whole grey line as they go
     var rr = cardsRow.getBoundingClientRect(), cy = rr.top + rr.height / 2;
     var pr = clamp((vh * .95 - cy) / (vh * .75), 0, 1), prs = pr * pr * (3 - 2 * pr);
-    cardsRow.style.translate = (-406 * prs) + 'px 0';
+    cardsRow.style.translate = (-366 * prs) + 'px 0';
     if (lineBlue) lineBlue.style.transform = 'scaleX(' + prs + ')';
 
     // solutions: the stack is pinned. The card in focus is the size and colour of the Treasury card;
@@ -516,13 +516,13 @@
   }
 
   function padClips() {
-    cCards.style.width = '1240px'; cCards.style.overflow = 'hidden'; cCards.style.webkitMaskImage = cCards.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%)';
-    shRow.parentNode.style.clipPath = 'inset(0 100px 0 0)';
+    cCards.style.width = '1280px'; cCards.style.overflow = 'hidden'; cCards.style.webkitMaskImage = cCards.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%)';
+    shRow.parentNode.style.clipPath = 'inset(0 80px 0 0)'; inn('scrollh').firstElementChild.style.paddingLeft = '80px';
   }
   function netClip() {
     var root = cNet.firstElementChild, track = $('#pf-track'); if (!track) return;
     var clip = document.createElement('div');
-    clip.style.cssText = 'position:absolute;left:568px;top:0;width:672px;height:403px;overflow:hidden';
+    clip.style.cssText = 'position:absolute;left:568px;top:0;width:712px;height:403px;overflow:hidden';
     root.appendChild(clip); clip.appendChild(track);
     track.style.position = 'absolute'; track.style.left = '0'; track.style.top = '0';
   }
@@ -532,7 +532,7 @@
   function dotClicks() {
     shDots.forEach(function (d, i) {
       d.classList.add('pf-sdot');
-      d.addEventListener('click', function () { shAuto.mode = 'goto'; shAuto.target = shPP[i] * 1453; shAuto.pause = 0; });
+      d.addEventListener('click', function () { shAuto.mode = 'goto'; shAuto.target = shPP[i] * 1413; shAuto.pause = 0; });
     });
   }
 
@@ -732,11 +732,11 @@
   var shAuto = { x: 0, mode: 'auto', target: 0, pause: 1500, vis: false, hover: false, last: 0 };
   function applyShift() {
     var shift = shAuto.x, idx = 0, best = 1e9;
-    shPP.forEach(function (v, i) { var d = Math.abs(shift - v * 1453); if (d < best) { best = d; idx = i; } });
+    shPP.forEach(function (v, i) { var d = Math.abs(shift - v * 1413); if (d < best) { best = d; idx = i; } });
     shRow.style.translate = (-shift) + 'px 0';
     shDots.forEach(function (d, i) { d.style.width = i === idx ? '48px' : '10px'; d.style.backgroundColor = i === idx ? '#1362f5' : '#d0e0fd'; });
     shCards.forEach(function (c, i) {
-      var cx = 639 + i * 546 - shift + 258, d = (cx - 1000) / 900;
+      var cx = 619 + i * 546 - shift + 258, d = (cx - 1000) / 900;
       c.style.scale = String(1 - clamp(Math.abs(d), 0, 1) * .03);
       var vis = shVis[i]; if (vis) vis.style.translate = (-d * 18) + 'px 0';
     });
@@ -749,7 +749,7 @@
     else if (shAuto.hover && shAuto.mode === 'auto') { /* hold while the pointer is over the cards */ }
     else if (shAuto.mode === 'auto') {
       shAuto.x += 24 * dt / 1000;
-      if (shAuto.x >= 1453) { shAuto.x = 1453; shAuto.mode = 'rewind'; shAuto.pause = 2600; }
+      if (shAuto.x >= 1413) { shAuto.x = 1413; shAuto.mode = 'rewind'; shAuto.pause = 2600; }
     } else if (shAuto.mode === 'rewind') {
       shAuto.x += (0 - shAuto.x) * (1 - Math.exp(-dt / 420));
       if (shAuto.x < 1.5) { shAuto.x = 0; shAuto.mode = 'auto'; shAuto.pause = 1800; }
@@ -826,7 +826,7 @@
     $$('div', ftRoot).forEach(function (d) { if (d.parentNode === ftRoot && /50\.37%_94\.71%/.test(d.className)) d.style.display = 'none'; });
     var col = function (h, links) { return '<div class="pf-fc"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
     var box = document.createElement('div'); box.className = 'pf-fl';
-    box.style.cssText = 'position:absolute;left:100px;top:548px;width:1240px;';
+    box.style.cssText = 'position:absolute;left:80px;top:548px;width:1280px;';
     box.innerHTML =
       '<div class="pf-ftop">' +
         '<div class="pf-fbrand"><div class="pf-flogo"><img src="assets/pf/header-77157.svg" alt=""><span>Multigate</span></div>' +
@@ -931,8 +931,15 @@
     })(performance.now());
   }
 
+
+  function padEighty() {
+    grid.style.zoom = '1.0526';
+    news.style.paddingLeft = news.style.paddingRight = '80px';
+    news.children[1].style.gap = '53px';
+  }
+
   /* ================= boot ================= */
-  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
+  padEighty(); bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
