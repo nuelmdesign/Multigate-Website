@@ -455,6 +455,27 @@
     new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && e.intersectionRatio > .5) { v.currentTime = 0; v.play().then(function () { v.style.opacity = 1; }).catch(function () {}); } else { v.pause(); } }); }, { threshold: [0, .5] }).observe(panel);
   }
 
+
+  /* Treasury card: the real dashboard stays, and comes alive when its card slides into focus */
+  function dashLive() {
+    if (reduce) return;
+    var card = stackCards[2], chart = $('[class*="h-[164.857px]"]', card), vals = $$('p', card).filter(function (p) { return /^\$1,245,600\.00$|^\$845,200\.00$/.test(p.textContent.trim()); });
+    if (!chart) return;
+    chart.style.clipPath = 'inset(0 100% 0 0)';
+    var targets = vals.map(function (p) { var n = parseFloat(p.textContent.replace(/[$,]/g, '')); p.textContent = '$0.00'; return { p: p, n: n }; });
+    var done = false;
+    new IntersectionObserver(function (es) {
+      if (done || !es[0].isIntersecting || es[0].intersectionRatio < .55) return; done = true;
+      chart.animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)' }], { duration: 2200, delay: 250, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' });
+      var t0 = performance.now() + 250;
+      (function step(now) {
+        var k = clamp((now - t0) / 1800, 0, 1), e = 1 - Math.pow(1 - k, 4);
+        targets.forEach(function (o) { o.p.textContent = '$' + (o.n * e).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); });
+        if (k < 1) requestAnimationFrame(step);
+      })(performance.now());
+    }, { threshold: [0, .55, .8] }).observe(card);
+  }
+
   function fxVideo() {
     if (reduce) return;
     var box = stackCards[1] && stackCards[1].querySelector('[class*="h-[510.253px]"]'); if (!box) return;
@@ -911,7 +932,7 @@
   }
 
   /* ================= boot ================= */
-  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); cashVideo(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
+  bleedHero(); footerBleed(); marquee(); blueLine(); netClip(); padClips(); stackInit(); layout(); setup(); buttons(); countUps(); dashLive(); fxVideo(); dotClicks(); shiftInit(); footerRebuild(); soundToggle(); hoverFx(); cardArrows(); problemMotion(); lottieCards(); heroGlobe();
   dotGlobe();
   aurora(ftRoot, ftRoot.children[1], [-1300, 880, 4040, 401], { blend: 'screen', opacity: .1, c1: [.05, .25, 1], c2: [.1, .85, 1] });
   aurora(linear, linear.children[0], [0, 0, 1440, 503], { opacity: .12, c1: [.45, .65, 1], c2: [.35, .85, 1] });
