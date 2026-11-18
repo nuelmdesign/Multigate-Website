@@ -985,18 +985,16 @@
   }
 
 
-  /* logo grid: repair the two logos that rendered wrongly */
+  /* logo grid: the customer logos from the Figma file, cropped tight, shown grey and revealed in full colour on hover */
   function fixLogos() {
-    // Greptile: the multiply overlay turned the transparent PNG into a block. Use the PNG's own shape as a dark silhouette.
-    var gp = cells[4]; if (gp) {
-      var im = gp.querySelector('img'), ov = gp.querySelector('[class*="mix-blend-multiply"]');
-      if (ov) ov.style.display = 'none';
-      if (im) { im.style.filter = 'brightness(0)'; im.style.transition = 'filter .45s'; gp.classList.add('pf-gp'); }
-    }
-    // first logo: its exported vector is a distorted trace, so set it as a clean wordmark in the same spot
-    var bl = cells[0]; if (bl) {
-      var w = bl.querySelector('[class*="w-[92.09px]"]'); if (w) { w.innerHTML = '<div style="position:absolute;inset:0;display:grid;place-items:center;font:800 25px/1 \'DM Sans\',sans-serif;letter-spacing:-.05em;color:#111">bland</div>'; w.style.overflow = 'visible'; }
-    }
+    var L = [['fmn', 'FMN'], ['odum', 'Odum Energy FZE'], ['xtransfer', 'XTransfer'], ['pingpong', 'pingpong'], ['taptap', 'Taptap Send'], ['lianlian', 'LianLian Global'], ['yeepay', 'YeePay'], ['nnpc', 'NNPC']];
+    cells.forEach(function (c, i) {
+      if (!L[i]) return;
+      var bg = c.firstElementChild; bg.innerHTML = ''; bg.style.background = '#fff';
+      var box = document.createElement('div'); box.className = 'pf-lg';
+      var im = document.createElement('img'); im.src = 'assets/pf/logos/' + L[i][0] + '.png'; im.alt = L[i][1]; im.draggable = false;
+      box.appendChild(im); bg.appendChild(box); c.classList.add('pf-cell');
+    });
   }
 
   /* ================= boot ================= */

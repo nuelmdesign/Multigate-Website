@@ -195,3 +195,8 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf2-tag { left: 0 !important; top: 58px !important; width: 360px !important; font: 400 30px/1.2 "PT Serif", Georgia, serif !important; letter-spacing: -.025em !important; }
 
 .pf-cell:hover.pf-gp img, .pf-gp:hover img { filter: none !important; }
+
+/* customer logos: one shared box, never stretched; grey until hovered */
+.pf-lg { position: absolute; inset: 0; display: grid; place-items: center; }
+.pf-lg img { display: block; width: auto; height: auto; max-width: 132px; max-height: 46px; object-fit: contain; filter: grayscale(1); opacity: .5; transition: filter .5s cubic-bezier(.2,.7,.2,1), opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1); -webkit-user-drag: none; }
+.pf-cell:hover .pf-lg img { filter: grayscale(0); opacity: 1; transform: scale(1.04); }
