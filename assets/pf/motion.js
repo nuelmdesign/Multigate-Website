@@ -823,38 +823,31 @@
   function footerRebuild() {
     $$('p.absolute', ftRoot).forEach(function (p) { p.style.display = 'none'; });
     $$('div', ftRoot).forEach(function (d) { if (d.parentNode === ftRoot && /50\.37%_94\.71%/.test(d.className)) d.style.display = 'none'; });
-    var col = function (h, links) { return '<div class="pf-fc"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
     var box = document.createElement('div'); box.className = 'pf-fl';
     box.style.cssText = 'position:absolute;left:80px;top:548px;width:1280px;';
     var li = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>';
     var xi = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93zm-1.29 19.5h2.04L6.48 3.24H4.3l13.31 17.41z"/></svg>';
-    var col = function (h, links) { return '<div class="pf-fc"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
+    var grp = function (h, links) { return '<div class="pf2-g"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
+    box.className += ' pf2';
     box.innerHTML =
-      '<div class="pf-ftop">' +
-        '<div class="pf-fbrand"><div class="pf-flogo"><img src="assets/pf/header-77157.svg" alt=""><span>Multigate</span></div>' +
-        '<p class="pf-ftag">The trusted network powering African treasury and trade.</p>' +
-        '<form class="pf-news-f" novalidate><input type="email" placeholder="Get monthly updates" aria-label="Email address"><button class="pf-fsub" type="submit" aria-label="Subscribe">→</button></form>' +
-        '<p class="pf-news-ok" hidden>Thank you. You are on the list.</p></div>' +
-        '<div class="pf-fcols">' +
-          col('Platform', ['Multigate system', 'Payables Financing', 'For banks']) +
-          col('Network', ['Coverage', 'Financiers', 'For payment companies and platforms', 'Developers']) +
-          col('Trust', ['Licences', 'Certifications', 'Swift']) +
-          col('Company', ['About', 'Leadership', 'Insights', 'Careers']) +
-        '</div></div>' +
-      '<div class="pf-fbadges" data-confirm="certifications"><span>ISO/IEC 27001</span><span>ISO 22301</span><span>ISO/IEC 20000</span><span>PCI DSS</span></div>' +
-      '<p class="pf-flegal">Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services. Financing is provided by participating Financiers; Multigate does not lend.</p>' +
+      '<div class="pf2-top">' +
+        '<div class="pf2-logo"><img src="assets/pf/header-77157.svg" alt=""><span>Multigate</span></div>' +
+        '<p class="pf2-tag">The trusted network powering African treasury and trade.</p>' +
+        '<div class="pf-fc pf2-c" style="left:640px">' + grp('Platform', ['Multigate system', 'Payables Financing', 'For banks']) + grp('Trust', ['Licences', 'Certifications', 'Swift']) + '</div>' +
+        '<div class="pf-fc pf2-c" style="left:865px">' + grp('Network', ['Coverage', 'Financiers', 'For payment companies and platforms', 'Developers']) + grp('Company', ['About', 'Leadership', 'Insights', 'Careers']) + '</div>' +
+        '<div class="pf-fc pf2-c" style="left:1090px">' + grp('Get started', ['Book a Review', 'Sign In']) + '</div>' +
+      '</div>' +
       '<div class="pf-frule"></div>' +
-      '<div class="pf-fbot"><span>© 2026 Multigate Holdings Ltd</span><div class="pf-fl2"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div><div class="pf-fsoc"><a href="#" aria-label="LinkedIn">' + li + '</a><a href="#" aria-label="X">' + xi + '</a></div></div>';
+      '<div class="pf2-bot"><span>© 2026 Multigate Holdings Ltd</span><div class="pf-fsoc"><a href="#" aria-label="LinkedIn">' + li + '</a><a href="#" aria-label="X">' + xi + '</a></div></div>' +
+      '<p class="pf2-legal">Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services. Financing is provided by participating Financiers; Multigate does not lend.</p>';
     ftRoot.appendChild(box);
     box.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
-    var f = box.querySelector('.pf-news-f');
-    f.addEventListener('submit', function (e) { e.preventDefault(); var v = f.querySelector('input').value.trim(); if (!/^\S+@\S+\.\S+$/.test(v)) { f.classList.add('bad'); return; } f.classList.remove('bad'); f.hidden = true; box.querySelector('.pf-news-ok').hidden = false; });
+    var f = box.querySelector('.pf-news-f'); if (f) f.addEventListener('submit', function (e) { e.preventDefault(); var v = f.querySelector('input').value.trim(); if (!/^\S+@\S+\.\S+$/.test(v)) { f.classList.add('bad'); return; } f.classList.remove('bad'); f.hidden = true; box.querySelector('.pf-news-ok').hidden = false; });
     if (!reduce) {
-      rise(box.querySelector('.pf-fbrand'), { y: 24, trigger: box });
+      rise(box.querySelector('.pf2-logo'), { y: 20, trigger: box }); rise(box.querySelector('.pf2-tag'), { y: 20, delay: 90, trigger: box });
       $$('.pf-fc', box).forEach(function (c, i) { rise(c, { y: 24, delay: 120 + i * 90, trigger: box }); });
-      rise(box.querySelector('.pf-fbadges'), { y: 16, delay: 300, trigger: box });
-      rise(box.querySelector('.pf-flegal'), { y: 16, delay: 400, trigger: box });
-      rise(box.querySelector('.pf-fbot'), { y: 12, delay: 500, trigger: box });
+      rise(box.querySelector('.pf2-bot'), { y: 12, delay: 400, trigger: box });
+      rise(box.querySelector('.pf2-legal'), { y: 12, delay: 480, trigger: box });
     }
   }
 

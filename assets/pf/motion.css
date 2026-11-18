@@ -175,3 +175,18 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf-fsoc a { display: grid; place-items: center; color: rgba(255,255,255,.6); transition: color .3s, transform .3s; }
 .pf-fsoc a:hover { color: #fff; transform: translateY(-2px); }
 .pf-fl:hover .pf-fsoc a { color: rgba(255,255,255,.35); } .pf-fl .pf-fsoc:hover a { color: rgba(255,255,255,.6); } .pf-fl .pf-fsoc a:hover { color: #fff; }
+
+/* footer v3: matches the reference exactly */
+.pf2 { top: 500px !important; }
+.pf2-top { position: relative; height: 470px; }
+.pf2-logo { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 8px; }
+.pf2-logo img { width: 40px; height: 18px; filter: brightness(0) invert(1); }
+.pf2-logo span { font: 500 28px/1 "DM Sans", sans-serif; letter-spacing: -.03em; color: #fff; }
+.pf2-tag { position: absolute; left: 247px; top: 0; margin: 0; width: 330px; font: 400 30px/1.2 "DM Sans", sans-serif; letter-spacing: -.025em; color: rgba(255,255,255,.62); }
+.pf2-c { position: absolute; top: 0; width: 200px; }
+.pf2-g { margin-bottom: 40px; }
+.pf2-g h5 { margin: 0 0 14px !important; font: 500 15px/1.3 "Inter", sans-serif !important; letter-spacing: -.01em; text-transform: none; color: #fff !important; }
+.pf2 .pf-fc a { display: block; padding: 7px 0; font-size: 16px; line-height: 1.3; }
+.pf2 .pf-frule { margin-top: 0; }
+.pf2-bot { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; font: 400 15px/1 "Inter", sans-serif; letter-spacing: -.01em; color: #fff; }
+.pf2-legal { margin: 22px 0 0; max-width: 920px; font: 400 12.5px/1.55 "Inter", sans-serif; letter-spacing: -.005em; color: rgba(255,255,255,.42); }
