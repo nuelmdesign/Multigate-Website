@@ -298,7 +298,7 @@
 
     var rr = cardsRow.getBoundingClientRect(), cy = rr.top + rr.height / 2;
     // problem cards: moved by horizontal swipe / drag only (see problemSwipe)
-    var vpr = clamp((vh * .75 - cy) / (vh * .6), 0, 1), prs = Math.max(pcs.cur / PCMAX, vpr * vpr * (3 - 2 * vpr));
+    var prs = .5 + .5 * pcs.cur / PCMAX;   // rests half blue; fills completely when the last card is revealed, eases back as you swipe the other way
     if (lineBlue) lineBlue.style.transform = 'scaleX(' + prs + ')';
 
     // solutions: the stack is pinned. The card in focus is the size and colour of the Treasury card;
@@ -944,6 +944,7 @@
     cCards.style.touchAction = 'pan-y'; cCards.style.cursor = 'grab'; cCards.style.userSelect = cCards.style.webkitUserSelect = 'none'; cCards.addEventListener('dragstart', function (e) { e.preventDefault(); }); cCards.addEventListener('selectstart', function (e) { e.preventDefault(); });
     var apply = function () {
       cardsRow.style.translate = (-pcs.cur).toFixed(2) + 'px 0';
+      if (lineBlue) lineBlue.style.transform = 'scaleX(' + (.5 + .5 * pcs.cur / PCMAX).toFixed(4) + ')';
       var lf = pcs.cur > 4 ? 28 : 0, rf = pcs.cur < PCMAX - 4 ? 28 : 0, key = lf + '_' + rf;
       if (key !== cCards._mk) { cCards._mk = key; cCards.style.webkitMaskImage = cCards.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 ' + lf + 'px, #000 calc(100% - ' + rf + 'px), transparent 100%)'; }
     };
