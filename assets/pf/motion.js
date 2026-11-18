@@ -195,7 +195,7 @@
     var arts = [].slice.call(news.children[1].children);
     arts.forEach(function (a, i) {
       a.classList.add('pf-news'); a.children[0].classList.add('pf-img');
-      a.children[1].querySelector('p').classList.add('pf-t');
+      var tp = a.children[1].querySelector('p'); tp.classList.add('pf-t'); tp.innerHTML = '<span class="pf-ul">' + tp.innerHTML + '</span>';
       rise(a, { y: 70, delay: i * 140, dur: 1100, trigger: news.children[1] });
     });
     // footer

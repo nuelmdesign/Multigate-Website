@@ -40,8 +40,6 @@ html.pf-js { scroll-behavior: auto; }
 .pf-news { cursor: pointer; }
 .pf-news .pf-img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
 .pf-news:hover .pf-img { transform: scale(1.06); }
-.pf-news h4, .pf-news .pf-t { transition: color .3s; }
-.pf-news:hover .pf-t { color: #1261f2; }
 .pf-card { transition: transform .6s cubic-bezier(.2,.7,.2,1), box-shadow .6s; }
 
 /* Side navigation + progress */
@@ -150,3 +148,7 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pf-uc:hover, .pf-uc:focus-visible { background-color: #0a2a63 !important; }
 .pf-arr { position: absolute; right: 32px; top: 18px; width: 24px; height: 0; opacity: 0; transform: translateX(-12px); transition: opacity .35s, transform .5s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
 .pf-uc:hover .pf-arr, .pf-uc:focus-visible .pf-arr { opacity: 1; transform: none; }
+
+/* news titles: underline draws in on hover (no colour change) */
+.pf-ul { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat; transition: background-size .55s cubic-bezier(.2,.7,.2,1); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-bottom: 3px; }
+.pf-news:hover .pf-ul { background-size: 100% 1.5px; }
