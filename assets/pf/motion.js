@@ -164,6 +164,7 @@
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () { setTimeout(introGo, 60); });
 
     // mission
+    mBtn.addEventListener('click', function () { scrollTo({ top: cProb.getBoundingClientRect().top + scrollY - 140, behavior: 'smooth' }); });
     rise(mLabel, { y: 14 }); words(mHead, { each: 45 }); rise(mBtn, { y: 20, delay: 350, scale: .92 });
     // content
     rise(cLic, { y: -14, dur: 700 });
@@ -368,14 +369,14 @@
         var lat = latr / D, lon = lonr / D;
         var r = Math.round((L.lat0 - lat) / L.step), c = Math.round((lon - L.lon0) / L.step);
         if (r < 0 || r >= L.h || c < 0 || c >= L.w) continue;
-        var k = r * L.w + c, v = (bytes[k >> 2] >> ((k & 3) * 2)) & 3; if (!v) continue;
-        pts.push(lonr, latr, Math.random());
+        var k = r * L.w + c, v = (bytes[k >> 2] >> ((k & 3) * 2)) & 3;
+        pts.push(lonr, latr, v ? 1 + Math.random() : Math.random() * .99);
       }
       var vs = 'attribute vec3 a;uniform vec2 uV;uniform vec3 uG;uniform vec2 uR;uniform float uT,uPx;varying vec3 vC;varying float vA;' +
         'void main(){float dl=a.x-uV.x;float cl=cos(a.y);float x=cl*sin(dl);float y=cos(uV.y)*sin(a.y)-sin(uV.y)*cl*cos(dl);float z=sin(uV.y)*sin(a.y)+cos(uV.y)*cl*cos(dl);' +
         'vec2 p=vec2(uG.x+x*uG.z,uG.y-y*uG.z);gl_Position=vec4(p.x/uR.x*2.-1.,1.-p.y/uR.y*2.,0.,1.);' +
-        'float vis=step(.03,z);float tw=.72+.28*sin(uT*1.7+a.z*60.);gl_PointSize=(2.6+6.4*z)*tw*uPx*vis;' +
-        'float m=1.-smoothstep(0.,1.,abs(p.x-uR.x*.5)/(uR.x*.5));float up=1.-smoothstep(0.,1.,(p.y-uG.y+uG.z)/ (uG.z*.62));vC=mix(vec3(.16,.27,1.),vec3(.22,.85,1.),clamp(m*.85+up*.25,0.,1.));vA=smoothstep(.03,.4,z)*(.55+.45*m);}';
+        'float land=step(1.,a.z);float rn=fract(a.z);float vis=step(.03,z);float tw=.72+.28*sin(uT*1.7+rn*60.);gl_PointSize=(2.6+6.4*z)*tw*mix(.6,1.,land)*uPx*vis;' +
+        'float m=1.-smoothstep(0.,1.,abs(p.x-uR.x*.5)/(uR.x*.5));float up=1.-smoothstep(0.,1.,(p.y-uG.y+uG.z)/ (uG.z*.62));vec3 lc=mix(vec3(.16,.27,1.),vec3(.22,.85,1.),clamp(m*.85+up*.25,0.,1.));vC=mix(vec3(.09,.17,.5),lc,land);vA=smoothstep(.03,.4,z)*(.55+.45*m)*mix(.5,1.,land);}';
       var fs = 'precision mediump float;varying vec3 vC;varying float vA;void main(){float d=length(gl_PointCoord-.5);float a=smoothstep(.5,.34,d)*vA;gl_FragColor=vec4(vC*a,a);}';
       var p = ctx.prog(vs, fs); g.useProgram(p);
       var buf = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, buf); g.bufferData(g.ARRAY_BUFFER, new Float32Array(pts), g.STATIC_DRAW);
@@ -479,10 +480,11 @@
     var set = function () { return items.map(function (n) { return n.cloneNode(true); }); };
     var sep = items[1].cloneNode(true);
     [0, 1, 2].forEach(function () { set().forEach(function (n) { track.appendChild(n); }); track.appendChild(sep.cloneNode(true)); });
-    root.innerHTML = ''; root.style.justifyContent = 'flex-start'; root.style.overflow = 'hidden'; root.style.padding = '0';
-    root.style.alignItems = 'center'; root.style.height = '58px';
-    root.style.webkitMaskImage = root.style.maskImage = 'linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%)';
-    root.appendChild(track);
+    root.innerHTML = ''; root.style.justifyContent = 'flex-start'; root.style.padding = '0'; root.style.alignItems = 'center'; root.style.height = '58px';
+    var bl = document.createElement('div'); bl.style.cssText = 'position:absolute;left:-3000px;width:7440px;top:0;height:58px;background:#f2f3f4;pointer-events:none'; cLic.insertBefore(bl, cLic.firstChild); cLic.style.overflow = 'visible';
+    var vp = document.createElement('div');
+    vp.style.cssText = 'width:100%;height:100%;overflow:hidden;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);mask-image:linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%)';
+    vp.appendChild(track); root.appendChild(vp);
     if (reduce) track.style.animation = 'none';
   }
 
