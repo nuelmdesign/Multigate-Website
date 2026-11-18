@@ -589,7 +589,7 @@
       new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('gzip'))).json().then(function (data) {
         var box = document.createElement('div');
         box.style.cssText = 'position:absolute;pointer-events:none;width:' + sp[2] + 'px;height:' + sp[2] + 'px;left:' + (sp[3] - sp[2] / 2) + 'px;top:' + (sp[4] - sp[2] / 2) + 'px';
-        card.appendChild(box); old.style.display = 'none'; shVis[sp[1]] = box;
+        box.className = 'pf-uvis'; card.appendChild(box); old.style.display = 'none'; shVis[sp[1]] = box;
         var a = lottie.loadAnimation({ container: box, renderer: 'svg', loop: false, autoplay: false, animationData: data });
         a.goToAndStop(0, true);
         useCase.push({ a: a, card: card, vis: false });
@@ -598,7 +598,7 @@
     });
     // the bank card has no earlier motion asset: give it a slow float so every card is alive
     var bank = shCards[2].children[1], bd = bankDome(shCards[2]);
-    if (bd) { bank.style.display = 'none'; shCards[2].appendChild(bd.cv); shVis[2] = bd.cv; useCase.push({ draw: bd.draw, card: shCards[2], vis: false }); bd.draw(0); }
+    if (bd) { bank.style.display = 'none'; bd.cv.className = 'pf-uvis'; shCards[2].appendChild(bd.cv); shVis[2] = bd.cv; useCase.push({ draw: bd.draw, card: shCards[2], vis: false }); bd.draw(0); }
     new IntersectionObserver(function (es) { useCase.forEach(function (u) { if (u.draw) u.vis = es[0].isIntersecting; }); }).observe(shCards[2]);
     /* one shared clock: every use-case illustration (coin, coins, dome, stack) completes a loop in the same time */
     var PERIOD = 16000, lastF = 0;

@@ -1,7 +1,7 @@
 /* Phone layout (under 768px). Desktop is untouched: everything here is inside the media query. */
 .pm { display: none; }
 @media (max-width: 767px) {
-  #header, #mission, #footer, #content, #pf-nav, #pf-mega, #pf-mbd, #pf-ind, #pf-sound, #pf-dots { display: none !important; }
+  #header, #mission, #footer, #content, #scrollh, #scrollv, .pf-pin, #pf-nav, #pf-mega, #pf-mbd, #pf-ind, #pf-sound, #pf-dots { display: none !important; }
   .pm { display: block; }
   html, body { overflow-x: hidden; }
 
@@ -128,5 +128,45 @@
   @media (hover: none) { .pf-pc:hover { transform: none; } .pf-cell:hover .pf-lg img { transform: none; } }
   /* Payments & FX map: the country sub-labels are too small to read on a phone and collide with the city names */
   #pm-scards [class*="text-[4.784px]"] { display: none; }
+
+  /* ---------- who it's built for ---------- */
+  #pm-who { background: #041431; color: #fff; padding: 76px 0 60px; }
+  .pm-eyebrow.l { justify-content: flex-start; padding: 0 20px; }
+  .pm-eyebrow.w { color: rgba(255,255,255,.82); }
+  .pm-h.w { color: #fff; font-size: 32px; }
+  .pm-sub.w { color: #f8f8f8; font-weight: 400; margin-bottom: 34px; }
+  .pm-note { margin: 30px 0 0; padding: 0 20px; font: 400 15px/1.5 "DM Sans", sans-serif; letter-spacing: -.01em; color: rgba(248,248,248,.9); }
+  #pm-who .pm-dots { margin-top: 22px; }
+  #pm-who .pm-dots i { background: rgba(208,224,253,.35); }
+  #pm-who .pm-dots i.on { background: #1362f5; }
+  .pm-uc { width: 310px !important; height: 440px !important; cursor: default; }
+  .pm-uc > [class*="bottom-0"] { padding: 0 24px 26px !important; }
+  .pm-uc [class*="text-[16px]"] { font-size: 15px !important; }
+  .pm-uc .pf-arr { display: none; }
+  .pm-uc .pf-uvis { left: 50% !important; top: 168px !important; translate: none !important; transform: translate(-50%, -50%) scale(.56) !important; }
+
+  /* ---------- trusted across the network ---------- */
+  #pm-trust { background: #fff; padding: 76px 20px 28px; }
+  #pm-trust .pm-h { padding: 0; margin-bottom: 36px; }
+  #pm-trust .pm-eyebrow { margin-bottom: 18px; }
+  .pm-lgrid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #e8e8e8; border-radius: 16px; overflow: hidden; }
+  .pm-lc { height: 108px; display: grid; place-items: center; background: #fff; border-right: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .pm-lc:nth-child(2n) { border-right: 0; } .pm-lc:nth-last-child(-n+2) { border-bottom: 0; }
+  .pm-lc img { display: block; max-width: 112px; max-height: 40px; width: auto; height: auto; object-fit: contain; filter: grayscale(1); opacity: .5; transition: filter .6s cubic-bezier(.2,.7,.2,1), opacity .6s cubic-bezier(.2,.7,.2,1); }
+  .pm-lc.on img { filter: none; opacity: 1; }
+  .pm-tm { position: relative; height: 380px; margin-top: 16px; border-radius: 16px; overflow: hidden; background: #0b1a38; color: #fff; }
+  .pm-tm-img { position: absolute; inset: 0; background-size: cover; background-position: 64% 26%; }
+  .pm-tm-g { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2,10,26,.12) 46%, rgba(2,10,26,.95) 96%); }
+  .pm-tm-t { position: absolute; left: 22px; right: 22px; bottom: 24px; }
+  .pm-tm-q { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .pm-tm-q b { font: 400 54px/1 "DM Sans", sans-serif; letter-spacing: -.03em; }
+  .pm-tm-q span { font: 300 16px/1.3 "Inter", sans-serif; opacity: .85; }
+  .pm-tm-n { display: flex; flex-wrap: wrap; gap: 4px 10px; font: 500 14px/1.3 "DM Sans", sans-serif; }
+  .pm-tm-n span { color: rgba(255,255,255,.85); } .pm-tm-n em { font-style: normal; color: rgba(255,255,255,.6); }
+
+  /* ---------- news ---------- */
+  #pm-news { background: #fff; padding: 56px 0 76px; }
+  #pm-news .pm-h.left { font-size: 32px; margin-bottom: 22px; }
+  #pm-news .pm-pill.sm { margin: 0 20px 34px; }
 }
 @media (max-width: 767px) and (prefers-reduced-motion: reduce) { .pm-hg { animation: none; transform: translateX(-50%); } .pm-ht h1, .pm-ht p, .pm-ht .pm-pill { animation: none; } .pm-rv { opacity: 1; transform: none; transition: none; } }

@@ -176,6 +176,45 @@
     ab[1].addEventListener('click', function () { ncar.scrollBy({ left: 389 * nz + 12, behavior: 'smooth' }); });
   })();
 
+  /* ---------- late sections: who it's built for, trusted across the network, news ---------- */
+  (function () {
+    var anchor = document.querySelector('.pf-pin') || document.getElementById('scrollh'); if (!anchor) return;
+    var W = Math.min(innerWidth, 767);
+    var late = el('div', 'pm'); late.id = 'pm-late';
+    late.innerHTML =
+      '<section id="pm-who"><div class="pm-eyebrow l w pm-rv"><i></i>Who it’s built for</div><h2 class="pm-h left w pm-rv" style="--d:80ms">Built for businesses and the institutions that serve them.</h2><p class="pm-sub left w pm-rv" style="--d:140ms">Multigate gives businesses one place to manage banking, payments and financing, and lets banks, payment providers and financiers serve them.</p><div class="pm-car" id="pm-ucar"></div><div class="pm-dots" id="pm-udots"></div><p class="pm-note pm-rv">We connect businesses to their banks. We don’t route around existing banking relationships.</p></section>' +
+      '<section id="pm-trust"><div class="pm-eyebrow pm-rv"><i></i>Trusted across the network</div><h2 class="pm-h pm-rv" style="--d:80ms">Chosen by leaders of African enterprise and finance.</h2><div class="pm-lgrid" id="pm-lgrid"></div><div class="pm-tm" id="pm-tm" data-confirm="testimonial"></div></section>' +
+      '<section id="pm-news"><h2 class="pm-h left pm-rv">Our latest news, analysis and expert insights</h2><button class="pm-pill sm pm-rv" style="--d:80ms" type="button">Discover All' + arrow + '</button><div class="pm-car" id="pm-ncar2"></div><div class="pm-dots" id="pm-ndots"></div></section>';
+    anchor.parentNode.insertBefore(late, anchor);
+    function dots(car, host, n) {
+      host.innerHTML = new Array(n + 1).join('<i></i>'); var d = $$('i', host);
+      function upd() { var it = car.firstElementChild; if (!it) return; var st = it.offsetWidth + 12, k = Math.round(car.scrollLeft / st); d.forEach(function (x, i) { x.classList.toggle('on', i === Math.min(n - 1, k)); }); }
+      car.addEventListener('scroll', upd, { passive: true }); upd();
+      d.forEach(function (x, i) { x.addEventListener('click', function () { var it = car.firstElementChild; car.scrollTo({ left: i * (it.offsetWidth + 12), behavior: 'smooth' }); }); });
+    }
+    function io(el, fn) { new IntersectionObserver(function (es) { fn(es[0].isIntersecting); }, { threshold: 0 }).observe(el); }
+
+    /* use-case cards: the real cards (wireframes keep moving) in a swipe carousel */
+    var ucar = late.querySelector('#pm-ucar'), ucs = $$('#scrollh .pf-uc');
+    ucs.forEach(function (c) { c.classList.add('pm-uc'); c.style.scale = ''; c.style.translate = ''; var w = el('div', 'pm-item'); w.appendChild(c); ucar.appendChild(w); });
+    dots(ucar, late.querySelector('#pm-udots'), ucs.length);
+
+    /* trusted: logos in a two-column grid. There is no hover on a phone, so one logo at a time shows its colour. */
+    var grid = late.querySelector('#pm-lgrid');
+    $$('.pf-lg img').forEach(function (im) { grid.appendChild(el('div', 'pm-lc', '<img alt="' + (im.alt || '') + '" src="' + im.getAttribute('src') + '">')); });
+    var lcs = $$('.pm-lc', grid), li2 = 0, gv = false;
+    io(grid, function (v) { gv = v; });
+    setInterval(function () { if (!gv || document.hidden || !lcs.length) return; lcs.forEach(function (c) { c.classList.remove('on'); }); lcs[li2 % lcs.length].classList.add('on'); li2++; }, 1800);
+    lcs.forEach(function (c) { c.addEventListener('click', function () { lcs.forEach(function (x) { x.classList.remove('on'); }); c.classList.add('on'); }); });
+    var ph = document.querySelector('[data-confirm="testimonial"] img'), tm = late.querySelector('#pm-tm');
+    tm.innerHTML = (ph ? '<div class="pm-tm-img" style="background-image:url(\'' + ph.getAttribute('src') + '\')"></div>' : '') + '<div class="pm-tm-g"></div><div class="pm-tm-t"><div class="pm-tm-q"><b>10x</b><span>efficiency across TMS</span></div><div class="pm-tm-n"><span>Thomas Okafor</span><em>Group Treasurer, Dana Foods</em></div></div>';
+
+    /* news: the real article cards in a swipe carousel */
+    var ncar = late.querySelector('#pm-ncar2'), arts = $$('#scrollv .pf-news'), az = Math.min(1, 300 / 391);
+    arts.forEach(function (a) { a.style.opacity = ''; a.style.zoom = az; var w = el('div', 'pm-item'); w.appendChild(a); ncar.appendChild(w); });
+    dots(ncar, late.querySelector('#pm-ndots'), arts.length);
+  })();
+
   /* ---------- reveal on scroll ---------- */
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
