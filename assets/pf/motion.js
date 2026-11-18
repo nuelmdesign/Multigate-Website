@@ -1046,12 +1046,11 @@
     var inner = document.createElement('div'); inner.className = 'pfm-in'; panel.appendChild(inner);
     var arrow = '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg>';
     function html(m) {
-      var secs = m.secs.map(function (sec) {
-        return '<div class="pfm-sec"><div class="pfm-l">' + sec.l + '</div><div class="pfm-items">' + sec.i.map(function (it) {
-          return '<a href="#" class="pfm-it"><span class="pfm-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + IC[it[2]] + '</svg></span><span class="pfm-tx"><b>' + it[0] + '</b><i>' + it[1] + '</i></span><span class="pfm-ar">' + arrow + '</span></a>';
-        }).join('') + '</div></div>';
-      }).join('');
-      return '<div class="pfm-main">' + secs + '</div><a href="#" class="pfm-feat"><div class="pfm-fl">// Featured</div><div class="pfm-card"><img src="' + m.feat.img + '" alt=""><div class="pfm-ft">' + m.feat.t + '</div><span class="pfm-go">' + arrow + '</span></div><p>' + m.feat.c + '</p></a>';
+      var cols = m.secs.map(function (sec, i) {
+        return '<div class="pfm-col"><div class="pfm-cl">' + sec.l + '</div><div class="pfm-cs">' + sec.i.map(function (it) { return '<a href="#" class="pfm-lk">' + it[0] + '</a>'; }).join('') + '</div><div class="pfm-cn">0' + (i + 1) + '</div></div>';
+      });
+      while (cols.length < 5) cols.push('<div class="pfm-col pfm-empty"></div>');
+      return cols.join('');
     }
     function place() {
       var r = nav.getBoundingClientRect();
@@ -1073,9 +1072,9 @@
         setTimeout(function () {
           inner.innerHTML = html(MENUS[i]);
           $$('a', inner).forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); close(); }); });
-          $$('.pfm-it', inner).forEach(function (a) { a.addEventListener('pointerenter', tick); });
+          $$('.pfm-lk', inner).forEach(function (a) { a.addEventListener('pointerenter', tick); });
           void inner.offsetWidth; inner.style.opacity = '1'; inner.style.transform = 'none';
-          $$('.pfm-sec, .pfm-feat', inner).forEach(function (el, k) { el.style.animation = 'pfmin .55s cubic-bezier(.2,.7,.2,1) ' + (k * 60) + 'ms both'; });
+          $$('.pfm-col > *', inner).forEach(function (el, k) { el.style.animation = 'pfmin .55s cubic-bezier(.2,.7,.2,1) ' + (k * 22) + 'ms both'; });
         }, fresh ? 0 : 140);
       }
       menuIdx = i; menuOpen = true; menuY = scrollY;

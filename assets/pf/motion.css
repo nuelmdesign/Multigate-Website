@@ -239,3 +239,18 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pfm-feat p { margin: 18px 0 0; font: 500 15px/1.35 "DM Sans", sans-serif; letter-spacing: -.01em; color: #232426; }
 @keyframes pfmin { from { opacity: 0; transform: translateY(10px); } }
 #pf-nav.menu { background: #fff !important; border-bottom-color: transparent !important; }
+
+/* mega menu v2: quiet columns with thin dividers, plain links, numbered */
+#pf-mbd { background: rgba(4,20,49,.08); -webkit-backdrop-filter: none; backdrop-filter: none; }
+#pf-mega { box-shadow: 0 24px 40px -30px rgba(4,20,49,.22); border-bottom: 1px solid #e6e8ec; }
+.pfm-in { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; padding: 20px 80px 44px; }
+.pfm-col { position: relative; min-height: 268px; padding: 0 14px 0 14px; border-left: 1px solid #e8eaee; display: flex; flex-direction: column; }
+.pfm-col:last-child { border-right: 1px solid #e8eaee; }
+.pfm-cl { font: 400 12.5px/1 "DM Sans", sans-serif; letter-spacing: -.005em; color: #76797f; margin: 4px 0 34px; }
+.pfm-cs { display: grid; gap: 0; align-content: start; }
+.pfm-lk { display: block; width: fit-content; padding: 4px 0; font: 400 16px/1.4 "DM Sans", sans-serif; letter-spacing: -.01em; color: #111; text-decoration: none; transition: color .25s, transform .3s cubic-bezier(.2,.7,.2,1); }
+.pfm-in:hover .pfm-lk { color: #a3a7af; }
+.pfm-in .pfm-lk:hover { color: #111; transform: translateX(3px); }
+.pfm-cn { margin-top: auto; padding-top: 24px; font: 400 10.5px/1 "JetBrains Mono", monospace; letter-spacing: .04em; color: #9ea0a4; }
+#pf-nav.menu .pf-mi:not([aria-expanded="true"]) { opacity: .4; }
+#pf-nav.menu .pf-mi { transition: opacity .3s; }
