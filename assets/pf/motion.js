@@ -644,12 +644,16 @@
 
   /* hero background continues past the 1440 design width so it never stops short on wide screens */
   function bleedHero() {
-    var h = sec.header;
+    /* Continue the hero past the 1440 design width. The strips live inside the hero, above the globe and
+       beside (never under) the design's own gradient block, so nothing doubles up and no edge shows. */
     heroRoot.style.background = 'transparent';
     linear.style.overflow = 'visible';
-    var mk = function (css) { var d = document.createElement('div'); d.style.cssText = 'position:absolute;pointer-events:none;' + css; h.insertBefore(d, h.firstChild); return d; };
-    mk('left:50%;margin-left:720px;right:0;top:841px;bottom:0;background:#091832');
-    mk('left:0;right:0;bottom:0;height:503px;background:linear-gradient(to bottom, rgba(255,255,255,0) 22.222%, #f0f5ff 60.36%)');
+    var grad = 'linear-gradient(to bottom, rgba(255,255,255,0) 22.222%, #f0f5ff 60.36%)';
+    var after = globeWrap.nextSibling;
+    var mk = function (css) { var d = document.createElement('div'); d.className = 'pf-bleed'; d.style.cssText = 'position:absolute;pointer-events:none;' + css; heroRoot.insertBefore(d, after); return d; };
+    mk('left:-3000px;width:3000px;bottom:0;height:503px;background:' + grad);
+    mk('left:1440px;width:3000px;bottom:0;height:503px;background:' + grad);
+    var navy = mk('left:1440px;width:3000px;top:841px;height:105px;background:#091832'); heroRoot.appendChild(navy);
   }
 
 
