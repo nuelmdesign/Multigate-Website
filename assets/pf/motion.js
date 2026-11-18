@@ -987,12 +987,13 @@
 
   /* logo grid: the customer logos from the Figma file, cropped tight, shown grey and revealed in full colour on hover */
   function fixLogos() {
+    var LP = { fmn: 'assets/pf/logos/fmn.png', odum: 'assets/pf/logos/odum.png', xtransfer: 'assets/pf/logos/xtransfer.png', pingpong: 'assets/pf/logos/pingpong.png', taptap: 'assets/pf/logos/taptap.png', lianlian: 'assets/pf/logos/lianlian.png', yeepay: 'assets/pf/logos/yeepay.png', nnpc: 'assets/pf/logos/nnpc.png' };
     var L = [['fmn', 'FMN'], ['odum', 'Odum Energy FZE'], ['xtransfer', 'XTransfer'], ['pingpong', 'pingpong'], ['taptap', 'Taptap Send'], ['lianlian', 'LianLian Global'], ['yeepay', 'YeePay'], ['nnpc', 'NNPC']];
     cells.forEach(function (c, i) {
       if (!L[i]) return;
       var bg = c.firstElementChild; bg.innerHTML = ''; bg.style.background = '#fff';
       var box = document.createElement('div'); box.className = 'pf-lg';
-      var im = document.createElement('img'); im.src = 'assets/pf/logos/' + L[i][0] + '.png'; im.alt = L[i][1]; im.draggable = false;
+      var im = document.createElement('img'); im.src = LP[L[i][0]]; im.alt = L[i][1]; im.draggable = false;
       box.appendChild(im); bg.appendChild(box); c.classList.add('pf-cell');
     });
   }
