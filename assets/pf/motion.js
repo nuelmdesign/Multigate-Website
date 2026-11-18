@@ -140,8 +140,7 @@
 
   /* ---------- proof / news / footer ---------- */
   var svRoot = inn('scrollv').firstElementChild;
-  var statsRow = svRoot.children[0].querySelector('.justify-center');
-  var proof = svRoot.children[1], news = svRoot.children[2];
+  var proof = svRoot.children[0], news = svRoot.children[1];
   var grid = proof.children[1], cells = [].slice.call(grid.children).filter(function (c) { return /border-b/.test(c.className); }), testi = grid.lastElementChild;
   var ftRoot = inn('footer').firstElementChild;
 
@@ -186,7 +185,6 @@
     rise(tb.children[2], { delay: 350, y: 18, trigger: shLeft });
     rise(shLeft.children[0].children[1], { delay: 500, y: 18, trigger: shLeft });
     // proof
-    stagger([].slice.call(statsRow.children).filter(function (c) { return c.children.length > 1 && !/w-0/.test(c.className); }), { y: 40, each: 140, group: statsRow });
     rise(proof.children[0].children[0], { y: 14 }); words(proof.children[0].children[1].firstElementChild, { each: 45, trigger: proof });
     cells.forEach(function (c, i) { var col = i % 4, row = i / 4 | 0; rise(c, { y: 24, scale: .94, each: 0, delay: (col + row) * 90, trigger: grid }); });
     testi.style.clipPath = 'inset(0 0 0 100%)';
@@ -336,7 +334,6 @@
         })(performance.now());
       });
     }
-    $$('p', statsRow).filter(function (p) { return /^(\$1\.5B|3\+|99\.9)$/.test(p.textContent.trim()); }).forEach(function (p, i) { cu(p, 1700, i * 140, statsRow); });
     cu(P('10x', testi), 1500, 700, grid);
   }
 
@@ -930,6 +927,7 @@
 
 
   function padEighty() {
+    proof.style.paddingTop = '110px';
     grid.style.zoom = '1.0526';
     news.style.paddingLeft = news.style.paddingRight = '80px';
     news.children[1].style.gap = '53px';
