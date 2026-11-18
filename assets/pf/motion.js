@@ -893,6 +893,7 @@
     var t0 = performance.now();
     (function frame(now) {
       requestAnimationFrame(frame); if (!run) return;
+      if (!rowY.ok && rows[0] && rows[0].offsetHeight) { rowY = rows.map(function (r) { return r.offsetTop + (r.offsetHeight - 30) / 2; }); rowY.ok = true; }
       var t = (now - t0) / 1000;
       // 1. balances drift on slow, unrelated orbits, so they never line up
       balances.forEach(function (e, i) {

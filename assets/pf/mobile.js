@@ -114,6 +114,68 @@
   $$('.pm-fa > button', foot).forEach(function (b) { b.addEventListener('click', function () { var o = b.parentNode.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); }); });
   $$('a', foot).forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
 
+  /* ---------- middle sections: licence strip, problem cards, solutions, one network ---------- */
+  (function () {
+    var content = document.getElementById('content'); if (!content) return;
+    var W = Math.min(innerWidth, 767), sq = '<i></i>';
+    var strip = ['Licensed in Nigeria, Canada, Mauritius and Uganda', 'Swift BUSINESS CONNECT PROVIDER', 'ISO/IEC 27001 · ISO 22301 · ISO/IEC 20000 · PCI DSS'];
+    var stripHtml = ''; for (var r = 0; r < 3; r++) strip.forEach(function (t, k) { stripHtml += '<span' + (k === 2 ? ' class="m"' : '') + '>' + t + '</span>' + sq; });
+    var mid = el('div', 'pm'); mid.id = 'pm-mid';
+    mid.innerHTML =
+      '<div class="pm-strip"><div class="pm-strip-v"><div class="pm-strip-t">' + stripHtml + '</div></div></div>' +
+      '<section id="pm-prob"><div class="pm-eyebrow pm-rv"><i></i>The problem we solve</div><h2 class="pm-h pm-rv" style="--d:80ms">Running finance across Africa shouldn\'t take ten bank portals and a spreadsheet.</h2><p class="pm-sub pm-rv" style="--d:140ms">Here are four challenges businesses face every day.</p><div class="pm-car" id="pm-pcar"></div><div class="pm-dots" id="pm-pdots"></div></section>' +
+      '<div id="pm-sn"><section id="pm-sol"><div class="pm-eyebrow pm-rv"><i></i>Our solutions</div><h2 class="pm-h pm-rv" style="--d:80ms">Treasury, payments and financing. One platform, whichever banks you use.</h2><p class="pm-sub pm-rv" style="--d:140ms">See your cash, move money across African markets and get your suppliers paid early, all from one place.</p><div id="pm-scards"></div></section>' +
+      '<section id="pm-net"><h2 class="pm-h left pm-rv">One network connecting businesses to the financial institutions that power them.</h2><p class="pm-sub left pm-rv" style="--d:80ms">We give businesses one place to manage banking, payments and financing, and lets banks, payment providers and financiers serve them.</p><div class="pm-car" id="pm-ncar"></div><div class="pm-arrows"><button type="button" aria-label="Previous">' + '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-6 6 6 6"/></svg></button><button type="button" aria-label="Next"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l6 6-6 6"/></svg></button></div></section></div>';
+    content.parentNode.insertBefore(mid, content);
+
+    /* problem cards: the real cards (with their motion) move into a swipe carousel */
+    var pcar = mid.querySelector('#pm-pcar'), pcards = $$('#content .pf-pc'), pz = Math.min(1, (W - 40) / 389);
+    pcards.forEach(function (c) { c.style.opacity = ''; c.style.zoom = pz; var w = el('div', 'pm-item'); w.appendChild(c); pcar.appendChild(w); });
+    function dots(car, host, n) {
+      host.innerHTML = new Array(n + 1).join('<i></i>'); var d = $$('i', host);
+      function upd() { var it = car.firstElementChild; if (!it) return; var st = it.offsetWidth + 12, k = Math.round(car.scrollLeft / st); d.forEach(function (x, i) { x.classList.toggle('on', i === Math.min(n - 1, k)); }); }
+      car.addEventListener('scroll', upd, { passive: true }); upd();
+      d.forEach(function (x, i) { x.addEventListener('click', function () { var it = car.firstElementChild; car.scrollTo({ left: i * (it.offsetWidth + 12), behavior: 'smooth' }); }); });
+    }
+    dots(pcar, mid.querySelector('#pm-pdots'), pcards.length);
+
+    /* solutions: three stacked cards, text first, then the real illustration scaled to fit */
+    var host = mid.querySelector('#pm-scards'), avail = W - 80;
+    function fit(panel, w, h) {
+      var st = panel.style; st.position = 'relative'; st.left = '0'; st.top = '0'; st.right = 'auto'; st.bottom = 'auto'; st.transform = 'none'; st.margin = '0'; st.width = w + 'px'; st.height = h + 'px'; st.zoom = Math.min(1, avail / w);
+    }
+    function scard(label, title, body, panel, w, h, delay) {
+      var c = el('article', 'pm-sc pm-rv', '<div class="pm-sl2">' + label + '</div><h3>' + title + '</h3><p>' + body + '</p><button class="pm-pill sm" type="button">Learn More' + arrow + '</button><div class="pm-vis"></div>');
+      c.style.setProperty('--d', delay + 'ms');
+      if (panel) { fit(panel, w, h); c.querySelector('.pm-vis').appendChild(panel); }
+      host.appendChild(c); return c;
+    }
+    var p1 = document.querySelector('#content [class*="bg-[#f7f7f7]"]'), p2 = document.querySelector('#content [class*="h-[484.202px]"]'), p3 = document.querySelector('#content [class*="h-[557.059px]"]');
+    scard('Payables Financing', 'Get your suppliers paid early. Keep your terms.', 'Give eligible suppliers early payment from participating banks and lenders on invoices you’ve already approved, so their businesses keep moving while your payment terms stay unchanged.', p1, 464, 447, 0);
+    scard('Payments & FX', 'Move and settle money across markets.', 'Collect locally, convert currencies and pay beneficiaries across African markets through one connection, with visibility and control for corporates and payment platforms.', p2, 502.168, 484.202, 0);
+    scard('Treasury Management System', 'See and control your money across your banks', 'Connect your banks, entities and currencies into one live cash position. Then run treasury from the same screen: approve and send payments, manage liquidity and govern bank relationships whichever banks you use.', p3, 577.729, 557.059, 0);
+    $$('.pm-sc .pm-pill', host).forEach(function (b) { b.addEventListener('click', function () { }); });
+    // treasury dashboard: draw the chart and count the balances up when it scrolls into view
+    if (p3) (function () {
+      var chart = p3.querySelector('[class*="h-[164.857px]"]'), vals = $$('p', p3).filter(function (q) { return /^\$0\.00$/.test(q.textContent.trim()); }), fin = [1245600, 845200], done = false;
+      if (!vals.length || reduce) { if (chart) chart.style.clipPath = 'none'; return; }
+      if (chart) chart.style.clipPath = 'inset(0 100% 0 0)';
+      new IntersectionObserver(function (es) {
+        if (done || !es[0].isIntersecting) return; done = true;
+        if (chart) chart.animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)' }], { duration: 2200, delay: 250, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' });
+        var t0 = performance.now() + 250;
+        (function step(now) { var k = Math.min(1, Math.max(0, (now - t0) / 1800)), e = 1 - Math.pow(1 - k, 4); vals.forEach(function (q, i) { q.textContent = '$' + (fin[i] * e).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }); if (k < 1) requestAnimationFrame(step); })(performance.now());
+      }, { threshold: .35 }).observe(p3);
+    })();
+
+    /* one network: the five cards in a swipe carousel with arrows */
+    var ncar = mid.querySelector('#pm-ncar'), ncards = $$('#pf-track > *'), nz = Math.min(.8, (W - 40) / 389 * .9);
+    ncards.forEach(function (c) { c.style.opacity = ''; c.style.zoom = nz; var w = el('div', 'pm-item'); w.appendChild(c); ncar.appendChild(w); });
+    var ab = $$('.pm-arrows button', mid);
+    ab[0].addEventListener('click', function () { ncar.scrollBy({ left: -(389 * nz + 12), behavior: 'smooth' }); });
+    ab[1].addEventListener('click', function () { ncar.scrollBy({ left: 389 * nz + 12, behavior: 'smooth' }); });
+  })();
+
   /* ---------- reveal on scroll ---------- */
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
