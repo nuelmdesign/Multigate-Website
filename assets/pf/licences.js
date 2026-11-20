@@ -9,7 +9,7 @@
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
   var P = function (txt, root) { return $$('p', root).filter(function (p) { return p.textContent.trim().indexOf(txt) === 0; })[0]; };
-  var ids = ['header', 'lm', 'footer'];
+  var ids = ['header', 'lmhero', 'lm', 'footer'];
   var sec = {}; ids.forEach(function (i) { sec[i] = document.getElementById(i); });
   if (!sec.header) return;
   var inn = function (id) { return sec[id].firstElementChild; };
@@ -341,8 +341,8 @@
   }
 
   window.__pfBook = openBooking;
-  /* ================= Licences page ================= */
-  var ORDER = ['CAN', 'GHA', 'NGA', 'UGA', 'KEN', 'MOZ', 'MUS'];          // west to east, the order of the previous / next buttons
+  /* ================= Licences page: an interactive dotted globe ================= */
+  var ORDER = ['CAN', 'GHA', 'NGA', 'UGA', 'KEN', 'MOZ', 'MUS'];          // west to east: the order of the previous / next buttons
   var LIST_ORDER = ['NGA', 'CAN', 'KEN', 'MOZ', 'UGA', 'GHA', 'MUS'];     // the order of the compliance team's table
   var FLAG = {
     CAN: 'assets/pf/lic/ca.svg', NGA: 'assets/pf/lic/ng.svg', GHA: 'assets/pf/lic/gh.svg', KEN: 'assets/pf/lic/ke.svg',
@@ -371,28 +371,24 @@
   function label(r) { var n = r.items.length, ap = r.items.every(function (x) { return x.t === 'a'; }); return n + ' ' + (ap ? 'approval' : 'licence') + (n > 1 ? 's' : ''); }
   var slug = function (iso) { return REC[iso].name.toLowerCase(); };
 
-  var lm = document.getElementById('lm'), card = $('#lm-card'), stage = $('.lm-stage', card), panel = $('#lm-panel'), M = window.LM_MAP;
-  var svg, cur = null, view = { z: 1, x: 0, y: 0 }, raf = 0;
+  var lmhero = document.getElementById('lmhero'), lm = document.getElementById('lm');
+  var gStage = $('.lg-stage', lmhero), cv = $('#lg-canvas', lmhero), labelsEl = $('.lg-labels', lmhero), panel = $('#lm-panel'), copyEl = $('.lg-copy', lmhero), LG = window.LG;
+  var TAU = Math.PI * 2, D2R = Math.PI / 180;
+  var G = { ctx: null, dpr: 1, w: 0, h: 0, R: 480, cx: 0, cy: 0, vis: true, run: false };
+  var HOME = { lon: -22, lat: 13 };
+  var cam = { lon: HOME.lon + 46, lat: HOME.lat - 4, zoom: .86, ox: 0 }, tw = null;
+  var drift = { amp: 0 }, par = { x: 0, y: 0 };
+  var cur = null, hov = null, mouse = { x: -1e4, y: -1e4, on: false, lens: 0 };
+  var drag = null, vel = { x: 0, y: 0 }, lastIn = performance.now(), born = 0, dotsReady = false;
+  var BASE, LIC = {}, STARS = [], GRAT = [], CHIPS = {}, PINS = {};
 
-  function buildMap() {
-    var s = '<svg class="lm-svg" viewBox="0 0 ' + M.w + ' ' + M.h + '" role="group" aria-label="Map of the jurisdictions where Multigate is licensed or approved">';
-    s += '<g class="lm-land">' + M.land.map(function (d) { return '<path d="' + d + '"/>'; }).join('') + '</g><g>';
-    s += ORDER.map(function (i) { return '<path class="lm-c" tabindex="0" role="button" data-i="' + i + '" aria-label="' + REC[i].name + ', ' + label(REC[i]) + '" d="' + M.lic[i].d + '"/>'; }).join('') + '</g>';
-    s += ORDER.map(function (i) { var p = M.pins[i]; return '<line class="lm-ln" data-i="' + i + '" x1="' + p.p[0] + '" y1="' + p.p[1] + '" x2="' + p.c[0] + '" y2="' + p.c[1] + '"/>'; }).join('');
-    s += ORDER.map(function (i) {
-      var c = M.pins[i].c;
-      return '<g class="lm-chip" data-i="' + i + '" tabindex="0" role="button" aria-label="' + REC[i].name + '" style="transform:translate(' + c[0] + 'px,' + c[1] + 'px) scale(var(--is))"><rect class="b" x="-41" y="-31" width="82" height="62" rx="11"/>' +
-        '<clipPath id="lmcp-' + i + '"><rect x="-35" y="-25" width="70" height="50" rx="7"/></clipPath><image href="' + FLAG[i] + '" x="-35" y="-25" width="70" height="50" preserveAspectRatio="xMidYMid slice" clip-path="url(#lmcp-' + i + ')"/></g>';
-    }).join('');
-    s += ORDER.map(function (i) {
-      var p = M.pins[i].p, n = REC[i].items.length;
-      return '<g class="lm-pin" data-i="' + i + '" tabindex="0" role="button" aria-label="' + REC[i].name + ', ' + label(REC[i]) + '" style="transform:translate(' + p[0] + 'px,' + p[1] + 'px) scale(var(--is))"><circle class="lm-ring" r="9"/><circle class="lm-dot" r="7"/>' +
-        (n > 1 ? '<circle class="lm-bd" cx="10" cy="-10" r="8.5"/><text class="lm-bn" x="10" y="-10">' + n + '</text>' : '') + '</g>';
-    }).join('');
-    stage.innerHTML = s + '</svg>';
-    svg = stage.firstChild;
+  function prep(flat) {
+    var n = flat.length / 2, o = { n: n, cl: new Float32Array(n), sl: new Float32Array(n), cp: new Float32Array(n), sp: new Float32Array(n), x: new Float32Array(n), y: new Float32Array(n), c: new Float32Array(n) };
+    for (var i = 0; i < n; i++) { var lo = flat[i * 2] / 100 * D2R, la = flat[i * 2 + 1] / 100 * D2R; o.cl[i] = Math.cos(lo); o.sl[i] = Math.sin(lo); o.cp[i] = Math.cos(la); o.sp[i] = Math.sin(la); }
+    return o;
   }
 
+  /* ---------- panel (same content as before, dressed for the dark section) ---------- */
   function panelHTML(i) {
     var r = REC[i], k = ORDER.indexOf(i), pv = REC[ORDER[(k + ORDER.length - 1) % ORDER.length]], nx = REC[ORDER[(k + 1) % ORDER.length]];
     var items = r.items.map(function (x) {
@@ -405,85 +401,271 @@
       '<button type="button" data-d="1" aria-label="Next: ' + nx.name + '"><i>' + nx.name + '</i><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button></div>';
   }
 
-  function apply() {
-    stage.style.transform = 'translate3d(' + view.x.toFixed(2) + 'px,' + view.y.toFixed(2) + 'px,0) scale(' + view.z.toFixed(4) + ')';
-    /* markers keep a constant size on screen whatever the zoom or the card width (a little larger on a phone) */
-    var inv = ((innerWidth < 768 ? .85 : 1) / (view.z * (card.clientWidth / M.w))).toFixed(4);
-    svg.style.setProperty('--is', inv); stage.style.setProperty('--is', inv);
+  /* ---------- camera ---------- */
+  function wrap(a) { while (a > 180) a -= 360; while (a < -180) a += 360; return a; }
+  function fly(to, dur) {
+    var a = { lon: cam.lon, lat: cam.lat, zoom: cam.zoom, ox: cam.ox }, d = wrap(to.lon - a.lon), t0 = performance.now();
+    if (reduce || !dur) { cam.lon = wrap(a.lon + d); cam.lat = to.lat; cam.zoom = to.zoom; cam.ox = to.ox; tw = null; return; }
+    tw = { a: a, d: d, to: to, t0: t0, dur: dur };
   }
-  function go(z, x, y, instant) {
-    cancelAnimationFrame(raf);
-    if (instant || reduce) { view = { z: z, x: x, y: y }; apply(); return; }
-    var a = { z: view.z, x: view.x, y: view.y }, t0 = performance.now(), D = 1050;
-    stage.style.willChange = 'transform';
-    (function f(n) {
-      var t = Math.min(1, (n - t0) / D), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      view.z = a.z * Math.pow(z / a.z, e); view.x = a.x + (x - a.x) * e; view.y = a.y + (y - a.y) * e; apply();
-      if (t < 1) raf = requestAnimationFrame(f); else stage.style.willChange = '';
-    })(t0);
+  function stepTween(now) {
+    if (!tw) return;
+    var t = Math.min(1, (now - tw.t0) / tw.dur), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    cam.lon = wrap(tw.a.lon + tw.d * e); cam.lat = tw.a.lat + (tw.to.lat - tw.a.lat) * e;
+    cam.zoom = tw.a.zoom * Math.pow(tw.to.zoom / tw.a.zoom, e); cam.ox = tw.a.ox + (tw.to.ox - tw.a.ox) * e;
+    if (t >= 1) tw = null;
   }
-  function focusOn(i, instant) {
-    var b = M.lic[i].b, cw = card.clientWidth, ch = card.clientHeight, S = cw / M.w, w = innerWidth;
-    var avail = w < 768 ? cw : cw - (w < 1200 ? 380 : 440), pad = 60;
-    var z = Math.min(avail / ((b[2] - b[0] + pad * 2) * S), ch / ((b[3] - b[1] + pad * 2) * S));
-    z = clamp(z, 1.25, 7);
-    var x = clamp(avail / 2 - (b[0] + b[2]) / 2 * S * z, cw - cw * z, 0), y = clamp(ch / 2 - (b[1] + b[3]) / 2 * S * z, ch - ch * z, 0);
-    go(z, x, y, instant);
-  }
-
-  function paint() {
-    $$('[data-i]', card).forEach(function (n) { n.classList.toggle('sel', n.getAttribute('data-i') === cur); });
-    $$('.lm-chips button', lm).forEach(function (n) { n.classList.toggle('sel', n.getAttribute('data-i') === cur); });
-    card.classList.toggle('has', !!cur);
-  }
+  function panelShift() { return innerWidth >= 900 ? -G.w * (innerWidth < 1200 ? .24 : .2) : innerWidth >= 768 ? -(Math.min(panel.offsetWidth || 410, 420) / 2 + 8) : 0; }
   function select(i, o) {
     o = o || {};
-    cur = i; paint();
+    cur = i; hov = null; lmhero.classList.add('used', 'has');
     panel.innerHTML = panelHTML(i); panel.classList.add('open');
     $('.lp-x', panel).addEventListener('click', closeP);
+    $$('.lp-nv button', panel).forEach(function (b) { b.addEventListener('click', function () { step(+b.getAttribute('data-d')); }); b.addEventListener('pointerenter', tick); });
     var pb = $('.lp-body', panel);
     function more() { pb.classList.toggle('more', pb.scrollHeight - pb.scrollTop - pb.clientHeight > 6 && innerWidth >= 768); }
-    pb.addEventListener('scroll', more, { passive: true }); setTimeout(more, 60); setTimeout(more, 700); setTimeout(more, 1400);
-    $$('.lp-nv button', panel).forEach(function (b) { b.addEventListener('click', function () { step(+b.getAttribute('data-d')); }); b.addEventListener('pointerenter', tick); });
-    focusOn(i, o.instant);
+    pb.addEventListener('scroll', more, { passive: true }); setTimeout(more, 80); setTimeout(more, 900);
+    var m = LG.lic[i], ph = innerWidth < 768;
+    fly({ lon: m.c[0], lat: m.c[1] * .9, zoom: m.z * (ph ? .82 : 1), ox: panelShift() }, o.instant ? 0 : 1500);
+    paintSel();
     try { history.replaceState(null, '', '#' + slug(i)); } catch (e) {}
-    if (innerWidth < 768 && !o.quiet) setTimeout(function () { var r = panel.getBoundingClientRect(); if (r.top > innerHeight - 120 || r.top < 60) scrollTo({ top: scrollY + r.top - 80, behavior: 'smooth' }); }, 120);
+    if (ph && !o.quiet) setTimeout(function () { var r = panel.getBoundingClientRect(); if (r.top > innerHeight - 140 || r.top < 70) scrollTo({ top: scrollY + r.top - 90, behavior: 'smooth' }); }, 320);
   }
   function closeP() {
-    cur = null; paint(); panel.classList.remove('open'); go(1, 0, 0);
+    cur = null; panel.classList.remove('open'); lmhero.classList.remove('has'); paintSel();
+    fly({ lon: HOME.lon, lat: HOME.lat, zoom: 1, ox: 0 }, 1300);
     try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
   }
   function step(d) { var k = ORDER.indexOf(cur); select(ORDER[(k + d + ORDER.length) % ORDER.length], { quiet: true }); }
+  function paintSel() {
+    $$('.lg-chip', lmhero).forEach(function (c) { c.classList.toggle('sel', c.getAttribute('data-i') === cur); });
+    $$('.lm-chips button', lmhero).forEach(function (c) { c.classList.toggle('sel', c.getAttribute('data-i') === cur); });
+  }
 
-  function mapInit() {
-    if (!M || !card) return;
-    buildMap();
-    /* on a phone the detail card sits under the map instead of floating over it */
-    var chipsEl = $('.lm-chips', lm);
-    function placePanel() { var ph = innerWidth < 768; if (ph && panel.parentNode === card) chipsEl.parentNode.insertBefore(panel, chipsEl.nextSibling); else if (!ph && panel.parentNode !== card) card.appendChild(panel); }
-    placePanel(); addEventListener('resize', placePanel);
-    panel.addEventListener('click', function (e) { e.stopPropagation(); });
-    var hit = function (e) { var n = e.target.closest ? e.target.closest('[data-i]') : null; return n && n.getAttribute('data-i'); };
-    card.addEventListener('click', function (e) { var i = hit(e); if (i && card.contains(e.target) && !panel.contains(e.target)) select(i); else if (!i && cur && !panel.contains(e.target)) closeP(); });
-    card.addEventListener('keydown', function (e) {
-      var i = hit(e);
-      if ((e.key === 'Enter' || e.key === ' ') && i) { e.preventDefault(); select(i); }
-      else if (e.key === 'Escape' && cur) closeP();
-      else if (cur && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !i) { e.preventDefault(); step(e.key === 'ArrowRight' ? 1 : -1); }
+  /* ---------- sizing ---------- */
+  function size() {
+    var ph = innerWidth < 768, wide = innerWidth >= 900;
+    var w = gStage.clientWidth;
+    lmhero.classList.toggle('wide', wide);
+    if (wide) {
+      var hh = clamp(innerHeight, 760, 1100), tab = w < 1200;
+      lmhero.style.height = hh + 'px';
+      G.R = Math.min(w * (tab ? .29 : .3), hh * .5); G.cx = w * (tab ? .645 : .625); G.cy = hh * .545;
+    } else if (!ph) {
+      var cb = copyEl.getBoundingClientRect().bottom - lmhero.getBoundingClientRect().top;
+      G.R = clamp(w * .4, 300, 520); G.cx = w / 2; G.cy = cb + G.R * .92;
+      lmhero.style.height = Math.max(Math.round(G.cy + G.R * .6), 760) + 'px';
+    } else { G.R = w * .5; G.cx = w / 2; G.cy = 440 * .52; lmhero.style.height = ''; }
+    var h = gStage.clientHeight;
+    G.dpr = Math.min(2, window.devicePixelRatio || 1); G.w = w; G.h = h;
+    cv.width = Math.round(w * G.dpr); cv.height = Math.round(h * G.dpr);
+    G.ctx = cv.getContext('2d');
+    Object.keys(CHIPS).forEach(function (k) { CHIPS[k].w = CHIPS[k].el.offsetWidth; CHIPS[k].h = CHIPS[k].el.offsetHeight; });
+    if (cur && !tw) cam.ox = panelShift();
+  }
+
+  /* ---------- the picture ---------- */
+  var BUCKETS = 6;
+  function project(o, c0l, s0l, c0p, s0p, cxx, cyy, Rr) {
+    for (var i = 0; i < o.n; i++) {
+      var cd = o.cl[i] * c0l + o.sl[i] * s0l, sd = o.sl[i] * c0l - o.cl[i] * s0l;
+      var cc = s0p * o.sp[i] + c0p * o.cp[i] * cd;
+      o.c[i] = cc;
+      if (cc > .02) { o.x[i] = cxx + o.cp[i] * sd * Rr; o.y[i] = cyy - (c0p * o.sp[i] - s0p * o.cp[i] * cd) * Rr; }
+    }
+  }
+  function drawDots(ctx, o, rgb, baseA, minA, rBase, now, lensOn, cls) {
+    var LR = 96, i, k, x, y, cc, d, f, r, a;
+    // bucket the dots by depth so each bucket is one path
+    for (k = 0; k < BUCKETS; k++) {
+      ctx.beginPath(); var any = false;
+      for (i = 0; i < o.n; i++) {
+        cc = o.c[i]; if (cc <= .02) continue;
+        var b = Math.min(BUCKETS - 1, (cc * BUCKETS) | 0); if (b !== k) continue;
+        x = o.x[i]; y = o.y[i]; r = rBase * (.45 + .55 * cc);
+        if (lensOn) { var dx = x - mouse.x, dy = y - mouse.y, d2 = dx * dx + dy * dy; if (d2 < LR * LR) { d = Math.sqrt(d2); f = 1 - d / LR; f *= f; r *= 1 + 1.5 * f * mouse.lens; var push = 10 * f * mouse.lens / (d + 1); x += dx * push; y += dy * push; } }
+        ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, TAU); any = true;
+      }
+      if (!any) continue;
+      var kc = (k + .5) / BUCKETS;
+      a = (minA + (baseA - minA) * Math.pow(kc, 1.15)) * cls.alpha;
+      ctx.fillStyle = 'rgba(' + rgb + ',' + a.toFixed(3) + ')'; ctx.fill();
+    }
+  }
+
+  function render(now) {
+    var ctx = G.ctx; if (!ctx) return;
+    var dpr = G.dpr, w = G.w, h = G.h, t = now * .001;
+    var age = Math.min(1, (now - born) / 2400), intro = 1 - Math.pow(1 - age, 3);
+    stepTween(now);
+    // drift: a slow breathing sway while nobody is touching it
+    var idle = !drag && !cur && !tw && now - lastIn > 2400 && !reduce;
+    drift.amp += ((idle ? 1 : 0) - drift.amp) * .02;
+    var dl = Math.sin(t * .27) * 17 * drift.amp, dp = Math.sin(t * .41) * 3.2 * drift.amp;
+    if (!drag) { cam.lon = wrap(cam.lon + vel.x); cam.lat = clamp(cam.lat + vel.y, -42, 68); vel.x *= .94; vel.y *= .94; if (Math.abs(vel.x) < .002) vel.x = 0; if (Math.abs(vel.y) < .002) vel.y = 0; }
+    par.x += (mouse.px - par.x) * .06; par.y += (mouse.py - par.y) * .06;
+    mouse.lens += ((mouse.on && !drag ? 1 : 0) - mouse.lens) * .12;
+
+    var lon0 = (cam.lon + dl + par.x * 2.2) * D2R, lat0 = (cam.lat + dp - par.y * 1.4) * D2R;
+    var c0l = Math.cos(lon0), s0l = Math.sin(lon0), c0p = Math.cos(lat0), s0p = Math.sin(lat0);
+    var Rr = G.R * cam.zoom * (.9 + .1 * intro), cxx = G.cx + cam.ox + par.x * 9, cyy = G.cy + par.y * 5;
+    if (cam.zoom > 1.2) { /* keep the zoomed country in the middle of the free area, not the globe centre */ cyy = G.cy + (G.h * .5 - G.cy) * clamp((cam.zoom - 1) * .9, 0, 1) + par.y * 5; }
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+
+    // halo + body: a pale sphere on the white page
+    var g = ctx.createRadialGradient(cxx, cyy, Rr * .97, cxx, cyy, Rr * 1.24); g.addColorStop(0, 'rgba(19,98,245,' + (.11 * intro).toFixed(3) + ')'); g.addColorStop(.5, 'rgba(19,98,245,' + (.04 * intro).toFixed(3) + ')'); g.addColorStop(1, 'rgba(19,98,245,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cxx, cyy, Rr * 1.24, 0, TAU); ctx.fill();
+    g = ctx.createRadialGradient(cxx - Rr * .34, cyy - Rr * .42, Rr * .04, cxx, cyy, Rr);
+    g.addColorStop(0, 'rgba(255,255,255,' + intro.toFixed(3) + ')'); g.addColorStop(.55, 'rgba(241,246,255,' + intro.toFixed(3) + ')'); g.addColorStop(1, 'rgba(220,231,250,' + intro.toFixed(3) + ')');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cxx, cyy, Rr, 0, TAU); ctx.fill();
+    g = ctx.createRadialGradient(cxx, cyy, Rr * .84, cxx, cyy, Rr); g.addColorStop(0, 'rgba(19,98,245,0)'); g.addColorStop(1, 'rgba(19,98,245,' + (.10 * intro).toFixed(3) + ')');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cxx, cyy, Rr, 0, TAU); ctx.fill();
+    ctx.strokeStyle = 'rgba(19,98,245,' + (.26 * intro).toFixed(3) + ')'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(cxx, cyy, Rr, 0, TAU); ctx.stroke();
+
+    // graticule
+    ctx.lineWidth = .8; ctx.lineCap = 'round';
+    for (var q = 0; q < GRAT.length; q++) {
+      var L = GRAT[q], px0 = 0, py0 = 0, pc0 = -1;
+      for (var m = 0; m < L.n; m++) {
+        var cd = L.cl[m] * c0l + L.sl[m] * s0l, sd = L.sl[m] * c0l - L.cl[m] * s0l, cc = s0p * L.sp[m] + c0p * L.cp[m] * cd;
+        var gx = cxx + L.cp[m] * sd * Rr, gy = cyy - (c0p * L.sp[m] - s0p * L.cp[m] * cd) * Rr;
+        if (m > 0 && cc > .02 && pc0 > .02) { ctx.strokeStyle = 'rgba(19,98,245,' + ((.05 + .10 * Math.min(cc, pc0)) * intro).toFixed(3) + ')'; ctx.beginPath(); ctx.moveTo(px0, py0); ctx.lineTo(gx, gy); ctx.stroke(); }
+        px0 = gx; py0 = gy; pc0 = cc;
+      }
+    }
+
+    // land
+    var lensOn = mouse.lens > .01;
+    project(BASE, c0l, s0l, c0p, s0p, cxx, cyy, Rr);
+    drawDots(ctx, BASE, '44,76,150', .72 * intro, .16 * intro, Rr * .0036, now, lensOn, { alpha: cur ? .7 : 1 });
+    // licensed countries: each country is its own layer so it can light up on its own
+    var nearD = 1e9, nearI = null, hit = 17;
+    for (var k = 0; k < ORDER.length; k++) {
+      var iso = ORDER[k], o = LIC[iso].o;
+      project(o, c0l, s0l, c0p, s0p, cxx, cyy, Rr);
+      var on = iso === cur, hv = iso === hov, dim = cur && !on;
+      var rgb = on ? '8,52,190' : hv ? '48,126,255' : '19,98,245';
+      var shimmer = .86 + .14 * Math.sin(t * 1.7 + k * 1.3);
+      drawDots(ctx, o, rgb, (on ? 1 : hv ? .98 : .86) * intro * shimmer * (dim ? .5 : 1), (on ? .6 : .34) * intro * (dim ? .5 : 1), Rr * LG.lic[iso].rf * (on ? 1.05 : hv ? 1.12 : 1), now, lensOn, { alpha: 1 });
+      // glow under the country
+      var pin = LIC[iso].pin; var pcd = pin.cl * c0l + pin.sl * s0l, pcc = s0p * pin.sp + c0p * pin.cp * pcd;
+      var psx = cxx + pin.cp * (pin.sl * c0l - pin.cl * s0l) * Rr, psy = cyy - (c0p * pin.sp - s0p * pin.cp * pcd) * Rr;
+      LIC[iso].sx = psx; LIC[iso].sy = psy; LIC[iso].cc = pcc;
+      if (pcc > .05 && mouse.on && !drag) {
+        for (var i2 = 0; i2 < o.n; i2 += 2) { if (o.c[i2] <= .05) continue; var ddx = o.x[i2] - mouse.x, ddy = o.y[i2] - mouse.y, dd = ddx * ddx + ddy * ddy; if (dd < nearD) { nearD = dd; nearI = iso; } }
+      }
+      if (pcc > .05) {
+        ctx.save();
+        var gr = Rr * (iso === 'CAN' ? .34 : .13) * (on ? 1.4 : 1), gg = ctx.createRadialGradient(psx, psy, 0, psx, psy, gr);
+        gg.addColorStop(0, 'rgba(19,98,245,' + ((on ? .22 : hv ? .18 : .09) * pcc * intro).toFixed(3) + ')'); gg.addColorStop(1, 'rgba(19,98,245,0)');
+        ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(psx, psy, gr, 0, TAU); ctx.fill(); ctx.restore();
+      }
+    }
+    var nh = nearI && nearD < hit * hit ? nearI : null;
+    if (nh !== hov) { hov = nh; gStage.classList.toggle('hov', !!hov); if (hov) tick(); }
+
+    // cursor light
+    if (mouse.lens > .02) { ctx.save(); var lg = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 150); lg.addColorStop(0, 'rgba(19,98,245,' + (.09 * mouse.lens).toFixed(3) + ')'); lg.addColorStop(1, 'rgba(19,98,245,0)'); ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 150, 0, TAU); ctx.fill(); ctx.restore(); }
+
+    // pins, pulses, leader lines, labels
+    var showChips = intro > .55;
+    for (var n = 0; n < ORDER.length; n++) {
+      var is = ORDER[n], P = LIC[is], vis = clamp((P.cc - .1) / .22, 0, 1), ch = CHIPS[is], sel = is === cur;
+      var chipA = showChips ? vis * (cur && !sel ? .4 : 1) : 0;
+      if (vis > 0) {
+        var pa = vis * intro;
+        for (var rg = 0; rg < 2; rg++) { var ph = ((t * .42 + rg * .5 + n * .13) % 1), rr = 5 + ph * (sel ? 34 : 24); ctx.strokeStyle = 'rgba(19,98,245,' + ((1 - ph) * .6 * pa).toFixed(3) + ')'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(P.sx, P.sy, rr, 0, TAU); ctx.stroke(); }
+        ctx.fillStyle = 'rgba(19,98,245,' + (.18 * pa).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, 10, 0, TAU); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,' + pa.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, sel ? 6.8 : 5.6, 0, TAU); ctx.fill();
+        ctx.fillStyle = (sel ? 'rgba(4,20,49,' : 'rgba(19,98,245,') + pa.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, sel ? 4.4 : 3.6, 0, TAU); ctx.fill();
+        // leader: from the pin to the nearest edge of its label
+        var lx = P.sx + P.s[0], ly = P.sy + P.s[1], tx = clamp(P.sx, lx, lx + ch.w), ty = clamp(P.sy, ly, ly + ch.h);
+        if (innerWidth >= 768) { ctx.strokeStyle = 'rgba(4,20,49,' + (.34 * chipA).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P.sx, P.sy); ctx.lineTo(tx, ty); ctx.stroke(); }
+      }
+      var lx2 = innerWidth >= 768 ? P.sx + P.s[0] : P.sx - ch.w / 2, ly2 = innerWidth >= 768 ? P.sy + P.s[1] : P.sy - ch.h - 14;
+      lx2 = clamp(lx2, 12, G.w - ch.w - 12);
+      ch.el.style.transform = 'translate3d(' + lx2.toFixed(1) + 'px,' + ly2.toFixed(1) + 'px,0)';
+      ch.el.style.opacity = chipA.toFixed(3); ch.el.style.pointerEvents = chipA > .6 ? 'auto' : 'none';
+      ch.el.classList.toggle('hov', is === hov);
+    }
+  }
+
+  function loop(now) {
+    if (!G.vis) { G.run = false; return; }
+    render(now); requestAnimationFrame(loop);
+  }
+  function kick() { if (!G.run && G.vis) { G.run = true; requestAnimationFrame(loop); } }
+
+  function globeInit() {
+    if (!LG || !cv) return;
+    BASE = prep(LG.base);
+    ORDER.forEach(function (i) { var m = LG.lic[i]; var pl = m.p[0] * D2R, pp = m.p[1] * D2R; LIC[i] = { o: prep(m.d), s: m.s, pin: { cl: Math.cos(pl), sl: Math.sin(pl), cp: Math.cos(pp), sp: Math.sin(pp) }, sx: 0, sy: 0, cc: -1 }; });
+    for (var i = 0; i < 150; i++) STARS.push({ x: Math.random(), y: Math.random(), s: Math.random() < .12 ? 2 : 1, a: .2 + Math.random() * .55, sp: .6 + Math.random() * 1.8, ph: Math.random() * 6, d: Math.random() });
+    // graticule: meridians and parallels every 15 degrees
+    function line(pts) { var o = prep(pts); GRAT.push(o); }
+    for (var lo = -180; lo < 180; lo += 15) { var a = []; for (var la = -75; la <= 75; la += 5) a.push(lo * 100, la * 100); line(a); }
+    for (var la2 = -75; la2 <= 75; la2 += 15) { var b = []; for (var lo2 = -180; lo2 <= 180; lo2 += 5) b.push(lo2 * 100, la2 * 100); line(b); }
+
+    labelsEl.innerHTML = ORDER.map(function (i) {
+      return '<button type="button" class="lg-chip" data-i="' + i + '" aria-label="' + REC[i].name + ', ' + label(REC[i]) + '"><span class="lg-cb"><img src="' + FLAG[i] + '" alt=""></span><span class="lg-cn"><b>' + REC[i].name + '</b><small>' + label(REC[i]) + '</small></span></button>';
+    }).join('');
+    $$('.lg-chip', labelsEl).forEach(function (el) {
+      var i = el.getAttribute('data-i'); CHIPS[i] = { el: el, w: 160, h: 46 };
+      el.addEventListener('click', function (e) { e.stopPropagation(); cur === i ? closeP() : select(i); });
+      el.addEventListener('pointerenter', function () { hov = i; tick(); });
+      el.addEventListener('pointerleave', function () { if (hov === i) hov = null; });
     });
-    card.addEventListener('pointerover', function (e) {
-      var i = hit(e); $$('.lm-c.hov', card).forEach(function (n) { n.classList.remove('hov'); });
-      if (i) { var p = $('.lm-c[data-i="' + i + '"]', card); if (p) p.classList.add('hov'); if (e.target.closest('.lm-pin,.lm-chip')) tick(); }
+    var chipsEl = $('.lm-chips', lmhero);
+    chipsEl.innerHTML = ORDER.map(function (i) { return '<button type="button" data-i="' + i + '"><img src="' + FLAG[i] + '" alt="">' + REC[i].name + '</button>'; }).join('');
+    $$('button', chipsEl).forEach(function (b) { b.addEventListener('click', function () { var i = b.getAttribute('data-i'); cur === i ? closeP() : select(i); }); });
+
+    size();
+    mouse.px = 0; mouse.py = 0;
+    var rectOf = function () { return gStage.getBoundingClientRect(); };
+    gStage.addEventListener('pointermove', function (e) {
+      var r = rectOf(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.on = true;
+      mouse.px = clamp((mouse.x / r.width - .5) * 2, -1, 1); mouse.py = clamp((mouse.y / r.height - .5) * 2, -1, 1);
+      if (drag) {
+        var dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY; drag.moved += Math.abs(dx) + Math.abs(dy);
+        if (drag.moved > 6) { gStage.classList.add('drag'); tw = null; }
+        var Rr = G.R * cam.zoom, k = 57.3 / Rr;
+        var dlon = -dx * k / Math.max(.45, Math.cos(cam.lat * D2R)), dlat = dy * k;
+        cam.lon = wrap(cam.lon + dlon); cam.lat = clamp(cam.lat + dlat, -42, 68); vel.x = dlon * .6; vel.y = dlat * .6;
+      }
+      lastIn = performance.now(); kick();
     });
-    card.addEventListener('pointerleave', function () { $$('.lm-c.hov', card).forEach(function (n) { n.classList.remove('hov'); }); });
-    addEventListener('keydown', function (e) { if (e.key === 'Escape' && cur && !menuOpen) closeP(); });
+    gStage.addEventListener('pointerleave', function () { mouse.on = false; mouse.px = 0; mouse.py = 0; });
+    gStage.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.lg-chip')) return;
+      drag = { x: e.clientX, y: e.clientY, moved: 0 }; vel.x = vel.y = 0; lastIn = performance.now();
+      var r = rectOf(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.on = true;
+      try { gStage.setPointerCapture(e.pointerId); } catch (x) {}
+      lmhero.classList.add('used');
+    });
+    function up(e) {
+      if (!drag) return;
+      var was = drag; drag = null; gStage.classList.remove('drag'); lastIn = performance.now();
+      if (was.moved <= 6) { if (hov) { select(hov); } else if (cur) closeP(); }
+    }
+    gStage.addEventListener('pointerup', up); gStage.addEventListener('pointercancel', function () { drag = null; gStage.classList.remove('drag'); });
+    addEventListener('keydown', function (e) {
+      if (menuOpen) return;
+      if (e.key === 'Escape' && cur) closeP();
+      else if (cur && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !/INPUT|TEXTAREA/.test((document.activeElement || {}).tagName || '')) { e.preventDefault(); step(e.key === 'ArrowRight' ? 1 : -1); }
+    });
 
-    /* phone: country chips under the map */
-    var ch = $('.lm-chips', lm);
-    ch.innerHTML = ORDER.map(function (i) { return '<button type="button" data-i="' + i + '"><img src="' + FLAG[i] + '" alt="">' + REC[i].name + '</button>'; }).join('');
-    $$('button', ch).forEach(function (b) { b.addEventListener('click', function () { var i = b.getAttribute('data-i'); cur === i ? closeP() : select(i); }); });
+    new IntersectionObserver(function (es) { G.vis = es[0].isIntersecting; if (G.vis) kick(); }).observe(lmhero);
+    addEventListener('resize', function () { size(); });
+    born = performance.now(); mouse.px = 0; mouse.py = 0;
+    if (reduce) { cam.lon = HOME.lon; cam.lat = HOME.lat; cam.zoom = 1; } else fly({ lon: HOME.lon, lat: HOME.lat, zoom: 1, ox: 0 }, 2800);
+    var hs = (location.hash || '').slice(1).toLowerCase(), hi = ORDER.filter(function (i) { return slug(i) === hs; })[0];
+    if (hi) setTimeout(function () { select(hi, { instant: true, quiet: true }); }, 50);
+    kick();
+  }
 
-    /* list view (the compliance team's table) */
+  /* ---------- the list underneath (the compliance team's table) ---------- */
+  function listInit() {
     var rows = [];
     LIST_ORDER.forEach(function (i) {
       REC[i].items.forEach(function (x, k) {
@@ -493,41 +675,22 @@
       });
     });
     $('.lm-list', lm).innerHTML = '<table class="lm-tb"><thead><tr><th>Country</th><th>Licence / approval</th><th>Regulator</th><th>Multigate entity</th></tr></thead><tbody>' + rows.join('') + '</tbody></table>';
-
-    var seg = $('.lm-seg', lm), sb = $$('button', seg);
-    sb.forEach(function (b, k) {
-      b.addEventListener('click', function () {
-        lm.setAttribute('data-view', k ? 'list' : 'map'); seg.setAttribute('data-on', String(k));
-        sb.forEach(function (x, j) { x.setAttribute('aria-selected', String(j === k)); });
-        if (!k && cur) setTimeout(function () { focusOn(cur, true); }, 30);
-      });
-      b.addEventListener('pointerenter', tick);
-    });
-
-    var hs = (location.hash || '').slice(1).toLowerCase();
-    var hi = ORDER.filter(function (i) { return slug(i) === hs; })[0];
-    if (hi) { select(hi, { instant: true, quiet: true }); }
-    addEventListener('resize', function () { if (cur) focusOn(cur, true); else apply(); });
-    apply();
   }
 
   /* reveals */
   function reveals() {
     if (reduce) return;
-    var hero = inn('header');
-    var eb = function (el) { return el && el.parentNode; };
-    rise(eb(P('Licensing', hero)), { y: 16, delay: 100, trigger: false });
-    words(P('Licensed and Approved', hero), { each: 70, delay: 220, trigger: false });
-    rise(P('Our licences', hero), { y: 20, delay: 800, trigger: false });
-    var cta = $$('a', hero).filter(function (a) { return /Book a Review/.test(a.textContent) && !a.closest('#ab-nav'); })[0]; rise(cta, { y: 20, delay: 980, trigger: false });
+    rise($('.lg-eb', lmhero), { y: 16, delay: 100, trigger: false });
+    words(P('Licensed and Approved', lmhero), { each: 70, delay: 220, trigger: false });
+    rise($('.lg-sub', lmhero), { y: 20, delay: 800, trigger: false });
+    rise($('.lg-hint', lmhero), { y: 14, delay: 2200, trigger: false });
     rise(navEl, { y: -14, delay: 0, trigger: false });
     words($('.lm-h', lm), { each: 55 });
     rise($('.lm-sub', lm), { y: 18, delay: 150 });
-    rise($('.lm-seg', lm), { y: 18, delay: 200 });
-    rise(card, { y: 44, delay: 120, dur: 1100 });
+    rise($('.lm-tb', lm), { y: 36, delay: 120, dur: 1000 });
   }
 
-  function layout() { fit(); layoutNav(); }
+  function layout() { fit(); layoutNav(); if (G.ctx) size(); }
 
   var lastY = 0, rafPending = false;
   function update() {
@@ -538,13 +701,12 @@
     nav.classList.toggle('stuck', sy > 24);
     if (menuOpen) { nav.classList.remove('hide'); if (Math.abs(sy - menuY) > 40 && window.__pfCloseMenu) window.__pfCloseMenu(); } else if (sy > 160 && dy > 4) nav.classList.add('hide'); else if (dy < -4 || sy <= 160) nav.classList.remove('hide');
     var covering = null;
-    [['header', sec.header], ['footer', sec.footer]].forEach(function (x) { var r = x[1].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = x[0]; });
+    [['footer', sec.footer]].forEach(function (x) { var r = x[1].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = x[0]; });
     nav.classList.toggle('dark', !menuOpen && covering != null);
-    var hh = $('[class*="left-[380px]"]', inn('header')); if (hh) hh.style.translate = '0 ' + clamp(sy * .12, 0, 120) + 'px';
   }
 
   /* ================= boot ================= */
-  buttons(); footerBleed(); footerRebuild(); soundToggle(); hoverFx(); megaMenu(); reveals(); mapInit(); layout();
+  buttons(); footerBleed(); footerRebuild(); soundToggle(); hoverFx(); megaMenu(); reveals(); listInit(); globeInit(); layout();
   addEventListener('scroll', function () { if (!rafPending) { rafPending = true; requestAnimationFrame(function () { rafPending = false; update(); }); } }, { passive: true });
   addEventListener('resize', function () { vh = innerHeight; setTimeout(function () { layout(); update(); }, 30); });
   setTimeout(function () { layout(); update(); }, 80); update();

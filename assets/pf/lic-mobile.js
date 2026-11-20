@@ -49,21 +49,6 @@
 
 
   var arrow = '<span class="pm-dot"></span>';
-  var top = el('div', 'pm');
-  top.innerHTML =
-    '<section id="ab-hero"><img class="ab-glow" src="assets/pf/about/glow-net.svg" alt=""><div class="ab-ht">' +
-    '<div class="ab-eb lt"><i></i>Licensing and Registration</div><h1>Licensed and Approved Across Africa and Beyond.</h1><p>Our licences and approvals across seven African and global markets, with the regulator for each.</p>' +
-    '<a class="pm-pill" href="#">Book a Review' + arrow + '</a></div><img class="ab-curve" src="assets/pf/about/curve.svg" alt=""></section>';
-  var hdr = document.getElementById('header'); hdr.parentNode.insertBefore(top, hdr);
-  top.querySelector('.pm-pill').addEventListener('click', function (e) { e.preventDefault(); book(); });
-
-  /* nav: transparent over the navy hero, solid white elsewhere and while the menu sheet is open */
-  var heroEl = document.getElementById('ab-hero');
-  function navTone() { nav.classList.toggle('onhero', scrollY < heroEl.offsetHeight - 70 && !sheet.classList.contains('open')); }
-  addEventListener('scroll', navTone, { passive: true }); addEventListener('resize', navTone);
-  burger.addEventListener('click', function () { setTimeout(navTone, 0); });
-  navTone();
-
   /* ---------- footer: closing call to action, collapsible link groups, socials, legal ---------- */
   var GROUPS = [['Platform', ['Multigate system', 'Payables Financing', 'For banks']], ['Network', ['Coverage', 'Financiers', 'For payment companies and platforms', 'Developers']], ['Trust', ['Licences', 'Certifications', 'Swift']], ['Company', ['About', 'Leadership', 'Insights', 'Careers']]];
   var li = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>';
