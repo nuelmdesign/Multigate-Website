@@ -387,6 +387,30 @@
     vBusy = vCur !== vTar; if (vBusy) requestAnimationFrame(vRender);
   }
 
+  /* team: segmented control swaps Executive Committee / Board; the section height follows the active group */
+  var seg = $('.pf-seg', sec.crew), segTabs = $$('button', seg), panels = $$('.pf-panel', sec.crew), pw = $('.pf-panels', sec.crew), flow = $('.pf-crewflow', sec.crew), curTab = 0;
+  function crewFit() {
+    var tot = 150 + flow.getBoundingClientRect().height / S + 157;
+    sec.crew.style.setProperty('--h', tot + 'px'); sec.crew.style.height = tot * S + 'px'; inn('crew').style.height = tot + 'px';
+  }
+  function crewSettle() { var t0 = performance.now(); (function f() { crewFit(); if (performance.now() - t0 < 900) requestAnimationFrame(f); })(); }
+  function pick(i, focus) {
+    if (i === curTab) return; curTab = i; seg.setAttribute('data-on', String(i));
+    segTabs.forEach(function (b, k) { b.setAttribute('aria-selected', String(k === i)); b.tabIndex = k === i ? 0 : -1; });
+    panels.forEach(function (p, k) { p.classList.toggle('on', k === i); });
+    pw.style.height = panels[i].getBoundingClientRect().height / S + 'px';
+    if (!reduce) $$('.pf-leads > div, .pf-people > div, .pf-board > div', panels[i]).forEach(function (d, k) {
+      d.animate([{ opacity: 0, translate: '0 26px' }, { opacity: 1, translate: '0 0' }], { duration: 800, delay: 120 + k * 70, easing: EASE, fill: 'backwards' });
+    });
+    crewSettle(); if (focus) segTabs[i].focus();
+  }
+  segTabs.forEach(function (b, i) {
+    b.tabIndex = i === 0 ? 0 : -1;
+    b.addEventListener('click', function () { pick(i); });
+    b.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); pick(e.key === 'ArrowRight' ? 1 : 0, true); } });
+    b.addEventListener('pointerenter', tick);
+  });
+
   function layout() {
     fit(); layoutNav();
     var cw = document.documentElement.clientWidth;
@@ -395,6 +419,7 @@
     var hs = H('values') * S;
     sec.values.style.top = Math.max(0, (vh - hs) / 2) + 'px';
     vpin.style.height = (hs + travel * S) + 'px';
+    pw.style.height = panels[curTab].getBoundingClientRect().height / S + 'px'; crewFit();
   }
 
   /* reveals */
@@ -425,8 +450,7 @@
     rise(eb(P('The team', crew)), { y: 16 });
     words(P('Our Team.', crew), { each: 60 });
     $$('.pf-leads > div', crew).forEach(function (d, i) { rise(d, { y: 46, delay: i * 120, trigger: $('.pf-leads', crew), dur: 1100 }); });
-    $$('.pf-gh', crew).forEach(function (g) { rise(g, { y: 20, trigger: g }); });
-    $$('.pf-board > div', crew).forEach(function (d, i) { rise(d, { y: 46, delay: i * 120, trigger: $('.pf-board', crew), dur: 1100 }); });
+    rise(seg, { y: 18, delay: 100 });
     var ppl = $$('.pf-people > div', crew);
     ppl.forEach(function (d, i) { var row = Math.floor(i / 4), col = i % 4; rise(d, { y: 22, delay: row * 90 + col * 70, trigger: $('.pf-people', crew) }); });
     words(P('A few reasons', crew), { each: 55 });
