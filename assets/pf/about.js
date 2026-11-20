@@ -399,7 +399,7 @@
     segTabs.forEach(function (b, k) { b.setAttribute('aria-selected', String(k === i)); b.tabIndex = k === i ? 0 : -1; });
     panels.forEach(function (p, k) { p.classList.toggle('on', k === i); });
     pw.style.height = panels[i].getBoundingClientRect().height / S + 'px';
-    if (!reduce) $$('.pf-leads > div, .pf-people > div, .pf-board > div', panels[i]).forEach(function (d, k) {
+    if (!reduce) $$('.pf-leads > div, .pf-board > div', panels[i]).forEach(function (d, k) {
       d.animate([{ opacity: 0, translate: '0 26px' }, { opacity: 1, translate: '0 0' }], { duration: 800, delay: 120 + k * 70, easing: EASE, fill: 'backwards' });
     });
     crewSettle(); if (focus) segTabs[i].focus();

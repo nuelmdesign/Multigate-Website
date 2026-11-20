@@ -88,9 +88,10 @@
 
     '<section id="ab-team">' + eb('The team', 'dk') + '<h2 class="ab-h pm-rv" style="--d:70ms">Our Team. The people behind Multigate.</h2>' +
     '<div class="ab-seg pm-rv" data-on="0" role="tablist" aria-label="Leadership"><button type="button" role="tab" aria-selected="true">Executive Committee</button><button type="button" role="tab" aria-selected="false">Board of Directors</button></div>' +
-    '<div class="ab-pan on" data-i="0"><div class="ab-leads">' + leads.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
-    '<div class="ab-ppl">' + people.map(function (p, i) { return '<div class="pm-rv" style="--d:' + ((i % 2) * 70) + 'ms"><b>' + p.n + '</b><span>' + p.r + '</span></div>'; }).join('') + '</div></div>' +
-    '<div class="ab-pan" data-i="1"><div class="ab-leads">' + board.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div></div></section>' +
+    '<div class="ab-pan on" data-i="0"><div class="ab-leads">' + leads.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div></div>' +
+    '<div class="ab-pan" data-i="1"><div class="ab-leads">' + board.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div></div>' +
+    '<div class="ab-ppl">' + people.map(function (p, i) { return '<div class="pm-rv" style="--d:' + ((i % 2) * 70) + 'ms"><b>' + p.n + '</b><span>' + p.r + '</span></div>'; }).join('') + '</div>' +
+    '</section>' +
 
     '<section id="ab-perks"><h2 class="ab-h pm-rv">A few reasons you’ll enjoy working at Multigate.</h2>' +
     '<a class="pm-pill pm-rv" style="--d:80ms" href="#">View All Roles' + arrow + '</a>' +
@@ -114,7 +115,7 @@
       segBtns.forEach(function (x, k) { x.setAttribute('aria-selected', String(k === i)); });
       pans.forEach(function (p, k) { p.classList.toggle('on', k === i); });
       fitPhotos();
-      $$('.ab-ld, .ab-ppl > div', pans[i]).forEach(function (d, k) { d.classList.add('in'); });
+      $$('.ab-ld', pans[i]).forEach(function (d, k) { d.classList.add('in'); });
     });
   });
 
