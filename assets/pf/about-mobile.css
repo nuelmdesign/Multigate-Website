@@ -78,4 +78,12 @@
   .ab-pi img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
   .ab-pc h3 { margin: 0 0 4px; font: 400 20px/1.2 "PT Serif", Georgia, serif; letter-spacing: -.03em; color: #232426; }
   .ab-pc p { margin: 0; font: 400 14.5px/1.45 "DM Sans", sans-serif; color: #76797f; }
+
+  #pm-nav { transition: transform .45s cubic-bezier(.2,.7,.2,1), background-color .4s, border-color .4s; }
+  #pm-nav.onhero { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom-color: transparent; }
+  #pm-nav.onhero .pm-logo { color: #fff; }
+  #pm-nav.onhero .pm-logo img { filter: brightness(0) invert(1); }
+  #pm-nav.onhero .pm-bookbtn { background: #fff; color: #041431; }
+  #pm-nav.onhero .pm-burger { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.28); }
+  #pm-nav.onhero .pm-burger i { background: #fff; }
 }

@@ -264,3 +264,10 @@ video.pf-vid { position: absolute; object-fit: cover; }
 .pfm-cl { font-size: 11px; line-height: 10px; }
 .pfm-lk { font-size: 14px; line-height: 20px; letter-spacing: -.5px; }
 .pfm-cl { letter-spacing: -.05px; }
+
+/* nav over a navy surface: transparent at the top, ghost "Sign In", white "Book a Review" */
+#pf-nav.dark:not(.stuck) { background: transparent; border-bottom-color: transparent; }
+#pf-nav.dark .pf-navin [class*="rounded-[200px]"]:first-child { background: transparent !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+#pf-nav.dark .pf-navin [class*="rounded-[200px]"]:first-child, #pf-nav.dark .pf-navin [class*="rounded-[200px]"]:first-child * { color: #fff !important; }
+#pf-nav.dark .pf-navin [class*="rounded-[200px]"]:last-child { background: #fff !important; }
+#pf-nav.dark .pf-navin [class*="rounded-[200px]"]:last-child, #pf-nav.dark .pf-navin [class*="rounded-[200px]"]:last-child * { color: #041431 !important; }

@@ -119,6 +119,13 @@
     });
   });
 
+  /* nav: transparent over the navy hero, solid white elsewhere and while the menu sheet is open */
+  var heroEl = document.getElementById('ab-hero');
+  function navTone() { nav.classList.toggle('onhero', scrollY < heroEl.offsetHeight - 70 && !sheet.classList.contains('open')); }
+  addEventListener('scroll', navTone, { passive: true }); addEventListener('resize', navTone);
+  burger.addEventListener('click', function () { setTimeout(navTone, 0); });
+  navTone();
+
   /* the five objects turn slowly, drawn live */
   var VKEYS = ['customer-obsession', 'excellence', 'agility-innovation', 'trust-accountability', 'empowerment-ownership'];
   $$('.ab-vi', top).forEach(function (box, i) {

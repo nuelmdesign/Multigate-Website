@@ -468,7 +468,7 @@
     nav.classList.toggle('stuck', sy > 24);
     if (menuOpen) { nav.classList.remove('hide'); if (Math.abs(sy - menuY) > 40 && window.__pfCloseMenu) window.__pfCloseMenu(); } else if (sy > 160 && dy > 4) nav.classList.add('hide'); else if (dy < -4 || sy <= 160) nav.classList.remove('hide');
     var covering = null;
-    [['values', vpin], ['footer', sec.footer]].forEach(function (x) { var r = x[1].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = x[0]; });
+    [['header', sec.header], ['values', vpin], ['footer', sec.footer]].forEach(function (x) { var r = x[1].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = x[0]; });
     nav.classList.toggle('dark', !menuOpen && covering != null);
     var r = vpin.getBoundingClientRect();
     vTar = clamp(-r.top / Math.max(1, travel * S), 0, 1);
