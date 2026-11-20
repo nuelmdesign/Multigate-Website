@@ -827,7 +827,7 @@
     box.style.cssText = 'position:absolute;left:80px;top:548px;width:1280px;';
     var li = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>';
     var xi = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93zm-1.29 19.5h2.04L6.48 3.24H4.3l13.31 17.41z"/></svg>';
-    var grp = function (h, links) { return '<div class="pf2-g"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="' + (l === 'About' ? 'about.html' : '#') + '">' + l + '</a>'; }).join('') + '</div>'; };
+    var grp = function (h, links) { return '<div class="pf2-g"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="' + (l === 'About' ? 'about.html' : l === 'Licences' ? 'licences.html' : '#') + '">' + l + '</a>'; }).join('') + '</div>'; };
     box.className += ' pf2';
     box.innerHTML =
       '<div class="pf2-top">' +
@@ -1031,7 +1031,7 @@
       { l: 'Institutions', i: [['Financiers', 'Fund supplier invoices that large buyers have already approved', 'coin'], ['Banks', 'Give corporate clients ERP connectivity and ISO 20022 messaging, ready-made', 'bank'], ['Financial Institutions', 'Collect, pay out and convert in African currencies through one API', 'users']] }] },
     { name: 'Company', feat: { img: 'assets/pf/scrollh-800c1.svg', t: 'Building the network', c: 'Reflections from our team on Africa’s treasury and trade network.' }, secs: [
       { l: 'Company', i: [['About us', 'Who we are and why we built Multigate', 'users', 'about.html'], ['Leadership', 'The people building the network', 'users'], ['Careers', 'Join the team', 'brief']] },
-      { l: 'Resources', i: [['Insights', 'News, analysis and expert views', 'doc'], ['Trust Centre', 'Licences, certifications and security', 'shield']] }] }
+      { l: 'Resources', i: [['Insights', 'News, analysis and expert views', 'doc'], ['Trust Centre', 'Licences, certifications and security', 'shield', 'licences.html']] }] }
   ];
   window.PF_MENUS = MENUS;
   function megaMenu() {
