@@ -827,7 +827,7 @@
     box.style.cssText = 'position:absolute;left:80px;top:548px;width:1280px;';
     var li = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>';
     var xi = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93zm-1.29 19.5h2.04L6.48 3.24H4.3l13.31 17.41z"/></svg>';
-    var grp = function (h, links) { return '<div class="pf2-g"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div>'; };
+    var grp = function (h, links) { return '<div class="pf2-g"><h5>' + h + '</h5>' + links.map(function (l) { return '<a href="' + (l === 'About' ? 'about.html' : '#') + '">' + l + '</a>'; }).join('') + '</div>'; };
     box.className += ' pf2';
     box.innerHTML =
       '<div class="pf2-top">' +
@@ -841,7 +841,7 @@
       '<div class="pf2-bot"><span>© 2026 Multigate Holdings Ltd</span><div class="pf-fsoc"><a href="#" aria-label="LinkedIn">' + li + '</a></div></div>' +
       '<p class="pf2-legal">Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services. Financing is provided by participating Financiers; Multigate does not lend.</p>';
     ftRoot.appendChild(box);
-    box.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
+    box.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function (e) { if (a.getAttribute('href') === '#') e.preventDefault(); }); });
     var f = box.querySelector('.pf-news-f'); if (f) f.addEventListener('submit', function (e) { e.preventDefault(); var v = f.querySelector('input').value.trim(); if (!/^\S+@\S+\.\S+$/.test(v)) { f.classList.add('bad'); return; } f.classList.remove('bad'); f.hidden = true; box.querySelector('.pf-news-ok').hidden = false; });
     if (!reduce) {
       rise(box.querySelector('.pf2-logo'), { y: 20, trigger: box }); rise(box.querySelector('.pf2-tag'), { y: 20, delay: 90, trigger: box });
@@ -1030,7 +1030,7 @@
       { l: 'Businesses', i: [['Corporates', 'One interface to all your banks, payments and financing', 'brief']] },
       { l: 'Institutions', i: [['Financiers', 'Fund supplier invoices that large buyers have already approved', 'coin'], ['Banks', 'Give corporate clients ERP connectivity and ISO 20022 messaging, ready-made', 'bank'], ['Financial Institutions', 'Collect, pay out and convert in African currencies through one API', 'users']] }] },
     { name: 'Company', feat: { img: 'assets/pf/scrollh-800c1.svg', t: 'Building the network', c: 'Reflections from our team on Africa’s treasury and trade network.' }, secs: [
-      { l: 'Company', i: [['About us', 'Who we are and why we built Multigate', 'users'], ['Leadership', 'The people building the network', 'users'], ['Careers', 'Join the team', 'brief']] },
+      { l: 'Company', i: [['About us', 'Who we are and why we built Multigate', 'users', 'about.html'], ['Leadership', 'The people building the network', 'users'], ['Careers', 'Join the team', 'brief']] },
       { l: 'Resources', i: [['Insights', 'News, analysis and expert views', 'doc'], ['Trust Centre', 'Licences, certifications and security', 'shield']] }] }
   ];
   window.PF_MENUS = MENUS;
@@ -1047,7 +1047,7 @@
     var arrow = '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg>';
     function html(m) {
       var cols = m.secs.map(function (sec, i) {
-        return '<div class="pfm-col"><div class="pfm-cl">' + sec.l + '</div><div class="pfm-cs">' + sec.i.map(function (it) { return '<a href="#" class="pfm-lk">' + it[0] + '</a>'; }).join('') + '</div><div class="pfm-cn">0' + (i + 1) + '</div></div>';
+        return '<div class="pfm-col"><div class="pfm-cl">' + sec.l + '</div><div class="pfm-cs">' + sec.i.map(function (it) { return '<a href="' + (it[3] || '#') + '" class="pfm-lk">' + it[0] + '</a>'; }).join('') + '</div><div class="pfm-cn">0' + (i + 1) + '</div></div>';
       });
       while (cols.length < 5) cols.push('<div class="pfm-col pfm-empty"></div>');
       return cols.join('');
@@ -1071,7 +1071,7 @@
         inner.style.opacity = '0'; inner.style.transform = 'translateY(-6px)';
         setTimeout(function () {
           inner.innerHTML = html(MENUS[i]);
-          $$('a', inner).forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); close(); }); });
+          $$('a', inner).forEach(function (a) { a.addEventListener('click', function (e) { if (a.getAttribute('href') === '#') e.preventDefault(); close(); }); });
           $$('.pfm-lk', inner).forEach(function (a) { a.addEventListener('pointerenter', tick); });
           void inner.offsetWidth; inner.style.opacity = '1'; inner.style.transform = 'none';
           $$('.pfm-col > *', inner).forEach(function (el, k) { el.style.animation = 'pfmin .55s cubic-bezier(.2,.7,.2,1) ' + (k * 22) + 'ms both'; });
