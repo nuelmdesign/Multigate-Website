@@ -56,6 +56,7 @@
   /* ---------- content comes from the desktop markup so there is one source of copy ---------- */
   var vals = $$('.pf-vc').map(function (c) { var p = ps(c); return { t: p[0], d: p[1], img: c.querySelector('img').src }; });
   var leads = $$('.pf-leads > div').map(function (d) { var p = ps(d); return { n: p[0], r: p[1], box: d.firstElementChild }; });
+  var board = $$('.pf-board > div').map(function (d) { var p = ps(d); return { n: p[0], r: p[1], box: d.firstElementChild }; });
   var people = $$('.pf-people > div').map(function (d) { var p = ps(d); return { n: p[0], r: p[1] }; });
   var perks = $$('.pf-perk').map(function (c) { var p = ps(c); return { t: p[0], d: p[1], img: c.querySelector('img').src }; });
   var story = $$('#story p').filter(function (p) { return /leading-\[30px\]/.test(p.className) && txt(p).replace(/​/g, ''); }).map(txt);
@@ -76,8 +77,8 @@
     '<div class="ab-copy">' + story.map(function (t, i) { return '<p class="pm-rv" style="--d:' + (i * 60) + 'ms">' + t + '</p>'; }).join('') + '</div>' +
     '<div class="ab-sig pm-rv"><span>Eghosa</span><b>Eghosa Nehikhare</b></div>' +
     '<blockquote class="ab-q pm-rv">' + QUOTE + '</blockquote>' +
-    '<div class="ab-mv">' + eb('Our mission', 'dk') + '<p class="ab-mvt pm-rv" style="--d:70ms">' + MISSION + '</p></div>' +
-    '<div class="ab-mv">' + eb('Our vision', 'dk') + '<p class="ab-mvt pm-rv" style="--d:70ms">' + VISION + '</p></div></section>' +
+    '<div class="ab-mv">' + eb('Our vision', 'dk') + '<p class="ab-mvt pm-rv" style="--d:70ms">' + VISION + '</p></div>' +
+    '<div class="ab-mv">' + eb('Our mission', 'dk') + '<p class="ab-mvt pm-rv" style="--d:70ms">' + MISSION + '</p></div></section>' +
 
     '<section id="ab-values">' + eb('Our core values', 'lt') + '<h2 class="ab-h lt pm-rv" style="--d:70ms">Five values that guide how we work and serve.</h2>' +
     '<p class="ab-vp pm-rv" style="--d:140ms">Treasury and trade run on trust. These five values guide how we build, how we make decisions and how we treat the businesses and institutions we work with.</p>' +
@@ -86,8 +87,9 @@
     '<p class="ab-vn pm-rv">They apply to our whole team, from engineering to customer support.</p></section>' +
 
     '<section id="ab-team">' + eb('The team', 'dk') + '<h2 class="ab-h pm-rv" style="--d:70ms">Our Team. The people behind Multigate.</h2>' +
-    '<div class="ab-leads">' + leads.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
-    '<div class="ab-ppl">' + people.map(function (p, i) { return '<div class="pm-rv" style="--d:' + ((i % 2) * 70) + 'ms"><b>' + p.n + '</b><span>' + p.r + '</span></div>'; }).join('') + '</div></section>' +
+    '<h3 class="ab-gh pm-rv">The Executive Committee</h3>' + '<div class="ab-leads">' + leads.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
+    '<div class="ab-ppl">' + people.map(function (p, i) { return '<div class="pm-rv" style="--d:' + ((i % 2) * 70) + 'ms"><b>' + p.n + '</b><span>' + p.r + '</span></div>'; }).join('') + '</div>' +
+    '<h3 class="ab-gh ab-gh2 pm-rv">Board of Directors</h3><div class="ab-leads">' + board.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div></section>' +
 
     '<section id="ab-perks"><h2 class="ab-h pm-rv">A few reasons you’ll enjoy working at Multigate.</h2>' +
     '<a class="pm-pill pm-rv" style="--d:80ms" href="#">View All Roles' + arrow + '</a>' +
@@ -97,7 +99,7 @@
 
   /* real photo boxes (cut-out portrait over its glow), scaled to the card width */
   var phz = $$('.ab-phz', top);
-  leads.forEach(function (l, i) { phz[i].appendChild(l.box.cloneNode(true)); });
+  leads.concat(board).forEach(function (l, i) { phz[i].appendChild(l.box.cloneNode(true)); });
   function fitPhotos() {
     $$('.ab-ph', top).forEach(function (ph) { var k = ph.clientWidth / 293.491; ph.firstElementChild.style.transform = 'scale(' + k + ')'; });
   }

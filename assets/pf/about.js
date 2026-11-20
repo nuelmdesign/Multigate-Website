@@ -425,6 +425,8 @@
     rise(eb(P('The team', crew)), { y: 16 });
     words(P('Our Team.', crew), { each: 60 });
     $$('.pf-leads > div', crew).forEach(function (d, i) { rise(d, { y: 46, delay: i * 120, trigger: $('.pf-leads', crew), dur: 1100 }); });
+    $$('.pf-gh', crew).forEach(function (g) { rise(g, { y: 20, trigger: g }); });
+    $$('.pf-board > div', crew).forEach(function (d, i) { rise(d, { y: 46, delay: i * 120, trigger: $('.pf-board', crew), dur: 1100 }); });
     var ppl = $$('.pf-people > div', crew);
     ppl.forEach(function (d, i) { var row = Math.floor(i / 4), col = i % 4; rise(d, { y: 22, delay: row * 90 + col * 70, trigger: $('.pf-people', crew) }); });
     words(P('A few reasons', crew), { each: 55 });
