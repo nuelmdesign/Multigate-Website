@@ -103,6 +103,14 @@
   }
   fitPhotos(); addEventListener('resize', fitPhotos); addEventListener('load', fitPhotos);
 
+  /* the five objects turn slowly, drawn live */
+  var VKEYS = ['customer-obsession', 'excellence', 'agility-innovation', 'trust-accountability', 'empowerment-ownership'];
+  $$('.ab-vi', top).forEach(function (box, i) {
+    if (!window.PF_V3D) return;
+    var im = box.firstElementChild, sz = Math.min(250, Math.round(Math.min(innerWidth * .8, 340) - 52));
+    if (window.PF_V3D.mount(box, VKEYS[i], sz)) im.style.display = 'none';
+  });
+
   /* core values: snap carousel with synced dots */
   var vs = document.getElementById('ab-vs'), dots = $$('#ab-dots button');
   function vIdx() { var c = vs.children[0]; return Math.max(0, Math.min(vals.length - 1, Math.round(vs.scrollLeft / (c.offsetWidth + 14)))); }

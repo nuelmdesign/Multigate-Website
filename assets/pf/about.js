@@ -348,6 +348,13 @@
   sec.values.parentNode.insertBefore(vpin, sec.values); vpin.appendChild(sec.values);
   sec.values.style.position = 'sticky';
   var vt = $('.pf-vt', sec.values), vcards = $$('.pf-vc', sec.values), vdots = $$('.pf-vd > div', sec.values);
+  var VKEYS = ['customer-obsession', 'excellence', 'agility-innovation', 'trust-accountability', 'empowerment-ownership'];
+  vcards.forEach(function (c, i) {
+    var old = c.children[1]; c._art = old;
+    if (!window.PF_V3D) return;
+    var w = document.createElement('div'); w.style.cssText = 'position:absolute;left:88px;top:76px;width:340px;height:340px';
+    if (window.PF_V3D.mount(w, VKEYS[i], 340)) { old.style.display = 'none'; c.appendChild(w); c._art = w; }
+  });
   var travel = 1899, vCur = 0, vTar = 0, vBusy = false, vActive = -1;
   function paintDots(a) {
     if (a === vActive) return; vActive = a;
@@ -375,7 +382,7 @@
     var cw = document.documentElement.clientWidth;
     vcards.forEach(function (c) {
       var r = c.getBoundingClientRect(), mid = (r.left + r.width / 2) / cw - .5;
-      var art = c.children[1]; if (art) art.style.transform = 'translate3d(' + (mid * -34) + 'px,0,0)';
+      var art = c._art; if (art) art.style.transform = 'translate3d(' + (mid * -34) + 'px,0,0)';
     });
     vBusy = vCur !== vTar; if (vBusy) requestAnimationFrame(vRender);
   }
