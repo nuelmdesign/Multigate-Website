@@ -20,7 +20,7 @@
   var menus = window.PF_MENUS || [];
   sheet.innerHTML = menus.map(function (m) {
     return '<div class="pm-acc"><button type="button" aria-expanded="false"><span>' + m.name + '</span>' + CHEV + '</button><div class="pm-pan"><div><div class="pm-pan-in">' +
-      m.secs.map(function (s) { return '<div class="pm-sl">' + s.l + '</div>' + s.i.map(function (it) { return '<a class="pm-link" href="#"><b>' + it[0] + '</b><i>' + it[1] + '</i></a>'; }).join(''); }).join('') + '</div></div></div></div>';
+      m.secs.map(function (s) { return '<div class="pm-sl">' + s.l + '</div>' + s.i.map(function (it) { return '<a class="pm-link" href="' + (it[3] || '#') + '"><b>' + it[0] + '</b><i>' + it[1] + '</i></a>'; }).join(''); }).join('') + '</div></div></div></div>';
   }).join('') + '<div class="pm-cta"><button class="a" type="button">Sign In</button><button class="b pm-bookbtn2" type="button">Book a Review</button></div>';
   document.body.appendChild(nav); document.body.appendChild(sheet);
   var burger = nav.querySelector('.pm-burger');
@@ -37,7 +37,7 @@
       if (willOpen) { acc.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
     });
   });
-  $$('.pm-link', sheet).forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); setSheet(false); }); });
+  $$('.pm-link', sheet).forEach(function (a) { a.addEventListener('click', function (e) { if (a.getAttribute('href') === '#') e.preventDefault(); setSheet(false); }); });
   nav.querySelector('.pm-bookbtn').addEventListener('click', book);
   sheet.querySelector('.pm-bookbtn2').addEventListener('click', function () { setSheet(false); book(); });
   var lastY = 0;
@@ -106,13 +106,13 @@
   foot.innerHTML =
     '<div class="pm-fcta"><h2 class="pm-rv">Start by seeing your money.</h2><p class="pm-rv" style="--d:80ms">Learn how Multigate can help your company see its cash clearly and get suppliers paid early.</p><button class="pm-pill pm-rv" style="--d:160ms" type="button">Book a Review' + arrow + '</button></div>' +
     '<div class="pm-flogo"><img src="' + LOGO + '" alt=""><span>Multigate</span></div><p class="pm-ftag">The trusted network powering African treasury and trade.</p>' +
-    GROUPS.map(function (g) { return '<div class="pm-fa"><button type="button" aria-expanded="false"><span>' + g[0] + '</span>' + PLUS + '</button><div class="pm-pan"><div><div class="pm-pan-in">' + g[1].map(function (l) { return '<a href="#">' + l + '</a>'; }).join('') + '</div></div></div></div>'; }).join('') +
+    GROUPS.map(function (g) { return '<div class="pm-fa"><button type="button" aria-expanded="false"><span>' + g[0] + '</span>' + PLUS + '</button><div class="pm-pan"><div><div class="pm-pan-in">' + g[1].map(function (l) { return '<a href="' + (l === 'About' ? 'about.html' : '#') + '">' + l + '</a>'; }).join('') + '</div></div></div></div>'; }).join('') +
     '<div class="pm-fbot"><span>© 2026 Multigate Holdings Ltd</span><div class="pm-fsoc"><a href="#" aria-label="LinkedIn">' + li + '</a></div></div>' +
     '<p class="pm-flegal">Multigate is the trading name of the group headed by Multigate Holdings Ltd (Abu Dhabi Global Market). Regulated group companies: Multigate Network Pay Inc — licensed by the Central Bank of Nigeria as an International Money Transfer Operator, and registered with FINTRAC as a Money Services Business and with the Bank of Canada as a payment service provider; Multigate Network (MU) Ltd — licensed by the Financial Services Commission, Mauritius, for payment intermediary services. Financing is provided by participating Financiers; Multigate does not lend.</p>';
   var ftr = document.getElementById('footer'); ftr.parentNode.insertBefore(foot, ftr.nextSibling);
   foot.querySelector('.pm-fcta .pm-pill').addEventListener('click', book);
   $$('.pm-fa > button', foot).forEach(function (b) { b.addEventListener('click', function () { var o = b.parentNode.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); }); });
-  $$('a', foot).forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
+  $$('a', foot).forEach(function (a) { a.addEventListener('click', function (e) { if (a.getAttribute('href') === '#') e.preventDefault(); }); });
 
   /* ---------- middle sections: licence strip, problem cards, solutions, one network ---------- */
   (function () {

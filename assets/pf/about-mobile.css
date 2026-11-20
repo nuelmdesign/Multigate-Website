@@ -1,0 +1,72 @@
+/* About page, phone layout (under 768px). Builds on mobile.css (nav sheet, pill button, footer, reveal helper). */
+@media (max-width: 767px) {
+  #story, #crew { display: none !important; }
+  #ab-hero, #ab-story, #ab-values, #ab-team, #ab-perks { display: block; box-sizing: border-box; position: relative; }
+
+  .ab-eb { display: flex; align-items: center; gap: 10px; font: 500 12px/1 "JetBrains Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: #6b6e74; }
+  .ab-eb i { width: 8px; height: 8px; background: #3375fb; display: block; flex: none; }
+  .ab-eb.lt { color: rgba(255,255,255,.82); }
+  .ab-h { margin: 14px 0 0; font: 400 34px/1.14 "PT Serif", Georgia, serif; letter-spacing: -.04em; color: #232426; }
+  .ab-h.lt { color: #fff; }
+
+  /* ---------- hero ---------- */
+  #ab-hero { background: #041431; min-height: max(640px, 92svh); padding: 150px 20px 150px; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .ab-glow { position: absolute; left: 50%; bottom: -60px; width: 220vw; max-width: none; height: auto; transform: translateX(-50%); pointer-events: none; opacity: .95; }
+  .ab-ht { position: relative; z-index: 2; text-align: center; }
+  .ab-ht .ab-eb { justify-content: center; margin-bottom: 22px; animation: pmup .8s cubic-bezier(.2,.7,.2,1) .05s both; }
+  .ab-ht h1 { margin: 0 0 18px; font: 400 38px/1.1 "PT Serif", Georgia, serif; letter-spacing: -.045em; color: #fff; animation: pmup .9s cubic-bezier(.2,.7,.2,1) .15s both; }
+  .ab-ht p { margin: 0 auto 30px; max-width: 330px; font: 500 16.5px/1.45 "DM Sans", sans-serif; letter-spacing: -.02em; color: rgba(255,255,255,.82); animation: pmup .9s cubic-bezier(.2,.7,.2,1) .3s both; }
+  .ab-ht .pm-pill { text-decoration: none; animation: pmup .9s cubic-bezier(.2,.7,.2,1) .45s both; }
+  .ab-curve { position: absolute; right: 0; bottom: -1px; width: 74vw; height: auto; display: block; z-index: 1; pointer-events: none; }
+
+  /* ---------- story ---------- */
+  #ab-story { background: #fff; padding: 64px 20px 72px; }
+  .ab-copy { margin-top: 28px; }
+  .ab-copy p { margin: 0 0 20px; font: 400 16.5px/1.65 "DM Sans", sans-serif; letter-spacing: -.015em; color: #76797f; }
+  .ab-sig { margin-top: 28px; display: flex; flex-direction: column; gap: 2px; }
+  .ab-sig span { font: 400 30px/1.1 "Allura", cursive; color: #041431; }
+  .ab-sig b { font: 400 21px/1.3 "PT Serif", Georgia, serif; letter-spacing: -.02em; color: #232426; }
+  .ab-q { margin: 64px 0 0; font: italic 400 27px/1.3 "PT Serif", Georgia, serif; letter-spacing: -.05em; color: #76797f; }
+  .ab-mv { margin-top: 56px; }
+  .ab-mvt { margin: 16px 0 0; font: 400 28px/1.22 "PT Serif", Georgia, serif; letter-spacing: -.045em; color: #232426; }
+
+  /* ---------- core values ---------- */
+  #ab-values { background: #041431; padding: 68px 0 64px; overflow: hidden; }
+  #ab-values > .ab-eb, #ab-values > .ab-h, .ab-vp, .ab-vn { margin-left: 20px; margin-right: 20px; }
+  .ab-vp { margin-top: 18px; margin-bottom: 30px; font: 400 16px/1.55 "DM Sans", sans-serif; letter-spacing: -.01em; color: #f8f8f8; }
+  .ab-vs { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 20px; scroll-padding: 0 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .ab-vs::-webkit-scrollbar { display: none; }
+  .ab-vc { flex: 0 0 80vw; max-width: 340px; height: 440px; box-sizing: border-box; scroll-snap-align: start; background: #062152; border-radius: 22px; padding: 0 22px 26px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+  .ab-vi { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 28px 8px 16px; }
+  .ab-vi img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+  .ab-vc h3 { margin: 0 0 10px; font: 400 24px/1.2 "PT Serif", Georgia, serif; letter-spacing: -.035em; color: #fff; }
+  .ab-vc p { margin: 0; font: 400 15px/1.5 "DM Sans", sans-serif; letter-spacing: -.01em; color: #f8f8f8; }
+  .ab-dots { display: flex; gap: 6px; align-items: center; margin: 22px 20px 0; }
+  .ab-dots button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 900px; background: #d0e0fd; cursor: pointer; transition: width .45s cubic-bezier(.2,.7,.2,1), background-color .3s; }
+  .ab-dots button.on { width: 48px; background: #1362f5; }
+  .ab-vn { margin-top: 26px; margin-bottom: 0; font: 400 15px/1.55 "DM Sans", sans-serif; letter-spacing: -.01em; color: rgba(248,248,248,.85); }
+
+  /* ---------- team ---------- */
+  #ab-team { background: #fff; padding: 72px 20px 24px; }
+  #ab-team .ab-eb { justify-content: center; }
+  #ab-team .ab-h { text-align: center; margin-bottom: 36px; }
+  .ab-leads { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
+  .ab-ph { position: relative; width: 100%; aspect-ratio: 293.491 / 330.178; overflow: hidden; background: #d4d4d4; }
+  .ab-phz { position: absolute; left: 0; top: 0; width: 293.491px; height: 330.178px; transform-origin: 0 0; }
+  .ab-ld h3 { margin: 12px 0 0; font: 400 18px/1.25 "PT Serif", Georgia, serif; letter-spacing: -.03em; color: #232426; }
+  .ab-ld p { margin: 3px 0 0; font: 400 13.5px/1.35 "DM Sans", sans-serif; color: #76797f; }
+  .ab-ppl { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 14px; margin-top: 48px; padding-top: 36px; border-top: 1px solid #eff0f2; }
+  .ab-ppl b { display: block; font: 500 15.5px/1.25 "DM Sans", sans-serif; letter-spacing: -.01em; color: #232426; }
+  .ab-ppl span { display: block; margin-top: 3px; font: 400 13.5px/1.35 "DM Sans", sans-serif; color: #76797f; }
+
+  /* ---------- perks ---------- */
+  #ab-perks { background: #fff; padding: 56px 20px 80px; }
+  #ab-perks .ab-h { margin-top: 0; }
+  #ab-perks .pm-pill { margin: 26px 0 0; max-width: none; text-decoration: none; }
+  .ab-pk { display: grid; gap: 12px; margin-top: 32px; }
+  .ab-pc { display: flex; align-items: center; gap: 18px; padding: 18px 18px 18px 14px; background: #f7f9fd; }
+  .ab-pi { flex: none; width: 92px; height: 92px; display: flex; align-items: center; justify-content: center; }
+  .ab-pi img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+  .ab-pc h3 { margin: 0 0 4px; font: 400 20px/1.2 "PT Serif", Georgia, serif; letter-spacing: -.03em; color: #232426; }
+  .ab-pc p { margin: 0; font: 400 14.5px/1.45 "DM Sans", sans-serif; color: #76797f; }
+}
