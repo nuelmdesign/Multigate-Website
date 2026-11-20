@@ -389,16 +389,59 @@
   }
 
   /* ---------- panel (same content as before, dressed for the dark section) ---------- */
+  var pad2 = function (n) { return (n < 10 ? '0' : '') + n; };
+  var ARR_L = '<svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M16 10H4M9 5l-5 5 5 5"/></svg>';
+  var ARR_R = '<svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M4 10h12M11 5l5 5-5 5"/></svg>';
   function panelHTML(i) {
     var r = REC[i], k = ORDER.indexOf(i), pv = REC[ORDER[(k + ORDER.length - 1) % ORDER.length]], nx = REC[ORDER[(k + 1) % ORDER.length]];
-    var items = r.items.map(function (x) {
-      return '<article class="lp-it"><span class="lp-tag' + (x.t === 'a' ? ' ap' : '') + '">' + (x.t === 'a' ? 'No-objection approval' : 'Licence') + '</span><h4>' + x.title + '</h4>' +
-        '<dl><div><dt>Regulator</dt><dd>' + x.reg + '</dd></div><div><dt>Held by</dt><dd>' + x.ent + '</dd></div></dl></article>';
+    var items = r.items.map(function (x, n) {
+      var ap = x.t === 'a';
+      return '<article class="lp-it"><span class="lp-n">' + pad2(n + 1) + '</span><div><p class="lp-ty"><i class="' + (ap ? 'ap' : '') + '"></i>' + (ap ? 'No-objection approval' : 'Licence') + '</p><h4>' + x.title + '</h4>' +
+        '<dl><div><dt>Regulator</dt><dd>' + x.reg + '</dd></div><div><dt>Held by</dt><dd>' + x.ent + '</dd></div></dl></div></article>';
     }).join('');
-    return '<div class="lp-hd"><div class="lp-flag"><img src="' + FLAG[i] + '" alt=""></div><button class="lp-x" type="button" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>' +
-      '<div class="lp-body"><div class="lp-stg"><p class="lp-eb"><i></i>' + label(r) + '</p><h3 class="lp-t">' + r.name + '</h3><div class="lp-list">' + items + '</div></div></div>' +
-      '<div class="lp-nv"><button type="button" data-d="-1" aria-label="Previous: ' + pv.name + '"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10H4M9 5l-5 5 5 5"/></svg><i>' + pv.name + '</i></button><span>' + (k + 1) + ' / ' + ORDER.length + '</span>' +
-      '<button type="button" data-d="1" aria-label="Next: ' + nx.name + '"><i>' + nx.name + '</i><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button></div>';
+    return '<div class="lp-top"><span class="lp-idx">' + pad2(k + 1) + '<i> / ' + pad2(ORDER.length) + '</i></span><button class="lp-x" type="button" aria-label="Close"><span>Close</span><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>' +
+      '<div class="lp-sil"><canvas aria-hidden="true"></canvas><div class="lp-fl"><img src="' + FLAG[i] + '" alt=""></div><span class="lp-iso">' + i + '</span><b class="lp-c tl"></b><b class="lp-c tr"></b><b class="lp-c bl"></b><b class="lp-c br"></b></div>' +
+      '<div class="lp-body"><div class="lp-stg"><h3 class="lp-t">' + r.name + '</h3><p class="lp-eb"><i></i>' + label(r) + '</p><div class="lp-list">' + items + '</div></div></div>' +
+      '<div class="lp-nv"><button type="button" class="lp-b" data-d="-1" aria-label="Previous: ' + pv.name + '">' + ARR_L + '<i>' + pv.name + '</i></button>' +
+      '<button type="button" class="lp-b" data-d="1" aria-label="Next: ' + nx.name + '"><i>' + nx.name + '</i>' + ARR_R + '</button></div>';
+  }
+
+  /* a dot silhouette of the country, built from the same dots as the globe, scattering in */
+  function silhouette(i) {
+    var cvs = $('.lp-sil canvas', panel); if (!cvs) return;
+    var box = cvs.parentNode, w = box.clientWidth, h = box.clientHeight, dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (!w || !h) return;
+    cvs.width = Math.round(w * dpr); cvs.height = Math.round(h * dpr); cvs.style.width = w + 'px'; cvs.style.height = h + 'px';
+    var c = cvs.getContext('2d'), m = LG.lic[i], d = m.d, n = d.length / 2, k = Math.cos(m.c[1] * D2R), pts = [], minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9, q;
+    for (q = 0; q < n; q++) { var x = d[q * 2] / 100 * k, y = -d[q * 2 + 1] / 100; pts.push([x, y]); if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
+    if (i === 'CAN') { /* the far north would shrink the mainland: crop to the southern band */ }
+    var bw = Math.max(.2, maxX - minX), bh = Math.max(.2, maxY - minY), padX = 64, padT = 20, padB = 26;
+    var sc = Math.min((w - padX * 2) / bw, (h - padT - padB) / bh), ox = (w - bw * sc) / 2 - minX * sc, oy = padT + ((h - padT - padB) - bh * sc) / 2 - minY * sc;
+    var sp = Math.sqrt(bw * bh * sc * sc * .55 / n), rad = clamp(sp * .36, .7, 2.5);
+    var pin = [m.p[0] * k, -m.p[1]], px = pin[0] * sc + ox, py = pin[1] * sc + oy;
+    var t0 = performance.now(), D = reduce ? 1 : 1200;
+    (function f(now) {
+      var tt = clamp((now - t0) / D, 0, 1);
+      c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+      // ruler ticks along the foot
+      c.strokeStyle = 'rgba(35,36,38,.3)'; c.lineWidth = 1; c.beginPath();
+      for (var tx = 14; tx < w - 13; tx += 8) { var long = ((tx - 14) / 8) % 5 === 0; c.moveTo(tx + .5, h - 1); c.lineTo(tx + .5, h - (long ? 9 : 5)); }
+      c.stroke();
+      // dots scatter in from left to right
+      c.fillStyle = '#041431';
+      for (var z = 0; z < n; z++) {
+        var o = (pts[z][0] - minX) / bw, a = clamp(tt * 1.7 - o * .7, 0, 1); if (a <= 0) continue;
+        c.globalAlpha = .9 * a; c.beginPath(); c.arc(pts[z][0] * sc + ox, pts[z][1] * sc + oy, rad * (.5 + .5 * a), 0, TAU); c.fill();
+      }
+      c.globalAlpha = 1;
+      // crosshair on the pin
+      var ca = clamp((tt - .45) / .55, 0, 1);
+      c.strokeStyle = 'rgba(19,98,245,' + (.55 * ca).toFixed(3) + ')'; c.lineWidth = 1; c.setLineDash([3, 3]);
+      c.beginPath(); c.moveTo(px + .5, 12); c.lineTo(px + .5, h - 12); c.moveTo(14, py + .5); c.lineTo(w - 14, py + .5); c.stroke(); c.setLineDash([]);
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(px, py, 5.2 * ca, 0, TAU); c.fill();
+      c.fillStyle = '#1362f5'; c.beginPath(); c.arc(px, py, 3.2 * ca, 0, TAU); c.fill();
+      if (tt < 1) requestAnimationFrame(f);
+    })(t0);
   }
 
   /* ---------- camera ---------- */
@@ -419,7 +462,7 @@
   function select(i, o) {
     o = o || {};
     cur = i; hov = null; lmhero.classList.add('used', 'has');
-    panel.innerHTML = panelHTML(i); panel.classList.add('open');
+    panel.innerHTML = panelHTML(i); panel.classList.add('open'); setTimeout(function () { silhouette(i); }, 380);
     $('.lp-x', panel).addEventListener('click', closeP);
     $$('.lp-nv button', panel).forEach(function (b) { b.addEventListener('click', function () { step(+b.getAttribute('data-d')); }); b.addEventListener('pointerenter', tick); });
     var pb = $('.lp-body', panel);
@@ -513,15 +556,13 @@
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
 
-    // halo + body: a pale sphere on the white page
-    var g = ctx.createRadialGradient(cxx, cyy, Rr * .97, cxx, cyy, Rr * 1.24); g.addColorStop(0, 'rgba(19,98,245,' + (.11 * intro).toFixed(3) + ')'); g.addColorStop(.5, 'rgba(19,98,245,' + (.04 * intro).toFixed(3) + ')'); g.addColorStop(1, 'rgba(19,98,245,0)');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cxx, cyy, Rr * 1.24, 0, TAU); ctx.fill();
-    g = ctx.createRadialGradient(cxx - Rr * .34, cyy - Rr * .42, Rr * .04, cxx, cyy, Rr);
-    g.addColorStop(0, 'rgba(255,255,255,' + intro.toFixed(3) + ')'); g.addColorStop(.55, 'rgba(241,246,255,' + intro.toFixed(3) + ')'); g.addColorStop(1, 'rgba(220,231,250,' + intro.toFixed(3) + ')');
+    // a pale neutral sphere: no blue wash, only fine lines
+    var g = ctx.createRadialGradient(cxx - Rr * .34, cyy - Rr * .42, Rr * .04, cxx, cyy, Rr);
+    g.addColorStop(0, 'rgba(255,255,255,' + intro.toFixed(3) + ')'); g.addColorStop(.6, 'rgba(249,250,252,' + intro.toFixed(3) + ')'); g.addColorStop(1, 'rgba(238,240,245,' + intro.toFixed(3) + ')');
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cxx, cyy, Rr, 0, TAU); ctx.fill();
-    g = ctx.createRadialGradient(cxx, cyy, Rr * .84, cxx, cyy, Rr); g.addColorStop(0, 'rgba(19,98,245,0)'); g.addColorStop(1, 'rgba(19,98,245,' + (.10 * intro).toFixed(3) + ')');
+    g = ctx.createRadialGradient(cxx, cyy, Rr * .86, cxx, cyy, Rr); g.addColorStop(0, 'rgba(35,36,38,0)'); g.addColorStop(1, 'rgba(35,36,38,' + (.06 * intro).toFixed(3) + ')');
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cxx, cyy, Rr, 0, TAU); ctx.fill();
-    ctx.strokeStyle = 'rgba(19,98,245,' + (.26 * intro).toFixed(3) + ')'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(cxx, cyy, Rr, 0, TAU); ctx.stroke();
+    ctx.strokeStyle = 'rgba(35,36,38,' + (.26 * intro).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(cxx, cyy, Rr, 0, TAU); ctx.stroke();
 
     // graticule
     ctx.lineWidth = .8; ctx.lineCap = 'round';
@@ -530,7 +571,7 @@
       for (var m = 0; m < L.n; m++) {
         var cd = L.cl[m] * c0l + L.sl[m] * s0l, sd = L.sl[m] * c0l - L.cl[m] * s0l, cc = s0p * L.sp[m] + c0p * L.cp[m] * cd;
         var gx = cxx + L.cp[m] * sd * Rr, gy = cyy - (c0p * L.sp[m] - s0p * L.cp[m] * cd) * Rr;
-        if (m > 0 && cc > .02 && pc0 > .02) { ctx.strokeStyle = 'rgba(19,98,245,' + ((.05 + .10 * Math.min(cc, pc0)) * intro).toFixed(3) + ')'; ctx.beginPath(); ctx.moveTo(px0, py0); ctx.lineTo(gx, gy); ctx.stroke(); }
+        if (m > 0 && cc > .02 && pc0 > .02) { ctx.strokeStyle = 'rgba(35,36,38,' + ((.045 + .085 * Math.min(cc, pc0)) * intro).toFixed(3) + ')'; ctx.beginPath(); ctx.moveTo(px0, py0); ctx.lineTo(gx, gy); ctx.stroke(); }
         px0 = gx; py0 = gy; pc0 = cc;
       }
     }
@@ -538,14 +579,14 @@
     // land
     var lensOn = mouse.lens > .01;
     project(BASE, c0l, s0l, c0p, s0p, cxx, cyy, Rr);
-    drawDots(ctx, BASE, '44,76,150', .72 * intro, .16 * intro, Rr * .0036, now, lensOn, { alpha: cur ? .7 : 1 });
+    drawDots(ctx, BASE, '74,82,98', .62 * intro, .13 * intro, Rr * .0036, now, lensOn, { alpha: cur ? .7 : 1 });
     // licensed countries: each country is its own layer so it can light up on its own
     var nearD = 1e9, nearI = null, hit = 17;
     for (var k = 0; k < ORDER.length; k++) {
       var iso = ORDER[k], o = LIC[iso].o;
       project(o, c0l, s0l, c0p, s0p, cxx, cyy, Rr);
       var on = iso === cur, hv = iso === hov, dim = cur && !on;
-      var rgb = on ? '8,52,190' : hv ? '48,126,255' : '19,98,245';
+      var rgb = on ? '4,20,49' : hv ? '19,98,245' : '19,98,245';
       var shimmer = .86 + .14 * Math.sin(t * 1.7 + k * 1.3);
       drawDots(ctx, o, rgb, (on ? 1 : hv ? .98 : .86) * intro * shimmer * (dim ? .5 : 1), (on ? .6 : .34) * intro * (dim ? .5 : 1), Rr * LG.lic[iso].rf * (on ? 1.05 : hv ? 1.12 : 1), now, lensOn, { alpha: 1 });
       // glow under the country
@@ -558,7 +599,7 @@
       if (pcc > .05) {
         ctx.save();
         var gr = Rr * (iso === 'CAN' ? .34 : .13) * (on ? 1.4 : 1), gg = ctx.createRadialGradient(psx, psy, 0, psx, psy, gr);
-        gg.addColorStop(0, 'rgba(19,98,245,' + ((on ? .22 : hv ? .18 : .09) * pcc * intro).toFixed(3) + ')'); gg.addColorStop(1, 'rgba(19,98,245,0)');
+        gg.addColorStop(0, 'rgba(19,98,245,' + ((on ? .10 : hv ? .09 : .04) * pcc * intro).toFixed(3) + ')'); gg.addColorStop(1, 'rgba(19,98,245,0)');
         ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(psx, psy, gr, 0, TAU); ctx.fill(); ctx.restore();
       }
     }
@@ -566,7 +607,7 @@
     if (nh !== hov) { hov = nh; gStage.classList.toggle('hov', !!hov); if (hov) tick(); }
 
     // cursor light
-    if (mouse.lens > .02) { ctx.save(); var lg = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 150); lg.addColorStop(0, 'rgba(19,98,245,' + (.09 * mouse.lens).toFixed(3) + ')'); lg.addColorStop(1, 'rgba(19,98,245,0)'); ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 150, 0, TAU); ctx.fill(); ctx.restore(); }
+    if (mouse.lens > .02) { ctx.save(); var lg = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 150); lg.addColorStop(0, 'rgba(19,98,245,' + (.05 * mouse.lens).toFixed(3) + ')'); lg.addColorStop(1, 'rgba(19,98,245,0)'); ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 150, 0, TAU); ctx.fill(); ctx.restore(); }
 
     // pins, pulses, leader lines, labels
     var showChips = intro > .55;
@@ -576,9 +617,9 @@
       if (vis > 0) {
         var pa = vis * intro;
         for (var rg = 0; rg < 2; rg++) { var ph = ((t * .42 + rg * .5 + n * .13) % 1), rr = 5 + ph * (sel ? 34 : 24); ctx.strokeStyle = 'rgba(19,98,245,' + ((1 - ph) * .6 * pa).toFixed(3) + ')'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(P.sx, P.sy, rr, 0, TAU); ctx.stroke(); }
-        ctx.fillStyle = 'rgba(19,98,245,' + (.18 * pa).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, 10, 0, TAU); ctx.fill();
+        ctx.fillStyle = 'rgba(4,20,49,' + (.10 * pa).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, 10, 0, TAU); ctx.fill();
         ctx.fillStyle = 'rgba(255,255,255,' + pa.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, sel ? 6.8 : 5.6, 0, TAU); ctx.fill();
-        ctx.fillStyle = (sel ? 'rgba(4,20,49,' : 'rgba(19,98,245,') + pa.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, sel ? 4.4 : 3.6, 0, TAU); ctx.fill();
+        ctx.fillStyle = 'rgba(4,20,49,' + pa.toFixed(3) + ')'; ctx.beginPath(); ctx.arc(P.sx, P.sy, sel ? 4.4 : 3.6, 0, TAU); ctx.fill();
         // leader: from the pin to the nearest edge of its label
         var lx = P.sx + P.s[0], ly = P.sy + P.s[1], tx = clamp(P.sx, lx, lx + ch.w), ty = clamp(P.sy, ly, ly + ch.h);
         if (innerWidth >= 768) { ctx.strokeStyle = 'rgba(4,20,49,' + (.34 * chipA).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P.sx, P.sy); ctx.lineTo(tx, ty); ctx.stroke(); }
