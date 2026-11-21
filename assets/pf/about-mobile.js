@@ -85,10 +85,9 @@
     '<div class="ab-dots" id="ab-dots">' + vals.map(function (v, i) { return '<button type="button" aria-label="Value ' + (i + 1) + '"></button>'; }).join('') + '</div>' +
     '<p class="ab-vn pm-rv">They apply to our whole team, from engineering to customer support.</p></section>' +
 
-    '<section id="ab-team">' + eb('The team', 'dk') + '<h2 class="ab-h pm-rv" style="--d:70ms">Our Team. The people behind Multigate.</h2>' +
-    '<h3 class="ab-gh pm-rv">The Executive Committee</h3>' + '<div class="ab-leads">' + leads.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
-    '<h3 class="ab-gh ab-gh2 pm-rv">Board of Directors</h3>' + '<div class="ab-leads">' + board.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
-    '</section>' +
+        '<section id="ab-team">' +
+    '<h3 class="ab-gh pm-rv">Our Executive Team</h3><p class="ab-gp pm-rv">The people who lead Multigate day to day, across operations, risk, compliance and legal.</p>' + '<div class="ab-leads">' + leads.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
+    '<h3 class="ab-gh ab-gh2 pm-rv">Our Board of Directors</h3><p class="ab-gp pm-rv">The directors who guide our strategy and hold the business to account.</p>' + '<div class="ab-leads">' + board.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
     '</section>' +
 
     '<section id="ab-perks"><h2 class="ab-h pm-rv">A few reasons you’ll enjoy working at Multigate.</h2>' +
