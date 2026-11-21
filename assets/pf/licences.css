@@ -162,8 +162,8 @@
 @media (max-width: 767px) { #lg-canvas { -webkit-mask-image: none; mask-image: none; } }
 
 /* legend and hint sit together, centred under the globe */
-.lg-foot { position: absolute; left: 0; right: 0; bottom: 30px; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 16px; pointer-events: none; }
+.lg-foot { position: absolute; left: 0; right: 0; bottom: 62px; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 16px; pointer-events: none; }
 .lg-foot .lg-legend, .lg-foot .lg-hint { position: static; left: auto; bottom: auto; transform: none; }
 #lmhero.used .lg-foot .lg-hint { opacity: 0; transform: translateY(8px); }
 #lmhero.has .lg-foot { opacity: 0; transition: opacity .4s; }
-@media (max-width: 767px) { #lmhero { padding-top: 64px; } .lg-foot { bottom: 14px; } }
+@media (max-width: 767px) { #lmhero { padding-top: 64px; } .lg-foot { bottom: 4px; } }

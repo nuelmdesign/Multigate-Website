@@ -489,15 +489,14 @@
   function size() {
     var ph = innerWidth < 768, wide = innerWidth >= 900;
     var w = gStage.clientWidth;
-    lmhero.classList.toggle('wide', wide);
+    lmhero.classList.toggle('wide', wide); if (!ph) gStage.style.height = '';
     if (wide) {
       /* 150px of clear space between the hero and the globe */
-      G.R = clamp(Math.min(w * .3, innerHeight * .42), 300, 430); G.cx = w / 2; G.cy = 150 + G.R;
-      lmhero.style.height = Math.round(G.cy + G.R + 24) + 'px';
+      G.R = clamp(Math.min(w * .3, innerHeight * .4), 300, 420); G.cx = w / 2; G.cy = 150 + G.R;
+      lmhero.style.height = Math.round(G.cy + G.R + 50 + 49 + 62) + 'px';
     } else if (!ph) {
-      G.R = clamp(w * .4, 280, 440); G.cx = w / 2; G.cy = 150 + G.R;
-      lmhero.style.height = Math.round(G.cy + G.R + 24) + 'px';
-    } else { G.R = w * .5; G.cx = w / 2; G.cy = 460 * .52; lmhero.style.height = ''; }
+      G.R = clamp(w * .4, 280, 440); G.cx = w / 2; G.cy = 150 + G.R; lmhero.style.height = Math.round(G.cy + G.R + 50 + 49 + 62) + 'px';
+    } else { G.R = w * .5; G.cx = w / 2; G.cy = 20 + G.R; gStage.style.height = Math.round(G.cy + G.R + 50 + 24) + 'px'; lmhero.style.height = ''; }
     var h = gStage.clientHeight;
     G.dpr = Math.min(2, window.devicePixelRatio || 1); G.w = w; G.h = h;
     cv.width = Math.round(w * G.dpr); cv.height = Math.round(h * G.dpr);
