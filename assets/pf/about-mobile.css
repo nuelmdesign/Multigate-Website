@@ -59,7 +59,9 @@
   .ab-pan.on { display: block; animation: pmup .55s cubic-bezier(.2,.7,.2,1) both; }
   .ab-gh { margin: 0 0 12px; font: 400 32px/1.15 "PT Serif", Georgia, serif; letter-spacing: -.04em; color: #232426; text-align: center; }
   .ab-gp { margin: 0 auto 30px; max-width: 320px; font: 400 16px/1.55 "DM Sans", sans-serif; letter-spacing: -.01em; color: #76797f; text-align: center; }
-  .ab-gh2 { margin-top: 64px; }
+  .ab-gh2 { margin-top: 0; }
+  .ab-hr { height: 1px; margin: 64px -20px; background: #eff0f2; }
+  .ab-hr2 { margin-bottom: 0; }
   .ab-leads { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
   .ab-ph { position: relative; width: 100%; aspect-ratio: 293.491 / 330.178; overflow: hidden; background: #d4d4d4; }
   .ab-phz { position: absolute; left: 0; top: 0; width: 293.491px; height: 330.178px; transform-origin: 0 0; }

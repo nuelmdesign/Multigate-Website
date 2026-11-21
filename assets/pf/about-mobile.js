@@ -87,8 +87,8 @@
 
         '<section id="ab-team">' +
     '<h3 class="ab-gh pm-rv">Our Executive Team</h3><p class="ab-gp pm-rv">The people who lead Multigate day to day, across operations, risk, compliance and legal.</p>' + '<div class="ab-leads">' + leads.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
-    '<h3 class="ab-gh ab-gh2 pm-rv">Our Board of Directors</h3><p class="ab-gp pm-rv">The directors who guide our strategy and hold the business to account.</p>' + '<div class="ab-leads">' + board.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
-    '</section>' +
+    '<div class="ab-hr"></div>' + '<h3 class="ab-gh ab-gh2 pm-rv">Our Board of Directors</h3><p class="ab-gp pm-rv">The directors who guide our strategy and hold the business to account.</p>' + '<div class="ab-leads">' + board.map(function (l, i) { return '<div class="ab-ld pm-rv" style="--d:' + ((i % 2) * 90) + 'ms"><div class="ab-ph"><div class="ab-phz"></div></div><h3>' + l.n + '</h3><p>' + l.r + '</p></div>'; }).join('') + '</div>' +
+    '<div class="ab-hr ab-hr2"></div></section>' +
 
     '<section id="ab-perks"><h2 class="ab-h pm-rv">A few reasons you’ll enjoy working at Multigate.</h2>' +
     '<a class="pm-pill pm-rv" style="--d:80ms" href="#">View All Roles' + arrow + '</a>' +
