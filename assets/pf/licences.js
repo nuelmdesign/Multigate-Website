@@ -493,7 +493,9 @@
     if (wide) {
       var hh = clamp(innerHeight, 760, 1100), tab = w < 1200;
       lmhero.style.height = hh + 'px';
-      G.R = Math.min(w * (tab ? .29 : .3), hh * .5); G.cx = w * (tab ? .645 : .625); G.cy = hh * .545;
+      G.R = Math.min(w * (tab ? .29 : .3), hh * .5); G.cy = hh * .545;
+      var copyR = copyEl.getBoundingClientRect().right - lmhero.getBoundingClientRect().left;
+      G.cx = clamp(Math.max(w * (tab ? .645 : .625), copyR - 70 + G.R), 0, w - G.R * 1.03);
     } else if (!ph) {
       var cb = copyEl.getBoundingClientRect().bottom - lmhero.getBoundingClientRect().top;
       G.R = clamp(w * .4, 300, 520); G.cx = w / 2; G.cy = cb + G.R * .92;

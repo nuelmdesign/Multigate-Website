@@ -103,7 +103,7 @@
 .lm-chips { display: none; }
 
 /* ---------- the list underneath ---------- */
-#lm { position: relative; background: #fff; padding: 110px 0 150px; overflow: clip; border-top: 1px solid #eef1f7; }
+#lm { position: relative; background: #fff; padding: 110px 0 150px; overflow: clip; }
 .lm-in { max-width: 1440px; margin: 0 auto; padding: 0 80px; box-sizing: border-box; }
 .lm-h { margin: 0; font: 400 56px/64px "PT Serif", Georgia, serif; letter-spacing: -.032em; color: #232426; max-width: 640px; }
 .lm-sub { margin: 20px 0 0; max-width: 560px; font: 400 18px/28px "DM Sans", sans-serif; letter-spacing: -.02em; color: #76797f; }
@@ -174,3 +174,7 @@
 
 .lg-legend { transition: opacity .4s; }
 #lmhero.has .lg-legend { opacity: 0; }
+
+/* the globe dissolves into the page below instead of ending on a hard edge */
+#lg-canvas { -webkit-mask-image: linear-gradient(#000 calc(100% - 230px), transparent); mask-image: linear-gradient(#000 calc(100% - 230px), transparent); }
+@media (max-width: 767px) { #lg-canvas { -webkit-mask-image: none; mask-image: none; } }
