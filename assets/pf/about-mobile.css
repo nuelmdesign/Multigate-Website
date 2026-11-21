@@ -57,8 +57,8 @@
   .ab-seg button[aria-selected="true"] { color: #041431; }
   .ab-pan { display: none; }
   .ab-pan.on { display: block; animation: pmup .55s cubic-bezier(.2,.7,.2,1) both; }
-  .ab-gh { margin: 0 0 22px; padding-bottom: 14px; border-bottom: 1px solid #eff0f2; font: 400 25px/1.2 "PT Serif", Georgia, serif; letter-spacing: -.035em; color: #232426; }
-  .ab-gh2 { margin-top: 56px; }
+  .ab-gh { margin: 0 0 24px; font: 400 26px/1.2 "PT Serif", Georgia, serif; letter-spacing: -.035em; color: #232426; text-align: center; }
+  .ab-gh2 { margin-top: 64px; }
   .ab-leads { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 12px; }
   .ab-ph { position: relative; width: 100%; aspect-ratio: 293.491 / 330.178; overflow: hidden; background: #d4d4d4; }
   .ab-phz { position: absolute; left: 0; top: 0; width: 293.491px; height: 330.178px; transform-origin: 0 0; }
