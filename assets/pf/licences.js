@@ -715,7 +715,7 @@
           '<td data-l="Regulator">' + x.reg + '</td><td data-l="Multigate entity">' + x.ent + '</td></tr>');
       });
     });
-    $('.lm-list', lm).innerHTML = '<table class="lm-tb"><thead><tr><th>Country</th><th>Licence / approval</th><th>Regulator</th><th>Multigate entity</th></tr></thead><tbody>' + rows.join('') + '</tbody></table>';
+    var lmList = $('.lm-list', lm); if (lmList) lmList.innerHTML = '<table class="lm-tb"><thead><tr><th>Country</th><th>Licence / approval</th><th>Regulator</th><th>Multigate entity</th></tr></thead><tbody>' + rows.join('') + '</tbody></table>';
   }
 
   /* reveals */
@@ -729,8 +729,7 @@
     rise(navEl, { y: -14, delay: 0, trigger: false });
     rise($('.lg-foot', lmhero), { y: 14, delay: 1500, trigger: lmhero });
     words($('.lm-h', lm), { each: 55 });
-    rise($('.lm-sub', lm), { y: 18, delay: 150 });
-    rise($('.lm-tb', lm), { y: 36, delay: 120, dur: 1000 });
+    $$('.lc-c', lm).forEach(function (c, i) { rise(c, { y: 34, delay: (i % 3) * 100 + Math.floor(i / 3) * 90, trigger: $('.lc-grid', lm), dur: 1000 }); });
   }
 
   function layout() { fit(); layoutNav(); if (G.ctx) size(); }
