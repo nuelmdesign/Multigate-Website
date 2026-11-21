@@ -166,4 +166,4 @@
 .lg-foot .lg-legend, .lg-foot .lg-hint { position: static; left: auto; bottom: auto; transform: none; }
 #lmhero.used .lg-foot .lg-hint { opacity: 0; transform: translateY(8px); }
 #lmhero.has .lg-foot { opacity: 0; transition: opacity .4s; }
-@media (max-width: 767px) { #lmhero { padding-top: 28px; } .lg-foot { bottom: 14px; } }
+@media (max-width: 767px) { #lmhero { padding-top: 64px; } .lg-foot { bottom: 14px; } }

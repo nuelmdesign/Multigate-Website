@@ -491,12 +491,12 @@
     var w = gStage.clientWidth;
     lmhero.classList.toggle('wide', wide);
     if (wide) {
-      var hh = clamp(innerHeight - 20, 780, 1040);
-      lmhero.style.height = hh + 'px';
-      G.R = Math.min(w * .36, hh * .44); G.cx = w / 2; G.cy = hh * .46;
+      /* 150px of clear space between the hero and the globe */
+      G.R = clamp(Math.min(w * .3, innerHeight * .42), 300, 430); G.cx = w / 2; G.cy = 150 + G.R;
+      lmhero.style.height = Math.round(G.cy + G.R + 24) + 'px';
     } else if (!ph) {
-      G.R = clamp(w * .42, 280, 460); G.cx = w / 2; G.cy = G.R * 1.08 + 20;
-      lmhero.style.height = Math.round(G.cy + G.R * .62) + 'px';
+      G.R = clamp(w * .4, 280, 440); G.cx = w / 2; G.cy = 150 + G.R;
+      lmhero.style.height = Math.round(G.cy + G.R + 24) + 'px';
     } else { G.R = w * .5; G.cx = w / 2; G.cy = 460 * .52; lmhero.style.height = ''; }
     var h = gStage.clientHeight;
     G.dpr = Math.min(2, window.devicePixelRatio || 1); G.w = w; G.h = h;
