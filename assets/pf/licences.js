@@ -491,11 +491,11 @@
     var w = gStage.clientWidth;
     lmhero.classList.toggle('wide', wide);
     if (wide) {
-      var hh = clamp(innerHeight, 760, 1100), tab = w < 1200;
+      var hh = clamp(innerHeight - 40, 760, 1000), tab = w < 1200;
       lmhero.style.height = hh + 'px';
-      G.R = Math.min(w * (tab ? .29 : .3), hh * .5); G.cy = hh * .545;
+      G.R = Math.min(w * (tab ? .29 : .3), hh * .47); G.cy = hh * .53;
       var copyR = copyEl.getBoundingClientRect().right - lmhero.getBoundingClientRect().left;
-      G.cx = clamp(Math.max(w * (tab ? .645 : .625), copyR - 70 + G.R), 0, w - G.R * 1.03);
+      G.cx = clamp(Math.max(w * (tab ? .645 : .625), copyR - 24 + G.R), 0, w - G.R * 1.03);
     } else if (!ph) {
       var cb = copyEl.getBoundingClientRect().bottom - lmhero.getBoundingClientRect().top;
       G.R = clamp(w * .4, 300, 520); G.cx = w / 2; G.cy = cb + G.R * .92;
@@ -541,7 +541,7 @@
   function render(now) {
     var ctx = G.ctx; if (!ctx) return;
     var dpr = G.dpr, w = G.w, h = G.h, t = now * .001;
-    var age = Math.min(1, (now - born) / 2400), intro = 1 - Math.pow(1 - age, 3);
+    var age = born ? Math.min(1, (now - born) / 2400) : 0, intro = reduce ? 1 : 1 - Math.pow(1 - age, 3);
     stepTween(now);
     // drift: a slow breathing sway while nobody is touching it
     var idle = !drag && !cur && !tw && now - lastIn > 2400 && !reduce;
@@ -700,8 +700,10 @@
 
     new IntersectionObserver(function (es) { G.vis = es[0].isIntersecting; if (G.vis) kick(); }).observe(lmhero);
     addEventListener('resize', function () { size(); });
-    born = performance.now(); mouse.px = 0; mouse.py = 0;
-    if (reduce) { cam.lon = HOME.lon; cam.lat = HOME.lat; cam.zoom = 1; } else fly({ lon: HOME.lon, lat: HOME.lat, zoom: 1, ox: 0 }, 2800);
+    born = 0; mouse.px = 0; mouse.py = 0;
+    if (reduce) { cam.lon = HOME.lon; cam.lat = HOME.lat; cam.zoom = 1; }
+    var started = false;
+    new IntersectionObserver(function (es, ob) { if (es[0].isIntersecting && !started) { started = true; born = performance.now(); if (!reduce) fly({ lon: HOME.lon, lat: HOME.lat, zoom: 1, ox: 0 }, 2800); ob.disconnect(); } }, { threshold: .18 }).observe(lmhero);
     var hs = (location.hash || '').slice(1).toLowerCase(), hi = ORDER.filter(function (i) { return slug(i) === hs; })[0];
     if (hi) setTimeout(function () { select(hi, { instant: true, quiet: true }); }, 50);
     kick();
@@ -723,11 +725,16 @@
   /* reveals */
   function reveals() {
     if (reduce) return;
-    rise($('.lg-eb', lmhero), { y: 16, delay: 100, trigger: false });
-    words(P('Licensed and Approved', lmhero), { each: 70, delay: 220, trigger: false });
-    rise($('.lg-sub', lmhero), { y: 20, delay: 800, trigger: false });
-    rise($('.lg-hint', lmhero), { y: 14, delay: 2200, trigger: false });
+    var hero = inn('header'), eb = function (el) { return el && el.parentNode; };
+    rise(eb(P('Licensing', hero)), { y: 16, delay: 100, trigger: false });
+    words(P('Licensed and Approved', hero), { each: 70, delay: 220, trigger: false });
+    rise(P('Our licences', hero), { y: 20, delay: 800, trigger: false });
+    var cta = $$('a', hero).filter(function (a) { return /Book a Review/.test(a.textContent) && !a.closest('#ab-nav'); })[0]; rise(cta, { y: 20, delay: 980, trigger: false });
     rise(navEl, { y: -14, delay: 0, trigger: false });
+    rise($('.lg-eb', lmhero), { y: 16, trigger: lmhero });
+    words(P('Our Regulatory', lmhero), { each: 60, trigger: lmhero });
+    rise($('.lg-sub', lmhero), { y: 18, delay: 500, trigger: lmhero });
+    rise($('.lg-hint', lmhero), { y: 14, delay: 1500, trigger: lmhero });
     words($('.lm-h', lm), { each: 55 });
     rise($('.lm-sub', lm), { y: 18, delay: 150 });
     rise($('.lm-tb', lm), { y: 36, delay: 120, dur: 1000 });
@@ -744,7 +751,7 @@
     nav.classList.toggle('stuck', sy > 24);
     if (menuOpen) { nav.classList.remove('hide'); if (Math.abs(sy - menuY) > 40 && window.__pfCloseMenu) window.__pfCloseMenu(); } else if (sy > 160 && dy > 4) nav.classList.add('hide'); else if (dy < -4 || sy <= 160) nav.classList.remove('hide');
     var covering = null;
-    [['footer', sec.footer]].forEach(function (x) { var r = x[1].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = x[0]; });
+    [['header', sec.header], ['footer', sec.footer]].forEach(function (x) { var r = x[1].getBoundingClientRect(); if (r.top <= 40 && r.bottom > 40) covering = x[0]; });
     nav.classList.toggle('dark', !menuOpen && covering != null);
   }
 

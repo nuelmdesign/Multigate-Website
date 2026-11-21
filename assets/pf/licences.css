@@ -1,6 +1,4 @@
 /* Licences page: an immersive dotted globe on the section background (no card), a dark detail panel, and the list underneath. */
-#header { height: 0 !important; }
-#header .pf-in > :not(#ab-nav) { display: none; }
 
 /* ---------- the globe section ---------- */
 #lmhero { position: relative; background: #fff; overflow: hidden; color: #232426; }
@@ -164,7 +162,7 @@
 }
 
 /* wide screens: heading on the left, the whole globe on the right, everything above the fold */
-#lmhero.wide .lg-copy { position: absolute; left: max(80px, calc((100vw - 1440px) / 2 + 80px)); top: 22%; width: clamp(340px, 34vw, 500px); max-width: none; margin: 0; padding: 0; text-align: left; transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+#lmhero.wide .lg-copy { position: absolute; left: max(80px, calc((100vw - 1440px) / 2 + 80px)); top: 22%; width: clamp(320px, 32vw, 460px); max-width: none; margin: 0; padding: 0; text-align: left; transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
 #lmhero.wide .lg-h { font-size: clamp(40px, 4.1vw, 58px); line-height: 1.04; }
 #lmhero.wide .lg-sub { margin: 24px 0 0; max-width: 430px; }
 #lmhero.wide.has .lg-copy { opacity: 0; transform: translateX(-36px); }
