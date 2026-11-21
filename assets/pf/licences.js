@@ -372,7 +372,7 @@
   var slug = function (iso) { return REC[iso].name.toLowerCase(); };
 
   var lmhero = document.getElementById('lmhero'), lm = document.getElementById('lm');
-  var gStage = $('.lg-stage', lmhero), cv = $('#lg-canvas', lmhero), labelsEl = $('.lg-labels', lmhero), panel = $('#lm-panel'), copyEl = $('.lg-copy', lmhero), LG = window.LG;
+  var gStage = $('.lg-stage', lmhero), cv = $('#lg-canvas', lmhero), labelsEl = $('.lg-labels', lmhero), panel = $('#lm-panel'), LG = window.LG;
   var TAU = Math.PI * 2, D2R = Math.PI / 180;
   var G = { ctx: null, dpr: 1, w: 0, h: 0, R: 480, cx: 0, cy: 0, vis: true, run: false };
   var HOME = { lon: -22, lat: 13 };
@@ -491,16 +491,13 @@
     var w = gStage.clientWidth;
     lmhero.classList.toggle('wide', wide);
     if (wide) {
-      var hh = clamp(innerHeight - 40, 760, 1000), tab = w < 1200;
+      var hh = clamp(innerHeight - 20, 780, 1040);
       lmhero.style.height = hh + 'px';
-      G.R = Math.min(w * (tab ? .29 : .3), hh * .47); G.cy = hh * .53;
-      var copyR = copyEl.getBoundingClientRect().right - lmhero.getBoundingClientRect().left;
-      G.cx = clamp(Math.max(w * (tab ? .645 : .625), copyR - 24 + G.R), 0, w - G.R * 1.03);
+      G.R = Math.min(w * .36, hh * .44); G.cx = w / 2; G.cy = hh * .46;
     } else if (!ph) {
-      var cb = copyEl.getBoundingClientRect().bottom - lmhero.getBoundingClientRect().top;
-      G.R = clamp(w * .4, 300, 520); G.cx = w / 2; G.cy = cb + G.R * .92;
-      lmhero.style.height = Math.max(Math.round(G.cy + G.R * .6), 760) + 'px';
-    } else { G.R = w * .5; G.cx = w / 2; G.cy = 440 * .52; lmhero.style.height = ''; }
+      G.R = clamp(w * .42, 280, 460); G.cx = w / 2; G.cy = G.R * 1.08 + 20;
+      lmhero.style.height = Math.round(G.cy + G.R * .62) + 'px';
+    } else { G.R = w * .5; G.cx = w / 2; G.cy = 460 * .52; lmhero.style.height = ''; }
     var h = gStage.clientHeight;
     G.dpr = Math.min(2, window.devicePixelRatio || 1); G.w = w; G.h = h;
     cv.width = Math.round(w * G.dpr); cv.height = Math.round(h * G.dpr);
@@ -731,10 +728,7 @@
     rise(P('Our licences', hero), { y: 20, delay: 800, trigger: false });
     var cta = $$('a', hero).filter(function (a) { return /Book a Review/.test(a.textContent) && !a.closest('#ab-nav'); })[0]; rise(cta, { y: 20, delay: 980, trigger: false });
     rise(navEl, { y: -14, delay: 0, trigger: false });
-    rise($('.lg-eb', lmhero), { y: 16, trigger: lmhero });
-    words(P('Our Regulatory', lmhero), { each: 60, trigger: lmhero });
-    rise($('.lg-sub', lmhero), { y: 18, delay: 500, trigger: lmhero });
-    rise($('.lg-hint', lmhero), { y: 14, delay: 1500, trigger: lmhero });
+    rise($('.lg-foot', lmhero), { y: 14, delay: 1500, trigger: lmhero });
     words($('.lm-h', lm), { each: 55 });
     rise($('.lm-sub', lm), { y: 18, delay: 150 });
     rise($('.lm-tb', lm), { y: 36, delay: 120, dur: 1000 });
